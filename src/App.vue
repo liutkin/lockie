@@ -26,11 +26,6 @@ import {
   toggleMobileLeftMenu,
   toggleMobileRightMenu,
 } from "@/store";
-import TheSidebar from "@/component/TheSidebar.vue";
-import RecordList from "@/component/RecordList.vue";
-import NoStore from "@/component/NoStore.vue";
-import MobileMenu from "@/component/MobileMenu.vue";
-import ReloadPrompt from "@/component/ReloadPrompt.vue";
 
 const recordsElement = ref(null);
 

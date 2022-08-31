@@ -29,7 +29,9 @@ export const exportStore = () => {
         date.getSeconds()
       )}`;
 
-      const zipFilename = `store_${formattedDate}@${formattedTime}.lockie`;
+      const zipFilename = `store_${formattedDate}@${formattedTime}.${
+        import.meta.env.VITE_APP_NAME
+      }`;
 
       zip.file("db", encryptedStoreString);
 

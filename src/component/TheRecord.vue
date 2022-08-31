@@ -131,7 +131,6 @@ import isUrl from "is-url";
 import { useI18n } from "vue-i18n";
 import { notify } from "@kyvg/vue3-notification";
 import { ref, watch, computed } from "vue";
-import RecordEdit from "@/component/RecordEdit.vue";
 import { deleteRecord, editRecord, restoreRecord, purgeRecord } from "@/store";
 import { copyToClipboard } from "@/utility";
 

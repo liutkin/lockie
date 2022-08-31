@@ -195,11 +195,6 @@ import { useI18n } from "vue-i18n";
 import { exportStore } from "@/utility";
 import { STORE, RECORDS, LABEL, PAGE, endSession, setPage } from "@/store";
 import { useNewPasswordCreation } from "@/mixin";
-import BaseInput from "@/component/BaseInput.vue";
-import RecordEdit from "@/component/RecordEdit.vue";
-import TheRecord from "@/component/TheRecord.vue";
-import NoRecords from "@/component/NoRecords.vue";
-import TheSettings from "@/component/TheSettings.vue";
 
 const { t } = useI18n();
 const { newPasswordShown, create } = useNewPasswordCreation();

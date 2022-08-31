@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-12 gap-y-8 md:gap-8 p-8 bg-gray rounded relative">
     <div class="col-span-12 xl:col-span-4">
-      <div class="flex items-center">Lockie v{{ appVersion }}</div>
+      <div class="flex items-center">${appName} v{{ appVersion }}</div>
     </div>
     <ul class="my-0 pl-0 list-none col-span-12 xl:col-span-4 leading-relaxed">
       <li v-for="date in dates" :key="date.getter" :title="date.locale">
@@ -64,7 +64,6 @@ import { notify } from "@kyvg/vue3-notification";
 import { useI18n } from "vue-i18n";
 import { computed, onUnmounted } from "vue";
 import { setPassword } from "@/store";
-import BaseInput from "@/component/BaseInput.vue";
 import { useDates, usePassword } from "@/mixin";
 import { version } from "../../package.json";
 
@@ -72,6 +71,7 @@ const { t } = useI18n();
 
 const emit = defineEmits(["close"]);
 
+const appName = import.meta.env.VITE_APP_NAME;
 const appVersion = version;
 const { dates, updateDates, stopUpdatingDates } = useDates();
 const { password, passwordConfirmation, generatePassword } = usePassword();

@@ -195,7 +195,6 @@ import { isEqual } from "lodash-es";
 import { useI18n } from "vue-i18n";
 import { ref, computed, watch, onUnmounted } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import BaseInput from "@/component/BaseInput.vue";
 import { usePassword } from "@/mixin";
 import { UNIQUE_LABELS } from "@/store";
 

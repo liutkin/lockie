@@ -132,10 +132,6 @@
 import { notify } from "@kyvg/vue3-notification";
 import { ref, computed, watchEffect } from "vue";
 import { useI18n } from "vue-i18n";
-import TheLogo from "@/component/TheLogo.vue";
-import LangList from "@/component/LangList.vue";
-import BaseModal from "@/component/BaseModal.vue";
-import BaseInput from "@/component/BaseInput.vue";
 import {
   STORE,
   RECORDS,

@@ -1,0 +1,27 @@
+@import "tailwind.css";
+@import "base.css";
+@import "components.css";
+@import "utilities.css";
+
+.fade-zoom-enter-active,
+.fade-zoom-leave-active {
+  transition: opacity 0.15s, transform 0.15s;
+  transform: none;
+}
+
+.fade-zoom-enter-from,
+.fade-zoom-leave-to {
+  transform: translateY(-0.25rem) scale(0.98);
+  opacity: 0;
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: transform 0.75s;
+  transform: none;
+}
+
+.slide-up-enter-from,
+.slide-up-leave-to {
+  transform: translateY(-100%);
+}

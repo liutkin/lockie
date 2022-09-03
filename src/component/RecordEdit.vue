@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="grid grid-cols-12 gap-y-8 sm:gap-8 p-8 bg-gray rounded content-start">
+    <div class="grid grid-cols-12 gap-y-8 sm:gap-8 px-4 py-8 lg:px-8 bg-gray rounded content-start">
       <base-input
         v-model.trim="form.login"
         :autofocus="!editing"
@@ -140,7 +140,7 @@
         >
           <div
             v-if="editing"
-            class="text-xs text-gray-400 md:mr-8 mb-2 lg:mb-0 text-center lg:text-right"
+            class="text-xs text-gray-400 md:mr-8 mb-4 lg:mb-0 text-center lg:text-right"
           >
             <div>
               {{ t("created") }}: <span :title="created.locale">{{ created.relative }}</span>
@@ -185,8 +185,6 @@
     </div>
   </div>
 </template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <script setup>
 import { DateTime } from "luxon";

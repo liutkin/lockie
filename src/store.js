@@ -96,6 +96,8 @@ export const UNIQUE_LABELS = computed(
       .sort()
       .map(label => ({
         name: label,
-        count: state.value.store.records.filter(({ labels }) => labels.includes(label)).length,
+        count: state.value.store.records.filter(
+          ({ labels, trash }) => labels.includes(label) && !trash
+        ).length,
       })) || []
 );

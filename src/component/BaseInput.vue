@@ -123,8 +123,6 @@
   </div>
 </template>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <script setup>
 import zxcvbn from "zxcvbn";
 import { onClickOutside } from "@vueuse/core";
@@ -184,8 +182,6 @@ watch(copied, () => copied.value && setTimeout(() => (copied.value = false), 100
 onMounted(() => props.autofocus && input.value.focus());
 onClickOutside(inputContainer, () => (focus.value = false));
 </script>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <style scoped>
 .input {

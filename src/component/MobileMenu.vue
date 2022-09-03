@@ -1,21 +1,24 @@
 <template>
   <header class="fixed top-0 left-0 right-0 flex flex-col z-10">
-    <div class="mobile-menu flex justify-between">
+    <div class="mobile-menu flex justify-between relative">
+      <the-logo
+        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lite"
+      />
       <button
         type="button"
         :class="{ 'menu-btn--active': MOBILE_LEFT_MENU_SHOWN }"
-        class="menu-btn p-0 w-16 h-16 flex justify-center items-center"
+        class="menu-btn p-0 w-12 h-12 flex justify-center items-center text-lite"
         @click="toggle('left')"
       >
-        <menu-icon class="h-5" />
+        <menu-icon class="h-4 fill-current" />
       </button>
       <button
         type="button"
         :class="{ 'menu-btn--active': MOBILE_RIGHT_MENU_SHOWN }"
-        class="menu-btn p-0 w-16 h-16 flex justify-center items-center"
+        class="menu-btn p-0 w-12 h-12 flex justify-center items-center text-lite"
         @click="toggle('right')"
       >
-        <submenu-icon class="h-6" />
+        <submenu-icon class="h-5 fill-current" />
       </button>
     </div>
     <transition name="fade-zoom" mode="out-in">
@@ -26,7 +29,7 @@
       >
         <div class="grid gap-8">
           <div
-            class="flex relative btn-indicator col-span-12 mt-8 mx-8"
+            class="flex relative btn-indicator col-span-12 mt-8 mx-4"
             :class="{ 'btn-indicator--active': newPasswordShown }"
           >
             <button
@@ -43,7 +46,7 @@
           <transition name="fade-zoom" mode="out-in">
             <record-edit
               v-if="newPasswordShown"
-              class="py-16 relative col-span-12"
+              class="py-4 relative col-span-12"
               @cancel="newPasswordShown = false"
               @create="create"
             />
@@ -51,7 +54,7 @@
           <button
             :disabled="!RECORDS.length"
             type="button"
-            class="btn btn--primary col-span-12 mx-8"
+            class="btn btn--primary col-span-12 mx-4"
             @click="exportStore"
           >
             <span class="flex mr-2">
@@ -60,7 +63,7 @@
             {{ t("export") }}
           </button>
           <div
-            class="flex relative btn-indicator col-span-12 mx-8"
+            class="flex relative btn-indicator col-span-12 mx-4"
             :class="{ 'btn-indicator--active': settingsShown }"
           >
             <button
@@ -68,24 +71,28 @@
               class="btn btn--alt w-full"
               @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
             >
+              <span class="flex mr-2">
+                <mdicon name="cog-outline" :size="18" />
+              </span>
               {{ t("settings") }}
             </button>
           </div>
           <transition name="fade-zoom" mode="out-in">
-            <div v-if="settingsShown" class="py-16 col-span-12">
+            <div v-if="settingsShown" class="py-4 col-span-12">
               <the-settings @close="settingsShown = false" />
             </div>
           </transition>
         </div>
-        <button type="button" class="btn btn--alt mx-8" @click="endSession()">
+        <button type="button" class="btn btn--alt mx-4 mt-4" @click="endSession">
+          <span class="flex mr-2">
+            <mdicon name="power" :size="18" />
+          </span>
           {{ t("shutdown") }}
         </button>
       </div>
     </transition>
   </header>
 </template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <script setup>
 import { ref, watch } from "vue";
@@ -99,9 +106,6 @@ import {
   toggleMobileLeftMenu,
   toggleMobileRightMenu,
 } from "@/store";
-import TheSidebar from "@/component/TheSidebar.vue";
-import RecordEdit from "@/component/RecordEdit.vue";
-import TheSettings from "@/component/TheSettings.vue";
 import MenuIcon from "@/icon/menu.svg";
 import SubmenuIcon from "@/icon/submenu.svg";
 import { usePassword } from "@/mixin";
@@ -133,13 +137,11 @@ watch([MOBILE_LEFT_MENU_SHOWN, MOBILE_RIGHT_MENU_SHOWN], () => {
 });
 </script>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <style scoped>
 .mobile-menu {
   background: linear-gradient(45deg, rgba(74, 140, 211, 1) 0%, rgba(48, 158, 209, 1) 100%);
   &__panel {
-    height: calc(100vh - 4rem);
+    height: calc(100vh - 3rem);
   }
 }
 

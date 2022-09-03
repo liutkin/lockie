@@ -1,14 +1,14 @@
 <template>
   <div class="bg-gradient-gray flex flex-col">
     <template v-if="STORE">
-      <div class="flex justify-between items-center p-8">
-        <the-logo />
+      <div class="flex justify-between items-center px-4 py-8 lg:px-8">
+        <the-logo class="hover:text-primary" />
         <lang-list />
       </div>
       <div class="flex-grow overflow-auto">
         <button
           type="button"
-          class="tab flex items-center px-8 py-4 w-full"
+          class="tab text-left flex items-center px-4 lg:px-8 py-4 w-full"
           :class="{ 'tab--active': LABEL === null }"
           @click="setLabel(null)"
         >
@@ -24,7 +24,7 @@
           <li v-for="label in UNIQUE_LABELS" :key="label" class="label relative">
             <button
               type="button"
-              class="tab flex items-center pl-8 pr-12 py-4 w-full capitalize"
+              class="tab flex items-center pl-4 lg:pl-8 pr-12 py-4 w-full capitalize"
               :class="{ 'tab--active': LABEL === label.name }"
               @click="setLabel(label.name)"
             >
@@ -36,7 +36,7 @@
             </button>
             <button
               type="button"
-              class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black transition-all duration-200"
+              class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black dark:hover:bg-white hover:text-default transition-all duration-200"
               @click="editLabel(label.name)"
             >
               <mdicon name="cog" :size="12" />
@@ -46,7 +46,7 @@
       </div>
       <button
         type="button"
-        class="tab flex items-center px-8 py-4 w-full"
+        class="tab flex items-center px-4 lg:px-8 py-4 w-full"
         :class="{ 'tab--active': LABEL === false }"
         @click="setLabel(false)"
       >
@@ -58,7 +58,7 @@
       </button>
       <base-modal v-model="labelEditingModalShown">
         <template #content>
-          <div class="p-6 bg-gray">
+          <div class="px-6 pt-6 pb-8 bg-gray">
             <base-input v-model.trim="labelForEditing" autofocus class="col-span-12"
               >{{ t("label") }}
             </base-input>
@@ -125,8 +125,6 @@
     </template>
   </div>
 </template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <script setup>
 import { notify } from "@kyvg/vue3-notification";
@@ -201,38 +199,34 @@ watchEffect(
 watchEffect(() => deletionProgress.value >= 100 && removeLabel());
 </script>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <style scoped>
 .tab {
-  text-align: left;
-}
-
-.tab:not(.tab--active):hover,
-.tab:not(.tab--active):focus {
-  background: #e8e8e8;
-}
-
-.label:hover .label-settings-btn,
-.label:focus .label-settings-btn {
-  display: flex;
-}
-
-.tab__indicator {
-  transform: translate(0.25rem, -0.5rem);
-}
-
-.tab.tab--active {
-  background: linear-gradient(45deg, #fdfdfd 0%, #f3f3f3 100%);
-}
-
-@media (prefers-color-scheme: dark) {
-  .tab.tab--active {
-    background: linear-gradient(45deg, #122230 0%, #111f2e 100%);
+  &__indicator {
+    transform: translate(0.25rem, -0.5rem);
   }
-  .tab:not(.tab--active):hover,
-  .tab:not(.tab--active):focus {
-    background: rgba(0, 0, 0, 0.07);
+  &.tab--active {
+    background: linear-gradient(45deg, #fdfdfd 0%, #f3f3f3 100%);
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(45deg, #122230 0%, #111f2e 100%);
+    }
+  }
+  &:not(.tab--active) {
+    &:hover,
+    &:focus {
+      background: #e8e8e8;
+      @media (prefers-color-scheme: dark) {
+        background: rgba(0, 0, 0, 0.07);
+      }
+    }
+  }
+}
+
+.label {
+  &:hover,
+  &:focus {
+    .label-settings-btn {
+      display: flex;
+    }
   }
 }
 </style>

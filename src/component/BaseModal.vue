@@ -14,8 +14,6 @@
   </teleport>
 </template>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <script setup>
 import { onClickOutside } from "@vueuse/core/index";
 import { ref, watchEffect } from "vue";

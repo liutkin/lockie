@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-16 lg:pt-0">
+  <div class="pt-12 lg:pt-0">
     <mobile-menu v-if="STORE" class="lg:hidden" />
     <the-sidebar class="w-80 hidden lg:flex flex-column fixed top-0 bottom-0 left-0" />
     <record-list ref="recordsElement" />
@@ -10,8 +10,6 @@
   </div>
   <reload-prompt />
 </template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <script setup>
 import scrollIntoView from "scroll-into-view";

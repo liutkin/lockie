@@ -2,12 +2,13 @@
   <div
     class="no-store absolute inset-0 bg-gradient-radial-gray flex justify-center items-center z-10 p-8"
   >
+    <github-link class="absolute bottom-8 right-8" />
     <div class="absolute top-0 left-0 right-0 p-8 flex justify-between items-center">
-      <the-logo />
+      <the-logo class="hover:text-primary" />
       <lang-list />
     </div>
     <div class="grid grid-cols-12 w-full">
-      <div class="col-span-12 md:col-span-6 lg:col-span-4 md:col-start-4 lg:col-start-5">
+      <div class="col-span-12 md:col-span-6 xl:col-span-4 md:col-start-4 xl:col-start-5">
         <transition name="fade-zoom" mode="out-in">
           <form v-if="newStoreShown" @submit.prevent="createStore">
             <h1 class="text-2xl font-bold">
@@ -49,6 +50,9 @@
                 {{ t("cancel") }}
               </button>
               <button :disabled="!formValid" class="btn btn--primary">
+                <span class="flex mr-2">
+                  <mdicon name="database-plus-outline" :size="18" />
+                </span>
                 {{ t("create") }}
               </button>
             </div>
@@ -59,22 +63,22 @@
                 class="flex"
                 :class="{ 'animate-bob': unlockingAttemptsLeft === 3 && !decryptedStore }"
               >
-                <lock-good-icon v-if="decryptedStore" class="lockie-img fill-current" />
+                <lock-good-icon v-if="decryptedStore" class="lock-emoji fill-current" />
                 <lock-waiting-icon
                   v-else-if="unlockingAttemptsLeft === 3"
-                  class="lockie-img fill-current"
+                  class="lock-emoji fill-current"
                 />
                 <lock-bad1-icon
                   v-else-if="unlockingAttemptsLeft === 2"
-                  class="lockie-img fill-current"
+                  class="lock-emoji fill-current"
                 />
                 <lock-bad2-icon
                   v-else-if="unlockingAttemptsLeft === 1"
-                  class="lockie-img fill-current"
+                  class="lock-emoji fill-current"
                 />
                 <lock-bad3-icon
                   v-else-if="unlockingAttemptsLeft === 0"
-                  class="lockie-img fill-current"
+                  class="lock-emoji fill-current"
                 />
                 <transition name="fade-zoom"
                   ><b
@@ -160,7 +164,13 @@
                   :disabled="!passwordUnlock || unlocking"
                   class="btn btn--primary col-span-12"
                 >
-                  {{ t("unlock") }}
+                  <span class="flex mr-2">
+                    <mdicon
+                      :name="unlocking ? 'lock-open-variant-outline' : 'lock-open-outline'"
+                      :size="18"
+                    />
+                  </span>
+                  {{ unlocking ? `${t("unlocking")}...` : t("unlock") }}
                 </button>
                 <div v-if="existingDates.length" class="lg:hidden col-span-12">
                   <div class="mb-2">
@@ -183,12 +193,17 @@
           <div v-else>
             <div class="text-center">
               <div class="flex justify-center"><direction-icon class="h-32 fill-current" /></div>
-              <p class="my-8">{{ t("noStore") }}</p>
+              <p class="my-8">{{ t("intro") }}</p>
               <div class="flex justify-center">
                 <button class="btn btn--alt mr-2" @click="newStoreShown = true">
                   {{ t("newStore") }}
                 </button>
-                <label for="import_store_input" class="btn btn--primary">{{ t("import") }}</label>
+                <label for="import_store_input" class="btn btn--primary"
+                  ><span class="flex mr-2">
+                    <mdicon name="database-import-outline" :size="18" />
+                  </span>
+                  {{ t("import") }}</label
+                >
                 <input id="import_store_input" hidden type="file" @change="importStore" />
               </div>
             </div>
@@ -198,8 +213,6 @@
     </div>
   </div>
 </template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <script setup>
 import JSZip from "jszip";
@@ -370,14 +383,12 @@ const init = () => {
 init();
 </script>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <style scoped>
 .no-store {
   box-shadow: 0 0.1rem 0 0.05rem theme("colors.primary");
 }
 
-.lockie-img {
+.lock-emoji {
   width: 3rem;
 }
 
@@ -430,7 +441,7 @@ init();
 }
 
 @media screen and (min-width: 768px) {
-  .lockie-img {
+  .lock-emoji {
     width: 5rem;
   }
 }

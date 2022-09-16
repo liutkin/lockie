@@ -1,14 +1,14 @@
 <template>
   <div
-    class="record grid grid-cols-12 gap-x-8 border-b border-gray-200 dark:border-white dark:border-opacity-5 py-8 lg:py-0"
+    class="record grid grid-cols-12 gap-x-8 border-b border-gray-200 dark:border-white dark:border-opacity-5 py-8 xl:py-0"
   >
-    <div class="col-span-12 lg:col-span-3 px-8 py-4 lg:px-4" :title="record.title">
-      <div class="lg:hidden text-sm text-gray-400">{{ t("title") }}</div>
-      <div class="flex items-center">
+    <div class="col-span-12 xl:col-span-3 py-4 px-4" :title="record.title">
+      <div class="xl:hidden text-sm text-gray-400">{{ t("title") }}</div>
+      <div class="flex">
         <div :class="{ 'truncate min-w-0': isTitleUrl }">
           {{ record.title }}
         </div>
-        <div v-if="isTitleUrl" class="record__action ml-2">
+        <div v-if="isTitleUrl" class="record__action ml-2 mt-0.5">
           <div class="flex">
             <button
               type="button"
@@ -18,30 +18,30 @@
               @click="copyToClipboard(record.title), (titleCopied = true)"
             >
               <transition name="fade-zoom" mode="out-in">
-                <mdicon v-if="titleCopied" name="check" :width="32" :height="18" />
-                <mdicon v-else name="content-copy" :width="32" :height="18" />
+                <mdicon v-if="titleCopied" name="check" :width="32" :height="16" />
+                <mdicon v-else name="content-copy" :width="32" :height="16" />
               </transition>
             </button>
             <a
               :href="record.title"
               target="_blank"
               rel="noopener noreferrer"
-              class="flex-shrink-0 text-default hover:text-primary opacity-70"
+              class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
               tabindex="-1"
             >
-              <mdicon name="open-in-new" :width="32" :height="18" />
+              <mdicon name="open-in-new" :width="32" :height="16" />
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-span-12 lg:col-span-3 px-8 py-4 lg:px-4">
-      <div class="lg:hidden text-sm text-gray-400">{{ t("login") }}</div>
+    <div class="col-span-12 xl:col-span-3 py-4 px-4">
+      <div class="xl:hidden text-sm text-gray-400">{{ t("login") }}</div>
       <div class="flex">
         <div class="break-all">
           {{ record.login }}
         </div>
-        <div class="record__action ml-2">
+        <div class="record__action ml-2 mt-0.5">
           <div class="flex">
             <button
               type="button"
@@ -51,21 +51,21 @@
               @click="copyToClipboard(record.login), (loginCopied = true)"
             >
               <transition name="fade-zoom" mode="out-in">
-                <mdicon v-if="loginCopied" name="check" :width="32" :height="18" />
-                <mdicon v-else name="content-copy" :width="32" :height="18" />
+                <mdicon v-if="loginCopied" name="check" :width="32" :height="16" />
+                <mdicon v-else name="content-copy" :width="32" :height="16" />
               </transition>
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-span-12 lg:col-span-3 px-8 py-4 lg:px-4">
-      <div class="lg:hidden text-sm text-gray-400">{{ t("password") }}</div>
+    <div class="col-span-12 xl:col-span-3 py-4 px-4">
+      <div class="xl:hidden text-sm text-gray-400">{{ t("password") }}</div>
       <div class="flex">
         <div class="break-all">
           {{ formattedPassword }}
         </div>
-        <div class="record__action ml-2">
+        <div class="record__action ml-2 mt-0.5">
           <div class="flex">
             <button
               type="button"
@@ -75,8 +75,8 @@
               @click="copyToClipboard(record.password), (passwordCopied = true)"
             >
               <transition name="fade-zoom" mode="out-in">
-                <mdicon v-if="passwordCopied" name="check" :width="32" :height="18" />
-                <mdicon v-else name="content-copy" :width="32" :height="18" />
+                <mdicon v-if="passwordCopied" name="check" :width="32" :height="16" />
+                <mdicon v-else name="content-copy" :width="32" :height="16" />
               </transition>
             </button>
             <button
@@ -85,26 +85,26 @@
               tabindex="-1"
               @click="passwordVisible = !passwordVisible"
             >
-              <mdicon v-if="passwordVisible" name="eye-outline" :width="32" :height="18" />
-              <mdicon v-else name="eye-off-outline" :width="32" :height="18" />
+              <mdicon v-if="passwordVisible" name="eye-outline" :width="32" :height="16" />
+              <mdicon v-else name="eye-off-outline" :width="32" :height="16" />
             </button>
           </div>
         </div>
       </div>
     </div>
-    <div class="col-span-12 lg:col-span-3 px-8 py-4 lg:px-4">
-      <div class="lg:hidden text-sm text-gray-400">{{ t("notes") }}</div>
+    <div class="col-span-12 xl:col-span-3 py-4 px-4">
+      <div class="xl:hidden text-sm text-gray-400">{{ t("notes") }}</div>
       <div class="flex justify-between">
         <div class="max-h-80 overflow-auto whitespace-pre-wrap">{{ record.notes || "-" }}</div>
-        <div class="flex record__action ml-2">
+        <div class="flex record__action ml-2 mt-0.5">
           <button
             type="button"
             class="hover:text-primary flex cursor-pointer p-0 opacity-70"
             tabindex="-1"
             @click="detailsShown = !detailsShown"
           >
-            <mdicon v-if="detailsShown" name="chevron-up-circle-outline" :width="32" :height="18" />
-            <mdicon v-else name="chevron-down-circle-outline" :width="32" :height="18" />
+            <mdicon v-if="detailsShown" name="chevron-up-circle-outline" :width="32" :height="16" />
+            <mdicon v-else name="chevron-down-circle-outline" :width="32" :height="16" />
           </button>
         </div>
       </div>
@@ -124,17 +124,17 @@
   </div>
 </template>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <script setup>
 import isUrl from "is-url";
 import { useI18n } from "vue-i18n";
 import { notify } from "@kyvg/vue3-notification";
 import { ref, watch, computed } from "vue";
-import { deleteRecord, editRecord, restoreRecord, purgeRecord } from "@/store";
+import { useStore } from "@/store";
 import { copyToClipboard } from "@/utility";
 
 const { t } = useI18n();
+const store = useStore();
+const { DELETE_RECORD, EDIT_RECORD, RESTORE_RECORD, PURGE_RECORD } = store;
 
 const props = defineProps({
   record: {
@@ -165,37 +165,38 @@ watch(loginCopied, copied => copied && setTimeout(() => (loginCopied.value = fal
 watch(passwordCopied, copied => copied && setTimeout(() => (passwordCopied.value = false), 1000));
 
 const save = record => {
-  editRecord(record);
+  EDIT_RECORD(record);
   detailsShown.value = false;
   notify({ type: "success", text: t("saved") });
 };
 const remove = id => {
-  deleteRecord(id);
+  DELETE_RECORD(id);
   detailsShown.value = false;
   notify({ type: "success", text: t("deleted") });
 };
 const restore = id => {
-  restoreRecord(id);
+  RESTORE_RECORD(id);
   detailsShown.value = false;
   notify({ type: "success", text: t("restored") });
 };
 const purge = id => {
-  purgeRecord(id);
+  PURGE_RECORD(id);
   detailsShown.value = false;
   notify({ type: "success", text: t("purged") });
 };
 </script>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <style scoped>
-.record:hover .record__action {
-  opacity: 1;
-}
-
-@media screen and (min-width: 992px) {
-  .record__action {
-    opacity: 0;
+.record {
+  &__action {
+    @media screen(xl) {
+      opacity: 0;
+    }
+  }
+  &:hover {
+    .record__action {
+      opacity: 1;
+    }
   }
 }
 </style>

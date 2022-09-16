@@ -3,7 +3,13 @@ import JSZip from "jszip";
 import { saveAs } from "file-saver";
 import { notify } from "@kyvg/vue3-notification";
 import i18n from "@/i18n.js";
-import { STORE, setExportedDate, setStore } from "@/store";
+import { storeToRefs } from "pinia";
+import { useStore } from "@/store";
+import pinia from "@/pinia";
+
+const store = useStore(pinia);
+const { STORE } = storeToRefs(store);
+const { SET_EXPORTED_DATE, SET_STORE } = store;
 
 const getOptionalLeadingStringZero = string => {
   const str = string.toString();
@@ -12,7 +18,7 @@ const getOptionalLeadingStringZero = string => {
 
 export const exportStore = () => {
   const backupStore = { ...STORE };
-  setExportedDate(Date.now());
+  SET_EXPORTED_DATE(Date.now());
 
   nextTick(async () => {
     try {
@@ -47,7 +53,7 @@ export const exportStore = () => {
       );
       notify({ type: "success", text: i18n.global.t("exported") });
     } catch (error) {
-      setStore(backupStore);
+      SET_STORE(null, backupStore);
       notify({ type: "error", text: error });
     }
   });

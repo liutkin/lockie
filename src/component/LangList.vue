@@ -5,7 +5,7 @@
         type="button"
         class="border-none bg-none uppercase text-xs px-2 py-1"
         :class="langOption === locale ? 'text-primary' : 'text-gray-400 hover:opacity-70'"
-        @click="setLocale(langOption)"
+        @click="locale = langOption"
       >
         {{ langOption }}
       </button>
@@ -13,15 +13,11 @@
   </ul>
 </template>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <script setup>
 import { useI18n } from "vue-i18n";
+import { watchEffect } from "vue";
 
 const { locale, availableLocales } = useI18n();
 
-const setLocale = newLocale => {
-  locale.value = newLocale;
-  window.localStorage.setItem("locale", newLocale);
-};
+watchEffect(() => window.localStorage.setItem("locale", locale.value));
 </script>

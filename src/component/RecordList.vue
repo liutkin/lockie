@@ -1,5 +1,5 @@
 <template>
-  <main class="lg:ml-80 bg-gradient-radial-gray md:p-8 min-h-screen">
+  <main class="lg:ml-80 bg-gradient-radial-gray lg:p-8 min-h-screen">
     <div class="hidden lg:flex justify-between items-center">
       <div
         class="flex relative btn-indicator"
@@ -17,20 +17,50 @@
         </button>
       </div>
       <div class="flex items-center">
-        <button type="button" class="btn btn--alt mr-2" @click="endSession">
-          {{ t("shutdown") }}
-        </button>
-        <div
-          class="flex relative btn-indicator mr-4"
-          :class="{ 'btn-indicator--active': settingsShown }"
-        >
+        <github-link class="mr-12 xl:mr-6" />
+        <div class="xl:hidden flex items-center">
           <button
             type="button"
-            class="btn btn--alt"
-            @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
+            class="flex justify-center items-center w-8 h-8 hover:text-primary mr-4"
+            @click="END_SESSION"
           >
-            {{ t("settings") }}
+            <mdicon name="power" :size="18" />
           </button>
+          <div
+            class="flex relative btn-indicator mr-8"
+            :class="{ 'btn-indicator--active text-primary': settingsShown }"
+          >
+            <button
+              type="button"
+              class="flex justify-center items-center w-8 h-8"
+              @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
+            >
+              <mdicon name="cog-outline" :size="18" />
+            </button>
+          </div>
+        </div>
+        <div class="hidden xl:flex items-center">
+          <button type="button" class="btn btn--alt mr-2" @click="END_SESSION">
+            <span class="flex mr-2">
+              <mdicon name="power" :size="18" />
+            </span>
+            {{ t("shutdown") }}
+          </button>
+          <div
+            class="flex relative btn-indicator mr-4"
+            :class="{ 'btn-indicator--active': settingsShown }"
+          >
+            <button
+              type="button"
+              class="btn btn--alt"
+              @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
+            >
+              <span class="flex mr-2">
+                <mdicon name="cog-outline" :size="18" />
+              </span>
+              {{ t("settings") }}
+            </button>
+          </div>
         </div>
         <base-input
           :model-value="search"
@@ -78,7 +108,7 @@
         </div>
       </transition>
     </div>
-    <div class="lg:hidden p-8">
+    <div class="lg:hidden px-4 pt-10 pb-6">
       <base-input
         :model-value="search"
         autocomplete="search"
@@ -97,7 +127,7 @@
       </base-input>
     </div>
     <div>
-      <div class="hidden lg:grid grid-cols-12 gap-x-8 mt-8 rounded bg-gradient-gray">
+      <div class="hidden xl:grid grid-cols-12 gap-x-8 mt-8 rounded bg-gradient-gray">
         <div class="col-span-3 p-4">{{ t("title") }}</div>
         <div class="col-span-3 p-4">{{ t("login") }}</div>
         <div class="col-span-3 p-4">{{ t("password") }}</div>
@@ -105,98 +135,106 @@
           {{ t("notes") }}
         </div>
       </div>
-      <div v-if="STORE && filteredRecords.length">
-        <the-record
-          v-for="(record, index) in paginatedRecords"
-          :key="`${record.id}_${LABEL}_${search}`"
-          class="animate-fade-zoom opacity-0"
-          :style="{ animationDelay: `${index * 0.05}s` }"
-          :record="record"
-        />
-        <transition name="fade-zoom">
-          <div
-            v-if="filteredRecords.length > recordsPerPage"
-            :key="LABEL"
-            class="flex justify-center mt-4"
-          >
-            <button
-              type="button"
-              class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-              :class="PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
-              :disabled="PAGE === 1"
-              @click="setPage(1)"
+      <template v-if="STORE">
+        <div v-if="filteredRecords.length">
+          <the-record
+            v-for="(record, index) in paginatedRecords"
+            :key="`${record.id}_${LABEL}_${search}`"
+            class="animate-fade-zoom opacity-0"
+            :style="{ animationDelay: `${index * 0.05}s` }"
+            :record="record"
+          />
+          <transition name="fade-zoom">
+            <div
+              v-if="filteredRecords.length > recordsPerPage"
+              :key="LABEL"
+              class="flex justify-center mt-4 pb-8"
             >
-              <span class="opacity-80">
-                <mdicon name="chevron-double-left" :size="16" />
-              </span>
-            </button>
-            <button
-              type="button"
-              class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-              :class="PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
-              :disabled="PAGE === 1"
-              @click="setPage(PAGE - 1)"
-            >
-              <span class="opacity-80">
-                <mdicon name="chevron-left" :size="16" />
-              </span>
-            </button>
-            <ul class="my-0 pl-0 list-none flex rounded">
-              <li v-for="number in totalPages === 2 ? 2 : 3" :key="number" class="flex">
-                <button
-                  type="button"
-                  class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-                  :class="[
-                    getPageNumber(number) === PAGE ? 'text-primary font-bold' : 'hover:opacity-70',
-                    { 'pagination-btn--active': number === PAGE },
-                  ]"
-                  @click="setPage(getPageNumber(number))"
-                >
-                  {{ getPageNumber(number) }}
-                </button>
-              </li>
-            </ul>
-            <button
-              type="button"
-              class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-              :class="PAGE === totalPages ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
-              :disabled="PAGE === totalPages"
-              @click="setPage(PAGE + 1)"
-            >
-              <span class="opacity-8">
-                <mdicon name="chevron-right" :size="16" />
-              </span>
-            </button>
-            <button
-              type="button"
-              class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-              :class="[PAGE === totalPages ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70']"
-              :disabled="PAGE === totalPages"
-              @click="setPage(totalPages)"
-            >
-              <span class="opacity-8">
-                <mdicon name="chevron-double-right" :size="16" />
-              </span>
-            </button>
-          </div>
-        </transition>
-      </div>
-      <no-records v-else class="col-span-12 px-4 py-8" />
+              <button
+                type="button"
+                class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
+                :class="PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
+                :disabled="PAGE === 1"
+                @click="SET_PAGE(1)"
+              >
+                <span class="opacity-80">
+                  <mdicon name="chevron-double-left" :size="16" />
+                </span>
+              </button>
+              <button
+                type="button"
+                class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
+                :class="PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
+                :disabled="PAGE === 1"
+                @click="SET_PAGE(PAGE - 1)"
+              >
+                <span class="opacity-80">
+                  <mdicon name="chevron-left" :size="16" />
+                </span>
+              </button>
+              <ul class="my-0 pl-0 list-none flex rounded">
+                <li v-for="number in totalPages === 2 ? 2 : 3" :key="number" class="flex">
+                  <button
+                    type="button"
+                    class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
+                    :class="[
+                      getPageNumber(number) === PAGE
+                        ? 'text-primary font-bold'
+                        : 'hover:opacity-70',
+                      { 'pagination-btn--active': number === PAGE },
+                    ]"
+                    @click="SET_PAGE(getPageNumber(number))"
+                  >
+                    {{ getPageNumber(number) }}
+                  </button>
+                </li>
+              </ul>
+              <button
+                type="button"
+                class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
+                :class="PAGE === totalPages ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
+                :disabled="PAGE === totalPages"
+                @click="SET_PAGE(PAGE + 1)"
+              >
+                <span class="opacity-8">
+                  <mdicon name="chevron-right" :size="16" />
+                </span>
+              </button>
+              <button
+                type="button"
+                class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
+                :class="[
+                  PAGE === totalPages ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70',
+                ]"
+                :disabled="PAGE === totalPages"
+                @click="SET_PAGE(totalPages)"
+              >
+                <span class="opacity-8">
+                  <mdicon name="chevron-double-right" :size="16" />
+                </span>
+              </button>
+            </div>
+          </transition>
+        </div>
+        <no-records v-else class="col-span-12 px-4 py-8" />
+      </template>
     </div>
   </main>
 </template>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <script setup>
 import { debounce } from "lodash-es";
 import { ref, computed, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { exportStore } from "@/utility";
-import { STORE, RECORDS, LABEL, PAGE, endSession, setPage } from "@/store";
 import { useNewPasswordCreation } from "@/mixin";
+import { useStore } from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { STORE, RECORDS, LABEL, PAGE } = storeToRefs(store);
+const { END_SESSION, SET_PAGE } = store;
 const { newPasswordShown, create } = useNewPasswordCreation();
 
 const search = ref(null);
@@ -229,7 +267,7 @@ const paginatedRecords = computed(() =>
   )
 );
 
-watch(LABEL, () => setPage(1));
+watch(LABEL, () => SET_PAGE(1));
 
 const getPageNumber = index => {
   switch (index) {
@@ -259,10 +297,15 @@ const setSearch = event => (search.value = event.target.value.trim());
 const setSearchDebounced = debounce(setSearch, 500);
 </script>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <style scoped>
-.pagination-btn:not(.pagination-btn--active):not([disabled]):hover {
-  background-color: rgba(0, 0, 0, 0.05);
+.pagination-btn {
+  &:not(.pagination-btn--active):not([disabled]) {
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.05);
+      @media (prefers-color-scheme: dark) {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+    }
+  }
 }
 </style>

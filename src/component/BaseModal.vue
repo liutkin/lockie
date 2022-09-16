@@ -5,7 +5,7 @@
         v-if="props.modelValue"
         class="fixed inset-0 z-30 bg-gradient-radial-dark flex justify-center items-center"
       >
-        <div ref="modal" class="w-[40rem] max-w-[90vw] rounded overflow-hidden">
+        <div ref="modalElement" class="w-[40rem] max-w-[90vw] rounded overflow-hidden">
           <slot name="content" />
           <slot name="action" />
         </div>
@@ -13,8 +13,6 @@
     </transition>
   </teleport>
 </template>
-
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
 
 <script setup>
 import { onClickOutside } from "@vueuse/core/index";
@@ -27,13 +25,13 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue"]);
 
-const modal = ref(null);
+const modalElement = ref(null);
 
 const handleBodyOverflow = () =>
-  props.modelValue.value
+  props.modelValue
     ? bodyElement.classList.add("overflow-hidden")
     : bodyElement.classList.remove("overflow-hidden");
 
-onClickOutside(modal, () => emit("update:modelValue", false));
+onClickOutside(modalElement, () => emit("update:modelValue", false));
 watchEffect(handleBodyOverflow);
 </script>

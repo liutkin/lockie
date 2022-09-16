@@ -1,16 +1,16 @@
 <template>
   <div class="bg-gradient-gray flex flex-col">
     <template v-if="STORE">
-      <div class="flex justify-between items-center p-8">
-        <the-logo />
+      <div class="flex justify-between items-center px-4 py-8 lg:px-8">
+        <the-logo class="hover:text-primary" />
         <lang-list />
       </div>
       <div class="flex-grow overflow-auto">
         <button
           type="button"
-          class="tab flex items-center px-8 py-4 w-full"
+          class="tab text-left flex items-center px-4 lg:px-8 py-4 w-full"
           :class="{ 'tab--active': LABEL === null }"
-          @click="setLabel(null)"
+          @click="SET_LABEL(null)"
         >
           <span class="flex mr-2 opacity-70">
             <mdicon name="database-outline" :size="18" />
@@ -24,9 +24,9 @@
           <li v-for="label in UNIQUE_LABELS" :key="label" class="label relative">
             <button
               type="button"
-              class="tab flex items-center pl-8 pr-12 py-4 w-full capitalize"
+              class="tab flex items-center pl-4 lg:pl-8 pr-12 py-4 w-full capitalize"
               :class="{ 'tab--active': LABEL === label.name }"
-              @click="setLabel(label.name)"
+              @click="SET_LABEL(label.name)"
             >
               <span class="flex mr-2 opacity-70">
                 <mdicon name="label-outline" :size="18" />
@@ -36,7 +36,7 @@
             </button>
             <button
               type="button"
-              class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black transition-all duration-200"
+              class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black dark:hover:bg-white hover:text-default transition-all duration-200"
               @click="editLabel(label.name)"
             >
               <mdicon name="cog" :size="12" />
@@ -46,9 +46,9 @@
       </div>
       <button
         type="button"
-        class="tab flex items-center px-8 py-4 w-full"
+        class="tab flex items-center px-4 lg:px-8 py-4 w-full"
         :class="{ 'tab--active': LABEL === false }"
-        @click="setLabel(false)"
+        @click="SET_LABEL(false)"
       >
         <span class="flex mr-2 opacity-70">
           <mdicon name="trash-can-outline" :size="18" />
@@ -58,14 +58,16 @@
       </button>
       <base-modal v-model="labelEditingModalShown">
         <template #content>
-          <div class="p-6 bg-gray">
+          <div class="px-6 pt-6 pb-8 bg-gray">
             <base-input v-model.trim="labelForEditing" autofocus class="col-span-12"
               >{{ t("label") }}
             </base-input>
           </div>
         </template>
         <template #action>
-          <div class="grid gap-y-8 md:gap-x-6 lg:flex justify-between p-6 bg-white">
+          <div
+            class="grid gap-y-8 md:gap-x-6 lg:flex justify-between p-6 bg-white dark:bg-slate-800"
+          >
             <div class="hidden lg:flex items-center col-span-12 md:col-span-6">
               <div class="flex relative mr-4">
                 <button
@@ -81,7 +83,7 @@
                   class="progress absolute top-full left-0 h-2"
                 />
               </div>
-              <div class="text-xs text-gray-400 dark:text-white dark:text-opacity-40">
+              <div class="text-xs opacity-70">
                 {{ t("pressAndHoldToDelete") }}
               </div>
             </div>
@@ -126,23 +128,17 @@
   </div>
 </template>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <script setup>
 import { notify } from "@kyvg/vue3-notification";
 import { ref, computed, watchEffect } from "vue";
+import { storeToRefs } from "pinia";
+import { useStore } from "@/store";
 import { useI18n } from "vue-i18n";
-import {
-  STORE,
-  RECORDS,
-  LABEL,
-  UNIQUE_LABELS,
-  setLabel,
-  removeRecordLabel,
-  editRecordLabel,
-} from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { STORE, RECORDS, LABEL, UNIQUE_LABELS } = storeToRefs(store);
+const { SET_LABEL, REMOVE_RECORD_LABEL, EDIT_RECORD_LABEL } = store;
 
 const labelForEditingOriginal = ref(null);
 const labelForEditing = ref(null);
@@ -163,13 +159,13 @@ const editLabel = label => {
   labelForEditing.value = label;
 };
 const removeLabel = () => {
-  removeRecordLabel(labelForEditing.value);
+  REMOVE_RECORD_LABEL(labelForEditing.value);
   labelForEditing.value = null;
   notify({ type: "success", text: t("deleted") });
-  setLabel(null);
+  SET_LABEL(null);
 };
 const saveLabel = () => {
-  editRecordLabel(labelForEditingOriginal.value.trim().toLowerCase(), labelForEditing.value);
+  EDIT_RECORD_LABEL(labelForEditingOriginal.value.trim().toLowerCase(), labelForEditing.value);
   labelForEditing.value = null;
   notify({ type: "success", text: t("edited") });
 };
@@ -201,38 +197,34 @@ watchEffect(
 watchEffect(() => deletionProgress.value >= 100 && removeLabel());
 </script>
 
-<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 🛸-->
-
 <style scoped>
 .tab {
-  text-align: left;
-}
-
-.tab:not(.tab--active):hover,
-.tab:not(.tab--active):focus {
-  background: #e8e8e8;
-}
-
-.label:hover .label-settings-btn,
-.label:focus .label-settings-btn {
-  display: flex;
-}
-
-.tab__indicator {
-  transform: translate(0.25rem, -0.5rem);
-}
-
-.tab.tab--active {
-  background: linear-gradient(45deg, #fdfdfd 0%, #f3f3f3 100%);
-}
-
-@media (prefers-color-scheme: dark) {
-  .tab.tab--active {
-    background: linear-gradient(45deg, #122230 0%, #111f2e 100%);
+  &__indicator {
+    transform: translate(0.25rem, -0.5rem);
   }
-  .tab:not(.tab--active):hover,
-  .tab:not(.tab--active):focus {
-    background: rgba(0, 0, 0, 0.07);
+  &.tab--active {
+    background: linear-gradient(45deg, #fdfdfd 0%, #f3f3f3 100%);
+    @media (prefers-color-scheme: dark) {
+      background: linear-gradient(45deg, #122230 0%, #111f2e 100%);
+    }
+  }
+  &:not(.tab--active) {
+    &:hover,
+    &:focus {
+      background: #e8e8e8;
+      @media (prefers-color-scheme: dark) {
+        background: rgba(0, 0, 0, 0.07);
+      }
+    }
+  }
+}
+
+.label {
+  &:hover,
+  &:focus {
+    .label-settings-btn {
+      display: flex;
+    }
   }
 }
 </style>

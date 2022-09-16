@@ -121,7 +121,7 @@
               {{ t("restore") }}
             </button>
             <div class="text-xs text-gray-400 mb-2 lg:mb-0">
-              {{ t("deleted") }}: <span :title="deleted.locale">{{ deleted.relative }}</span>
+              {{ t("deleted") }}: <span :title="deleted.local">{{ deleted.relative }}</span>
             </div>
           </div>
         </template>
@@ -143,10 +143,10 @@
             class="text-xs text-gray-400 md:mr-8 mb-4 lg:mb-0 text-center lg:text-right"
           >
             <div>
-              {{ t("created") }}: <span :title="created.locale">{{ created.relative }}</span>
+              {{ t("created") }}: <span :title="created.local">{{ created.relative }}</span>
             </div>
             <div v-if="edited.milliseconds">
-              {{ t("edited") }}:<span :title="edited.locale">{{ edited.relative }}</span>
+              {{ t("edited") }}:<span :title="edited.local">{{ edited.relative }}</span>
             </div>
           </div>
           <div class="grid gap-y-8 md:flex col-span-12">
@@ -187,26 +187,35 @@
 </template>
 
 <script setup>
-import { DateTime } from "luxon";
 import { v4 as uuidv4 } from "uuid";
-import { isEqual } from "lodash-es";
+import { isEqual, cloneDeep } from "lodash-es";
 import { useI18n } from "vue-i18n";
 import { ref, computed, watch, onUnmounted } from "vue";
+import { storeToRefs } from "pinia";
 import { onClickOutside } from "@vueuse/core";
-import { usePassword } from "@/mixin";
-import { UNIQUE_LABELS } from "@/store";
+import { useDates, usePassword } from "@/mixin";
+import { useStore } from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { UNIQUE_LABELS } = storeToRefs(store);
 
-const { password, passwordConfirmation, generatePassword } = usePassword();
 const props = defineProps({
   record: {
     type: Object,
     default: () => ({}),
   },
 });
-const label = ref(null);
 const emit = defineEmits(["cancel", "save", "create", "remove", "restore", "purge"]);
+
+const { password, passwordConfirmation, generatePassword } = usePassword();
+const { dates, updateDates, stopUpdatingDates } = useDates([
+  { key: "created" },
+  { key: "edited" },
+  { key: "deleted" },
+]);
+
+const label = ref(null);
 const purgeRangeInput = ref(null);
 const form = ref({
   id: null,
@@ -219,29 +228,6 @@ const form = ref({
   labels: [],
   label: null,
 });
-const dates = ref([
-  {
-    milliseconds: null,
-    relative: null,
-    locale: null,
-    intervalId: null,
-    key: "created",
-  },
-  {
-    milliseconds: null,
-    relative: null,
-    locale: null,
-    intervalId: null,
-    key: "edited",
-  },
-  {
-    milliseconds: null,
-    relative: null,
-    locale: null,
-    intervalId: null,
-    key: "deleted",
-  },
-]);
 const purge = ref({
   interval: null,
   progress: 0,
@@ -281,11 +267,6 @@ const recordChanged = computed(
     )
 );
 
-onUnmounted(() =>
-  dates.value
-    .filter(({ intervalId }) => intervalId)
-    .forEach(({ intervalId }) => clearInterval(intervalId))
-);
 const save = () => {
   if (!formValid.value) return;
 
@@ -339,8 +320,8 @@ const autocompleteLabel = newLabel => {
   form.value.labels.push(newLabel);
   label.value = null;
 };
-const removeLabel = labelForRemoving => {
-  form.value.labels = form.value.labels.filter(existingLabel => existingLabel !== labelForRemoving);
+const removeLabel = labelToRemove => {
+  form.value.labels = form.value.labels.filter(existingLabel => existingLabel !== labelToRemove);
 };
 const startPurge = name => {
   incrementActionProgress(name);
@@ -350,36 +331,21 @@ const cancelPurge = () => {
   clearInterval(purge.value.interval);
   purge.value.progress = 0;
 };
+
 onClickOutside(purgeRangeInput, () => (purge.value.progress = 0));
+
 watch(
   () => purge.value.progress,
   () => purge.value.progress >= 100 && emit("purge", form.value.id)
 );
 
-const init = () => {
-  if (!editing.value) return;
+onUnmounted(stopUpdatingDates);
 
-  form.value = { ...props.record };
-  form.value.labels = [...form.value.labels];
+if (editing.value) {
+  form.value = cloneDeep(props.record);
   form.value.passwordConfirmation = form.value.password;
 
-  ["created", "edited", "deleted"].forEach(
-    key =>
-      form.value[key] && (dates.value.find(date => date.key === key).milliseconds = form.value[key])
-  );
-
-  const updateDate = date => {
-    date.relative = date.milliseconds
-      ? DateTime.fromMillis(date.milliseconds).toRelative()
-      : t("never");
-    date.locale = date.milliseconds ? new Date(date.milliseconds).toLocaleString() : null;
-  };
-
-  dates.value.forEach(date => {
-    if ((date.key === "deleted" && !form.value.deleted) || !date.milliseconds) return;
-    updateDate(date);
-    date.intervalId = setInterval(() => updateDate(date), 1000);
-  });
-};
-init();
+  dates.value.forEach(date => (date.milliseconds = form.value[date.key]));
+  updateDates();
+}
 </script>

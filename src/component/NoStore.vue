@@ -15,6 +15,7 @@
             v-else-if="unzippedStore"
             :unzipped-store="unzippedStore"
             @clear="clearCachedData"
+            @cancel="unzippedStore = null"
           />
           <div v-else>
             <div class="text-center">

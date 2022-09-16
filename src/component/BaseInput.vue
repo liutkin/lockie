@@ -11,7 +11,7 @@
             :key="index"
             class="flex transition-all duration-200"
             :class="{
-              [`password-rating-${strength}`]: index - 1 <= strength,
+              [`password-rating__${strength}`]: index - 1 <= strength,
               'opacity-30': index - 1 > strength,
               'password-rating-accent': index - 1 <= strength,
             }"
@@ -96,8 +96,7 @@
             tabindex="-1"
             @click="visible = !visible"
           >
-            <mdicon v-if="visible" name="eye-outline" :width="32" :height="18" />
-            <mdicon v-else name="eye-off-outline" :width="32" :height="18" />
+            <mdicon :name="visible ? 'eye-outline' : 'eye-off-outline'" :width="32" :height="18" />
           </button>
         </div>
         <transition-group
@@ -193,82 +192,90 @@ onClickOutside(inputContainer, () => (focus.value = false));
   background-color: white;
   color: theme("colors.default");
   transition: all 0.1s;
+  @media (prefers-color-scheme: dark) {
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  &:not(.input--focus) {
+    &:hover,
+    &:focus {
+      box-shadow: 0 0.75rem 2rem -1.1rem rgba(74, 140, 211, 0.65);
+      @media (prefers-color-scheme: dark) {
+        box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
+      }
+    }
+  }
+  &:not(.input--prefix) {
+    .input__field {
+      padding-left: 0.8rem;
+    }
+  }
+  &:not(.input--suffix) {
+    .input__field {
+      padding-right: 0.8rem;
+    }
+  }
+  &.input--focus {
+    box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 1rem 2rem -1.1rem rgba(58, 145, 239, 0.85);
+    }
+    .input__field {
+      color: theme("colors.primary");
+    }
+  }
+  &.input--prefix {
+    .input__field {
+      padding-left: 0;
+    }
+  }
+  &.input--prefix {
+    .input__field {
+      padding-right: 0;
+    }
+  }
+  &__field {
+    width: 100%;
+    display: block;
+    flex-grow: 1;
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+    outline: none;
+    font-size: 1rem;
+    line-height: var(--line-height-default);
+    color: theme("colors.default");
+    border: none;
+    background-color: transparent;
+  }
+  &__autocomplete {
+    color: theme("colors.default");
+    padding: 0.6rem 0.8rem;
+    background-color: white;
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      background-color: #ebf6ff;
+      color: theme("colors.primary");
+      outline: none;
+    }
+  }
 }
 
-.input:not(.input--prefix) .input__field {
-  padding-left: 0.8rem;
-}
-
-.input:not(.input--suffix) .input__field {
-  padding-right: 0.8rem;
-}
-
-.input.input--focus {
-  box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
-}
-
-.input.input--focus .input__field {
-  color: theme("colors.primary");
-}
-
-.input.input--prefix .input__field {
-  padding-left: 0;
-}
-
-.input.input--suffix .input__field {
-  padding-right: 0;
-}
-
-.input__field {
-  width: 100%;
-  display: block;
-  flex-grow: 1;
-  padding-top: 0.6rem;
-  padding-bottom: 0.6rem;
-  outline: none;
-  font-size: 1rem;
-  line-height: var(--line-height-default);
-  color: theme("colors.default");
-  border: none;
-  background-color: transparent;
-}
-
-.input__autocomplete {
-  color: theme("colors.default");
-  padding: 0.6rem 0.8rem;
-  background-color: white;
-  cursor: pointer;
-}
-
-.input__autocomplete:hover,
-.input__autocomplete:focus {
-  background-color: #ebf6ff;
-  color: theme("colors.primary");
-  outline: none;
-}
-
-.input:hover:not(.input--focus) {
-  box-shadow: 0 0.75rem 2rem -1.1rem rgba(74, 140, 211, 0.65);
-}
-
-.password-rating-0 {
-  color: #2af0a4;
-}
-
-.password-rating-1 {
-  color: #75e20f;
-}
-
-.password-rating-2 {
-  color: #ffb200;
-}
-
-.password-rating-3 {
-  color: #f98349;
-}
-
-.password-rating-4 {
-  color: #ff5b5b;
+.password-rating {
+  &__0 {
+    color: #2af0a4;
+  }
+  &__1 {
+    color: #75e20f;
+  }
+  &__2 {
+    color: #ffb200;
+  }
+  &__3 {
+    color: #f98349;
+  }
+  &__4 {
+    color: #ff5b5b;
+  }
 }
 
 .password-rating-accent {
@@ -285,20 +292,6 @@ onClickOutside(inputContainer, () => (focus.value = false));
   }
   50% {
     transform: scale(1.15);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .input:hover:not(.input--focus) {
-    box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
-  }
-
-  .input {
-    background-color: rgba(255, 255, 255, 0.85);
-  }
-
-  .input.input--focus {
-    box-shadow: 0 1rem 2rem -1.1rem rgba(58, 145, 239, 0.85);
   }
 }
 </style>

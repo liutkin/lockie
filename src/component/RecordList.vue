@@ -22,7 +22,7 @@
           <button
             type="button"
             class="flex justify-center items-center w-8 h-8 hover:text-primary mr-4"
-            @click="endSession"
+            @click="END_SESSION"
           >
             <mdicon name="power" :size="18" />
           </button>
@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="hidden xl:flex items-center">
-          <button type="button" class="btn btn--alt mr-2" @click="endSession">
+          <button type="button" class="btn btn--alt mr-2" @click="END_SESSION">
             <span class="flex mr-2">
               <mdicon name="power" :size="18" />
             </span>
@@ -155,7 +155,7 @@
                 class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
                 :class="PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
                 :disabled="PAGE === 1"
-                @click="setPage(1)"
+                @click="SET_PAGE(1)"
               >
                 <span class="opacity-80">
                   <mdicon name="chevron-double-left" :size="16" />
@@ -166,7 +166,7 @@
                 class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
                 :class="PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
                 :disabled="PAGE === 1"
-                @click="setPage(PAGE - 1)"
+                @click="SET_PAGE(PAGE - 1)"
               >
                 <span class="opacity-80">
                   <mdicon name="chevron-left" :size="16" />
@@ -183,7 +183,7 @@
                         : 'hover:opacity-70',
                       { 'pagination-btn--active': number === PAGE },
                     ]"
-                    @click="setPage(getPageNumber(number))"
+                    @click="SET_PAGE(getPageNumber(number))"
                   >
                     {{ getPageNumber(number) }}
                   </button>
@@ -194,7 +194,7 @@
                 class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
                 :class="PAGE === totalPages ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
                 :disabled="PAGE === totalPages"
-                @click="setPage(PAGE + 1)"
+                @click="SET_PAGE(PAGE + 1)"
               >
                 <span class="opacity-8">
                   <mdicon name="chevron-right" :size="16" />
@@ -207,7 +207,7 @@
                   PAGE === totalPages ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70',
                 ]"
                 :disabled="PAGE === totalPages"
-                @click="setPage(totalPages)"
+                @click="SET_PAGE(totalPages)"
               >
                 <span class="opacity-8">
                   <mdicon name="chevron-double-right" :size="16" />
@@ -225,12 +225,16 @@
 <script setup>
 import { debounce } from "lodash-es";
 import { ref, computed, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { exportStore } from "@/utility";
-import { STORE, RECORDS, LABEL, PAGE, endSession, setPage } from "@/store";
 import { useNewPasswordCreation } from "@/mixin";
+import { useStore } from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { STORE, RECORDS, LABEL, PAGE } = storeToRefs(store);
+const { END_SESSION, SET_PAGE } = store;
 const { newPasswordShown, create } = useNewPasswordCreation();
 
 const search = ref(null);
@@ -263,7 +267,7 @@ const paginatedRecords = computed(() =>
   )
 );
 
-watch(LABEL, () => setPage(1));
+watch(LABEL, () => SET_PAGE(1));
 
 const getPageNumber = index => {
   switch (index) {

@@ -1,4 +1,5 @@
 import { createApp } from "vue";
+import pinia from "@/pinia";
 import Notifications from "@kyvg/vue3-notification";
 import mdiVue from "mdi-vue/v3";
 import * as mdijs from "@mdi/js";
@@ -7,6 +8,7 @@ import App from "./App.vue";
 import "@/style/index.css";
 
 createApp(App)
+  .use(pinia)
   .use(i18n)
   .use(Notifications)
   .use(mdiVue, {

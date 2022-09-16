@@ -14,16 +14,12 @@
 <script setup>
 import scrollIntoView from "scroll-into-view";
 import { ref, watch } from "vue";
-import {
-  STORE,
-  LABEL,
-  PAGE,
-  PASSWORD,
-  setEditedDate,
-  cacheStore,
-  toggleMobileLeftMenu,
-  toggleMobileRightMenu,
-} from "@/store";
+import { storeToRefs } from "pinia";
+import { useStore } from "@/store";
+
+const store = useStore();
+const { STORE, LABEL, PAGE, PASSWORD } = storeToRefs(store);
+const { SET_EDITED_DATE, CACHE_STORE } = store;
 
 const recordsElement = ref(null);
 
@@ -31,17 +27,12 @@ watch(
   [STORE, PASSWORD],
   () => {
     if (!STORE.value) return;
-    toggleMobileLeftMenu(false);
-    toggleMobileRightMenu(false);
-    setEditedDate();
-    cacheStore();
+
+    SET_EDITED_DATE();
+    CACHE_STORE();
   },
-  { immediate: true, deep: true }
+  { deep: true }
 );
-watch(LABEL, () => {
-  toggleMobileLeftMenu(false);
-  toggleMobileRightMenu(false);
-});
 watch([LABEL, PAGE], () =>
   scrollIntoView(recordsElement.value.$el.parentNode, { align: { top: 0 } })
 );

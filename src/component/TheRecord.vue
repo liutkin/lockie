@@ -129,10 +129,12 @@ import isUrl from "is-url";
 import { useI18n } from "vue-i18n";
 import { notify } from "@kyvg/vue3-notification";
 import { ref, watch, computed } from "vue";
-import { deleteRecord, editRecord, restoreRecord, purgeRecord } from "@/store";
+import { useStore } from "@/store";
 import { copyToClipboard } from "@/utility";
 
 const { t } = useI18n();
+const store = useStore();
+const { DELETE_RECORD, EDIT_RECORD, RESTORE_RECORD, PURGE_RECORD } = store;
 
 const props = defineProps({
   record: {
@@ -163,22 +165,22 @@ watch(loginCopied, copied => copied && setTimeout(() => (loginCopied.value = fal
 watch(passwordCopied, copied => copied && setTimeout(() => (passwordCopied.value = false), 1000));
 
 const save = record => {
-  editRecord(record);
+  EDIT_RECORD(record);
   detailsShown.value = false;
   notify({ type: "success", text: t("saved") });
 };
 const remove = id => {
-  deleteRecord(id);
+  DELETE_RECORD(id);
   detailsShown.value = false;
   notify({ type: "success", text: t("deleted") });
 };
 const restore = id => {
-  restoreRecord(id);
+  RESTORE_RECORD(id);
   detailsShown.value = false;
   notify({ type: "success", text: t("restored") });
 };
 const purge = id => {
-  purgeRecord(id);
+  PURGE_RECORD(id);
   detailsShown.value = false;
   notify({ type: "success", text: t("purged") });
 };

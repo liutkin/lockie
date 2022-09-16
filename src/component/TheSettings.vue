@@ -4,7 +4,7 @@
       <div class="flex items-center">{{ appName }} v{{ appVersion }}</div>
     </div>
     <ul class="my-0 pl-0 list-none col-span-12 xl:col-span-4 leading-relaxed">
-      <li v-for="date in dates" :key="date.getter" :title="date.locale">
+      <li v-for="date in dates" :key="date.getter" :title="date.local">
         {{ t(date.key) }}: {{ date.relative }}
       </li>
     </ul>
@@ -61,27 +61,32 @@
 import { notify } from "@kyvg/vue3-notification";
 import { useI18n } from "vue-i18n";
 import { computed, onUnmounted } from "vue";
-import { setPassword } from "@/store";
+import { storeToRefs } from "pinia";
+import { useStore } from "@/store";
 import { useDates, usePassword } from "@/mixin";
-import { version } from "../../package.json";
+import { version as appVersion } from "../../package.json";
 
 const { t } = useI18n();
+const store = useStore();
+const { STORE_CREATED, STORE_EDITED, STORE_EXPORTED } = storeToRefs(store);
+const { SET_PASSWORD } = store;
 
 const emit = defineEmits(["close"]);
 
 const appName = import.meta.env.VITE_APP_NAME;
-const appVersion = version;
-const { dates, updateDates, stopUpdatingDates } = useDates();
+const { dates, updateDates, stopUpdatingDates } = useDates([
+  { key: "created", milliseconds: STORE_CREATED.value },
+  { key: "edited", milliseconds: STORE_EDITED.value },
+  { key: "exported", milliseconds: STORE_EXPORTED.value },
+]);
 const { password, passwordConfirmation, generatePassword } = usePassword();
-
-updateDates({ updateMillisecondsFromStore: true });
 
 const formValid = computed(
   () =>
     password.value && passwordConfirmation.value && password.value === passwordConfirmation.value
 );
 const save = () => {
-  setPassword(password.value);
+  SET_PASSWORD(password.value);
 
   password.value = null;
   passwordConfirmation.value = null;
@@ -91,4 +96,6 @@ const save = () => {
 };
 
 onUnmounted(stopUpdatingDates);
+
+updateDates();
 </script>

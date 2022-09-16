@@ -6,25 +6,25 @@
       />
       <button
         type="button"
-        :class="{ 'menu-btn--active': MOBILE_LEFT_MENU_SHOWN }"
-        class="menu-btn p-0 w-12 h-12 flex justify-center items-center text-lite"
-        @click="toggle('left')"
+        :class="{ 'bg-black/10': leftMenuShown }"
+        class="p-0 w-12 h-12 flex justify-center items-center text-lite"
+        @click="(leftMenuShown = !leftMenuShown), (rightMenuShown = false)"
       >
         <menu-icon class="h-4 fill-current" />
       </button>
       <button
         type="button"
-        :class="{ 'menu-btn--active': MOBILE_RIGHT_MENU_SHOWN }"
-        class="menu-btn p-0 w-12 h-12 flex justify-center items-center text-lite"
-        @click="toggle('right')"
+        :class="{ 'bg-black/10': rightMenuShown }"
+        class="p-0 w-12 h-12 flex justify-center items-center text-lite"
+        @click="(rightMenuShown = !rightMenuShown), (leftMenuShown = false)"
       >
         <submenu-icon class="h-5 fill-current" />
       </button>
     </div>
     <transition name="fade-zoom" mode="out-in">
-      <the-sidebar v-if="MOBILE_LEFT_MENU_SHOWN" class="mobile-menu__panel overflow-auto" />
+      <the-sidebar v-if="leftMenuShown" class="mobile-menu__panel overflow-auto" />
       <div
-        v-else-if="MOBILE_RIGHT_MENU_SHOWN"
+        v-else-if="rightMenuShown"
         class="bg-gradient-radial-gray flex flex-col mobile-menu__panel justify-between overflow-auto py-8"
       >
         <div class="grid gap-8">
@@ -83,7 +83,7 @@
             </div>
           </transition>
         </div>
-        <button type="button" class="btn btn--alt mx-4 mt-4" @click="endSession">
+        <button type="button" class="btn btn--alt mx-4 mt-4" @click="END_SESSION">
           <span class="flex mr-2">
             <mdicon name="power" :size="18" />
           </span>
@@ -96,44 +96,34 @@
 
 <script setup>
 import { ref, watch } from "vue";
+import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
 import { exportStore } from "@/utility";
-import {
-  RECORDS,
-  MOBILE_LEFT_MENU_SHOWN,
-  MOBILE_RIGHT_MENU_SHOWN,
-  endSession,
-  toggleMobileLeftMenu,
-  toggleMobileRightMenu,
-} from "@/store";
 import MenuIcon from "@/icon/menu.svg";
 import SubmenuIcon from "@/icon/submenu.svg";
-import { usePassword } from "@/mixin";
+import { useNewPasswordCreation } from "@/mixin";
+import { useStore } from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { RECORDS, LABEL } = storeToRefs(store);
+const { END_SESSION } = store;
+
+const { newPasswordShown, create } = useNewPasswordCreation();
 
 const bodyElement = document.querySelector("body");
 
-const { newPasswordShown, create } = usePassword();
-
 const settingsShown = ref(false);
+const leftMenuShown = ref(false);
+const rightMenuShown = ref(false);
 
-const toggle = side => {
-  switch (side) {
-    case "left":
-      toggleMobileLeftMenu(!MOBILE_LEFT_MENU_SHOWN.value);
-      toggleMobileRightMenu(false);
-      return;
-    default:
-      toggleMobileRightMenu(!MOBILE_RIGHT_MENU_SHOWN.value);
-      toggleMobileLeftMenu(false);
-  }
-};
-
-watch([MOBILE_LEFT_MENU_SHOWN, MOBILE_RIGHT_MENU_SHOWN], () => {
-  MOBILE_LEFT_MENU_SHOWN.value || MOBILE_RIGHT_MENU_SHOWN.value
-    ? bodyElement.classList.add("overflow-hidden")
-    : bodyElement.classList.remove("overflow-hidden");
+watch([leftMenuShown, rightMenuShown], () => {
+  const method = leftMenuShown.value || rightMenuShown.value ? "add" : "remove";
+  bodyElement.classList[method]("overflow-hidden");
+});
+watch(LABEL, () => {
+  leftMenuShown.value = false;
+  rightMenuShown.value = false;
 });
 </script>
 
@@ -142,12 +132,6 @@ watch([MOBILE_LEFT_MENU_SHOWN, MOBILE_RIGHT_MENU_SHOWN], () => {
   background: linear-gradient(45deg, rgba(74, 140, 211, 1) 0%, rgba(48, 158, 209, 1) 100%);
   &__panel {
     height: calc(100vh - 3rem);
-  }
-}
-
-.menu-btn {
-  &.menu-btn--active {
-    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 </style>

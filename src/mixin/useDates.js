@@ -1,50 +1,40 @@
 import { ref, computed } from "vue";
 import { DateTime } from "luxon";
-import { STORE_CREATED, STORE_EDITED, STORE_EXPORTED } from "@/store";
 import i18n from "@/i18n";
 
-export const useDates = () => {
-  const dates = ref([
-    {
+const localeFormattingTable = {
+  en: "en",
+  ua: "uk",
+  ru: "ru",
+  default: "en",
+};
+
+export const useDates = (initialDates = []) => {
+  const dates = ref(
+    initialDates.map(date => ({
       milliseconds: null,
       relative: null,
-      locale: null,
+      local: null,
       intervalId: null,
-      getter: STORE_CREATED,
-      key: "created",
-    },
-    {
-      milliseconds: null,
-      relative: null,
-      locale: null,
-      intervalId: null,
-      getter: STORE_EDITED,
-      key: "edited",
-    },
-    {
-      milliseconds: null,
-      relative: null,
-      locale: null,
-      intervalId: null,
-      getter: STORE_EXPORTED,
-      key: "exported",
-    },
-  ]);
+      ...date,
+    }))
+  );
 
   const existingDates = computed(() => dates.value.filter(({ milliseconds }) => milliseconds));
 
-  const updateDate = ({ date, updateMillisecondsFromStore } = {}) => {
-    if (updateMillisecondsFromStore) date.milliseconds = date.getter;
+  const updateDate = date => {
+    const formattingLocale =
+      localeFormattingTable[i18n.global.locale.value] || localeFormattingTable.default;
     date.relative = date.milliseconds
-      ? DateTime.fromMillis(date.milliseconds).toRelative()
+      ? DateTime.fromMillis(date.milliseconds).setLocale(formattingLocale).toRelative()
       : i18n.global.t("never");
-    date.locale = date.milliseconds ? new Date(date.milliseconds).toLocaleString() : null;
+    date.local = date.milliseconds ? new Date(date.milliseconds).toLocaleString() : null;
   };
 
-  const updateDates = ({ updateMillisecondsFromStore } = {}) =>
-    (updateMillisecondsFromStore ? dates : existingDates).value.forEach(date => {
-      updateDate({ date, updateMillisecondsFromStore });
-      date.intervalId = setInterval(() => updateDate({ date, updateMillisecondsFromStore }), 1000);
+  const updateDates = () =>
+    dates.value.forEach(date => {
+      updateDate(date);
+      date.intervalId = setInterval(() => updateDate(date), 1000);
     });
 
   const stopUpdatingDates = () => {

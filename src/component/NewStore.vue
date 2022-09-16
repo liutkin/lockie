@@ -49,13 +49,15 @@
 </template>
 
 <script setup>
-import { useI18n } from "vue-i18n";
-import { usePassword } from "@/mixin";
-import { computed } from "vue";
-import { setStore } from "@/store";
 import { notify } from "@kyvg/vue3-notification";
+import { useI18n } from "vue-i18n";
+import { computed } from "vue";
+import { usePassword } from "@/mixin";
+import { useStore } from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { SET_STORE } = store;
 
 const emit = defineEmits(["cancel"]);
 
@@ -69,14 +71,11 @@ const formValid = computed(
 const createStore = () => {
   if (!formValid.value) return;
 
-  setStore({
-    password: password.value,
-    store: {
-      created: Date.now(),
-      exported: null,
-      edited: null,
-      records: [],
-    },
+  SET_STORE(password.value, {
+    created: Date.now(),
+    exported: null,
+    edited: null,
+    records: [],
   });
   setTimeout(() => notify({ type: "success", text: t("newStoreCreated") }), 1000);
 };

@@ -2,14 +2,8 @@
   <form class="relative" @submit.prevent="unlocking = true">
     <div class="absolute opacity-70 bottom-full left-1/2 transform -translate-x-1/2 mb-8">
       <div class="flex" :class="{ 'animate-bob': unlockingAttemptsLeft === 3 && !decryptedStore }">
-        <lock-good-icon v-if="decryptedStore" class="lock-emoji fill-current" />
-        <lock-waiting-icon
-          v-else-if="unlockingAttemptsLeft === 3"
-          class="lock-emoji fill-current"
-        />
-        <lock-bad1-icon v-else-if="unlockingAttemptsLeft === 2" class="lock-emoji fill-current" />
-        <lock-bad2-icon v-else-if="unlockingAttemptsLeft === 1" class="lock-emoji fill-current" />
-        <lock-bad3-icon v-else-if="unlockingAttemptsLeft === 0" class="lock-emoji fill-current" />
+        <lock-good-icon v-if="decryptedStore" class="w-12 md:w-20 fill-current" />
+        <component v-else :is="lockIcon" class="w-12 md:w-20 fill-current" />
         <transition name="fade-zoom"
           ><b v-if="unlockingAttemptsLeft === 3 && !decryptedStore" class="absolute top-0 left-full"
             >zZz</b
@@ -29,9 +23,9 @@
           </div>
           <ul
             v-if="existingDates.length"
-            class="dates my-0 pl-0 list-none flex flex-wrap items-center text-xs"
+            class="my-0 pl-0 list-none flex flex-wrap items-center text-xs"
           >
-            <li v-for="date in existingDates" :key="date.key" :title="date.locale">
+            <li v-for="date in existingDates" :key="date.key" :title="date.local">
               {{ t(date.key) }}: {{ date.relative }}
             </li>
           </ul>
@@ -77,7 +71,12 @@
             {{ t("pressAndHoldToCancel") }}
           </div>
         </div>
-        <button v-else type="button" class="btn btn--alt col-span-12" @click="emit('cancel')">
+        <button
+          v-else
+          type="button"
+          class="btn btn--alt col-span-12 order-1 lg:order-none"
+          @click="emit('cancel')"
+        >
           {{ t("cancel") }}
         </button>
         <button :disabled="!passwordUnlock || unlocking" class="btn btn--primary col-span-12">
@@ -113,10 +112,10 @@
 import crypto from "crypto-js";
 import { onClickOutside } from "@vueuse/core";
 import { notify } from "@kyvg/vue3-notification";
-import { ref, watch, nextTick, onUnmounted } from "vue";
+import { ref, computed, watch, nextTick, onUnmounted } from "vue";
+import { useStore } from "@/store";
 import { useDates } from "@/mixin";
 import { useI18n } from "vue-i18n";
-import { setStore } from "@/store";
 import LockGoodIcon from "@/icon/lock-good.svg";
 import LockWaitingIcon from "@/icon/lock-waiting.svg";
 import LockBad1Icon from "@/icon/lock-bad-1.svg";
@@ -125,6 +124,8 @@ import LockBad3Icon from "@/icon/lock-bad-3.svg";
 import LockMechanismIcon from "@/icon/lock-mechanism.svg";
 
 const { t } = useI18n();
+const store = useStore();
+const { SET_STORE } = store;
 
 const props = defineProps({
   unzippedStore: {
@@ -136,7 +137,19 @@ const props = defineProps({
 
 const emit = defineEmits(["cancel", "clear"]);
 
-const { dates, existingDates, updateDates, stopUpdatingDates } = useDates();
+const { dates, existingDates, updateDates, stopUpdatingDates } = useDates([
+  { key: "created" },
+  { key: "edited" },
+  { key: "exported" },
+]);
+
+const lockAttemptsIconTable = {
+  0: LockBad3Icon,
+  1: LockBad2Icon,
+  2: LockBad1Icon,
+  3: LockWaitingIcon,
+  default: LockBad3Icon,
+};
 
 const unlocking = ref(false);
 const cancellationProgress = ref(0);
@@ -147,6 +160,10 @@ const passwordUnlockInput = ref(null);
 const passwordUnlock = ref(null);
 const unlockingAttemptsLeft = ref(3);
 const decryptedStore = ref(null);
+
+const lockIcon = computed(
+  () => lockAttemptsIconTable[unlockingAttemptsLeft.value] || lockAttemptsIconTable.default
+);
 
 const clear = () => {
   dates.value.forEach(date => {
@@ -176,12 +193,10 @@ const startCancellation = () => {
   cancellationInterval.value = setInterval(incrementCancellationProgress, 25);
 };
 
-const restoreCachedDates = () => {
-  dates.value.forEach(date => {
-    const cachedStoreDate = window.localStorage.getItem(date.key);
-    if (cachedStoreDate) date.milliseconds = JSON.parse(cachedStoreDate)[date.key];
-  });
-};
+const restoreCachedDates = () =>
+  dates.value.forEach(
+    date => (date.milliseconds = parseInt(window.localStorage.getItem(date.key)) || null)
+  );
 
 watch(unlocking, async inProgress => {
   if (!inProgress || unlockingAttemptsLeft.value < 1) return;
@@ -190,14 +205,7 @@ watch(unlocking, async inProgress => {
     try {
       const bytes = crypto.AES.decrypt(props.unzippedStore, passwordUnlock.value);
       decryptedStore.value = JSON.parse(bytes.toString(crypto.enc.Utf8));
-      setTimeout(
-        () =>
-          setStore({
-            password: passwordUnlock.value,
-            store: decryptedStore.value,
-          }),
-        1000
-      );
+      setTimeout(() => SET_STORE(passwordUnlock.value, decryptedStore.value), 1000);
     } catch (err) {
       notify({ type: "error", text: t("errorUnlockingPassword") });
       unlockingAttemptsLeft.value -= 1;
@@ -219,13 +227,6 @@ updateDates();
 </script>
 
 <style scoped>
-.lock-emoji {
-  width: 3rem;
-  @media screen(md) {
-    width: 5rem;
-  }
-}
-
 .animate-bob {
   animation-name: bob-float, bob;
   animation-duration: 0.3s, 1.5s;
@@ -240,34 +241,32 @@ updateDates();
   animation: rotate 1s infinite;
 }
 
-.dates {
-  li {
-    &:not(:last-child) {
-      &:after {
-        content: "﹡";
-        font-size: 0.75em;
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-      }
+li {
+  &:not(:last-child) {
+    &:after {
+      content: "﹡";
+      font-size: 0.75em;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
     }
   }
 }
 
 @keyframes bob {
   0% {
-    transform: translateY(-8px);
+    transform: translateY(-0.5rem);
   }
   50% {
-    transform: translateY(-4px);
+    transform: translateY(-0.25rem);
   }
   100% {
-    transform: translateY(-8px);
+    transform: translateY(-0.5rem);
   }
 }
 
 @keyframes bob-float {
   100% {
-    transform: translateY(-8px);
+    transform: translateY(-0.5rem);
   }
 }
 

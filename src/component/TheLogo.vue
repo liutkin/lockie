@@ -1,5 +1,5 @@
 <template>
-  <div class="flex cursor-pointer" @click="setLabel(null)">
+  <div class="flex cursor-pointer" @click="SET_LABEL(null)">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 160 46"
@@ -14,5 +14,8 @@
 </template>
 
 <script setup>
-import { setLabel } from "@/store";
+import { useStore } from "@/store";
+
+const store = useStore();
+const { SET_LABEL } = store;
 </script>

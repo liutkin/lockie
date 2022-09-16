@@ -10,7 +10,7 @@
           type="button"
           class="tab text-left flex items-center px-4 lg:px-8 py-4 w-full"
           :class="{ 'tab--active': LABEL === null }"
-          @click="setLabel(null)"
+          @click="SET_LABEL(null)"
         >
           <span class="flex mr-2 opacity-70">
             <mdicon name="database-outline" :size="18" />
@@ -26,7 +26,7 @@
               type="button"
               class="tab flex items-center pl-4 lg:pl-8 pr-12 py-4 w-full capitalize"
               :class="{ 'tab--active': LABEL === label.name }"
-              @click="setLabel(label.name)"
+              @click="SET_LABEL(label.name)"
             >
               <span class="flex mr-2 opacity-70">
                 <mdicon name="label-outline" :size="18" />
@@ -48,7 +48,7 @@
         type="button"
         class="tab flex items-center px-4 lg:px-8 py-4 w-full"
         :class="{ 'tab--active': LABEL === false }"
-        @click="setLabel(false)"
+        @click="SET_LABEL(false)"
       >
         <span class="flex mr-2 opacity-70">
           <mdicon name="trash-can-outline" :size="18" />
@@ -65,7 +65,9 @@
           </div>
         </template>
         <template #action>
-          <div class="grid gap-y-8 md:gap-x-6 lg:flex justify-between p-6 bg-white">
+          <div
+            class="grid gap-y-8 md:gap-x-6 lg:flex justify-between p-6 bg-white dark:bg-slate-800"
+          >
             <div class="hidden lg:flex items-center col-span-12 md:col-span-6">
               <div class="flex relative mr-4">
                 <button
@@ -81,7 +83,7 @@
                   class="progress absolute top-full left-0 h-2"
                 />
               </div>
-              <div class="text-xs text-gray-400 dark:text-white dark:text-opacity-40">
+              <div class="text-xs opacity-70">
                 {{ t("pressAndHoldToDelete") }}
               </div>
             </div>
@@ -129,18 +131,14 @@
 <script setup>
 import { notify } from "@kyvg/vue3-notification";
 import { ref, computed, watchEffect } from "vue";
+import { storeToRefs } from "pinia";
+import { useStore } from "@/store";
 import { useI18n } from "vue-i18n";
-import {
-  STORE,
-  RECORDS,
-  LABEL,
-  UNIQUE_LABELS,
-  setLabel,
-  removeRecordLabel,
-  editRecordLabel,
-} from "@/store";
 
 const { t } = useI18n();
+const store = useStore();
+const { STORE, RECORDS, LABEL, UNIQUE_LABELS } = storeToRefs(store);
+const { SET_LABEL, REMOVE_RECORD_LABEL, EDIT_RECORD_LABEL } = store;
 
 const labelForEditingOriginal = ref(null);
 const labelForEditing = ref(null);
@@ -161,13 +159,13 @@ const editLabel = label => {
   labelForEditing.value = label;
 };
 const removeLabel = () => {
-  removeRecordLabel(labelForEditing.value);
+  REMOVE_RECORD_LABEL(labelForEditing.value);
   labelForEditing.value = null;
   notify({ type: "success", text: t("deleted") });
-  setLabel(null);
+  SET_LABEL(null);
 };
 const saveLabel = () => {
-  editRecordLabel(labelForEditingOriginal.value.trim().toLowerCase(), labelForEditing.value);
+  EDIT_RECORD_LABEL(labelForEditingOriginal.value.trim().toLowerCase(), labelForEditing.value);
   labelForEditing.value = null;
   notify({ type: "success", text: t("edited") });
 };

@@ -1,5 +1,6 @@
 import { nextTick } from "vue";
 import JSZip from "jszip";
+import { cloneDeep } from "lodash-es";
 import { saveAs } from "file-saver";
 import { notify } from "@kyvg/vue3-notification";
 import i18n from "@/i18n.js";
@@ -17,7 +18,7 @@ const getOptionalLeadingStringZero = string => {
 };
 
 export const exportStore = () => {
-  const backupStore = { ...STORE };
+  const backupStore = cloneDeep(STORE);
   SET_EXPORTED_DATE(Date.now());
 
   nextTick(async () => {

@@ -1,7 +1,7 @@
 {
   "newStore": "New store",
   "newStoreTitle": "Creating new store",
-  "intro": "Simple and secure password manager. Works client-side only with no backend. Uses encrypted file import/export. Helps to keep your passwords to yourself.",
+  "intro": "Simple and secure password manager. Works client-side only (offline too) with no backend. Uses encrypted file import/export. Helps to keep your passwords to yourself.",
   "export": "Export",
   "import": "Import",
   "password": "Password",

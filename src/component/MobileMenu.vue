@@ -21,11 +21,16 @@
         <submenu-icon class="h-5 fill-current" />
       </button>
     </div>
-    <transition name="fade-zoom" mode="out-in">
-      <the-sidebar v-if="leftMenuShown" class="mobile-menu__panel overflow-auto" />
+    <transition name="slide-from-left" mode="out-in">
+      <the-sidebar
+        v-if="leftMenuShown"
+        class="mobile-menu__panel overflow-auto border-shadow-right"
+      />
+    </transition>
+    <transition name="slide-from-right" mode="out-in">
       <div
-        v-else-if="rightMenuShown"
-        class="bg-gradient-radial-gray flex flex-col mobile-menu__panel justify-between overflow-auto py-8"
+        v-if="rightMenuShown"
+        class="bg-gradient-radial-gray flex flex-col mobile-menu__panel justify-between overflow-auto py-8 border-shadow-left"
       >
         <div class="grid gap-8">
           <div
@@ -98,7 +103,7 @@
 import { ref, watch } from "vue";
 import { storeToRefs } from "pinia";
 import { useI18n } from "vue-i18n";
-import { exportStore } from "@/utility";
+import { exportStore, handleBodyOverflow } from "@/utility";
 import MenuIcon from "@/icon/menu.svg";
 import SubmenuIcon from "@/icon/submenu.svg";
 import { useNewPasswordCreation } from "@/mixin";
@@ -111,16 +116,13 @@ const { END_SESSION } = store;
 
 const { newPasswordShown, create } = useNewPasswordCreation();
 
-const bodyElement = document.querySelector("body");
-
 const settingsShown = ref(false);
 const leftMenuShown = ref(false);
 const rightMenuShown = ref(false);
 
-watch([leftMenuShown, rightMenuShown], () => {
-  const method = leftMenuShown.value || rightMenuShown.value ? "add" : "remove";
-  bodyElement.classList[method]("overflow-hidden");
-});
+watch([leftMenuShown, rightMenuShown], () =>
+  handleBodyOverflow(leftMenuShown.value || rightMenuShown.value)
+);
 watch(LABEL, () => {
   leftMenuShown.value = false;
   rightMenuShown.value = false;
@@ -133,5 +135,13 @@ watch(LABEL, () => {
   &__panel {
     height: calc(100vh - 3rem);
   }
+}
+
+.border-shadow-right {
+  box-shadow: 0.1rem 0 0 0.05rem theme("colors.primary");
+}
+
+.border-shadow-left {
+  box-shadow: -0.1rem 0 0 0.05rem theme("colors.primary");
 }
 </style>

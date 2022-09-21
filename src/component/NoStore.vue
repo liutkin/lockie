@@ -7,7 +7,8 @@
       <the-logo class="hover:text-primary" />
       <lang-list />
     </div>
-    <div class="grid grid-cols-12 w-full">
+    <forbidden-service v-if="forbidden" />
+    <div v-else class="grid grid-cols-12 w-full">
       <div class="col-span-12 md:col-span-6 xl:col-span-4 md:col-start-4 xl:col-start-5">
         <transition name="fade-zoom" mode="out-in">
           <new-store v-if="newStoreShown" @cancel="newStoreShown = false" />
@@ -47,6 +48,7 @@ import { useI18n } from "vue-i18n";
 import { ref } from "vue";
 import { notify } from "@kyvg/vue3-notification";
 import DirectionIcon from "@/icon/direction.svg";
+import ct from "countries-and-timezones";
 
 const { t } = useI18n();
 
@@ -74,6 +76,8 @@ const importStore = ({ target: { files } }) => {
     })
     .catch(() => notify({ type: "error", text: t("errorUnzipping") }));
 };
+const { countries } = ct.getTimezone(Intl.DateTimeFormat().resolvedOptions().timeZone);
+const forbidden = countries.length === 1 && countries[0] === "RU";
 
 restoreCachedStore();
 </script>

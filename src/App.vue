@@ -1,9 +1,9 @@
 <template>
-  <div class="pt-12 lg:pt-0">
+  <div ref="appElement" class="lg:pt-0" :class="{ 'pt-12': STORE }">
     <mobile-menu v-if="STORE" class="lg:hidden" />
     <the-sidebar class="w-80 hidden lg:flex flex-column fixed top-0 bottom-0 left-0" />
-    <record-list ref="recordsElement" />
-    <transition name="slide-up" mode="out-in">
+    <record-list />
+    <transition name="slide-from-bottom" mode="out-in">
       <no-store v-if="!STORE" />
     </transition>
     <notifications position="bottom right" />
@@ -21,7 +21,7 @@ const store = useStore();
 const { STORE, LABEL, PAGE, PASSWORD } = storeToRefs(store);
 const { SET_EDITED_DATE, CACHE_STORE } = store;
 
-const recordsElement = ref(null);
+const appElement = ref(null);
 
 watch(
   [STORE, PASSWORD],
@@ -33,7 +33,5 @@ watch(
   },
   { deep: true }
 );
-watch([LABEL, PAGE], () =>
-  scrollIntoView(recordsElement.value.$el.parentNode, { align: { top: 0 } })
-);
+watch([LABEL, PAGE], () => scrollIntoView(appElement.value, { align: { top: 0 } }));
 </script>

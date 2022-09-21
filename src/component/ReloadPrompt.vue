@@ -10,7 +10,7 @@
       </div>
       <div class="flex justify-end items-center mt-4">
         <button class="btn btn--alt btn--sm mr-2" @click="close">{{ t("close") }}</button>
-        <button v-if="needRefresh" class="btn btn--primary btn--sm" @click="updateServiceWorker">
+        <button v-if="needRefresh" class="btn btn--primary btn--sm" @click="updateServiceWorker()">
           {{ t("reload") }}
         </button>
       </div>

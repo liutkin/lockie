@@ -82,7 +82,7 @@
               <span class="text-sm text-gray-400">({{ t("slideRightToPurge") }})</span>
             </div>
             <input
-              ref="purgeRangeInput"
+              ref="purgeRangeInputElement"
               v-model.number="purge.progress"
               type="range"
               min="0"
@@ -216,7 +216,7 @@ const { dates, updateDates, stopUpdatingDates } = useDates([
 ]);
 
 const label = ref(null);
-const purgeRangeInput = ref(null);
+const purgeRangeInputElement = ref(null);
 const form = ref({
   id: null,
   title: null,
@@ -332,7 +332,7 @@ const cancelPurge = () => {
   purge.value.progress = 0;
 };
 
-onClickOutside(purgeRangeInput, () => (purge.value.progress = 0));
+onClickOutside(purgeRangeInputElement, () => (purge.value.progress = 0));
 
 watch(
   () => purge.value.progress,

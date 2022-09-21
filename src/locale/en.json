@@ -16,7 +16,7 @@
   "settings": "Settings",
   "newPassword": "New password",
   "search": "Search",
-  "title": "Title / URL",
+  "title": "Title or URL",
   "notes": "Notes",
   "labels": "Labels",
   "label": "Label",
@@ -53,5 +53,7 @@
   "slideRightToDelete": "Slide right to delete",
   "slideRightToPurge": "Slide right to remove from store",
   "readyToOffline": "App ready to work offline",
+  "forbiddenService": "Since Russia commits genocide, terror and countless war crimes against the Ukrainian people, the application is not available for its regions.",
+  "gloryToUkraine": "Glory to Ukraine!",
   "newContentAvailable": "New content available, click on reload button to update"
 }

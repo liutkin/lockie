@@ -1,5 +1,5 @@
 <template>
-  <div ref="inputContainer">
+  <div ref="inputContainerElement">
     <div class="w-full flex flex-col relative">
       <transition name="fade-zoom">
         <ul
@@ -128,7 +128,7 @@ import { onClickOutside } from "@vueuse/core";
 import { computed, ref, watch, onMounted } from "vue";
 import { copyToClipboard } from "@/utility";
 
-const getRandomId = () => `id_${Math.random().toString(16).substring(3)}`;
+const randomId = `input_id_${Math.random().toString(16).substring(3)}`;
 
 const props = defineProps({
   type: {
@@ -157,14 +157,13 @@ const props = defineProps({
 });
 const emit = defineEmits(["update:modelValue", "clear", "autocomplete"]);
 
-const inputContainer = ref(null);
+const inputContainerElement = ref(null);
 const focus = ref(false);
 const copied = ref(false);
 const visible = ref(false);
 const input = ref(null);
 
 const strength = computed(() => (props.modelValue ? zxcvbn(props.modelValue).score : 0));
-const randomId = computed(() => `input_${getRandomId()}`);
 const activeType = computed(() => (props.type === "text" || visible.value ? "text" : "password"));
 const filteredAutocompleteList = computed(() =>
   props.autocompleteList
@@ -176,10 +175,15 @@ const filteredAutocompleteList = computed(() =>
     .slice(0, 5)
 );
 
-watch(copied, () => copied.value && setTimeout(() => (copied.value = false), 1000));
+watch(copied, () => {
+  if (!copied.value) return;
+  setTimeout(() => {
+    copied.value = false;
+  }, 1000);
+});
 
 onMounted(() => props.autofocus && input.value.focus());
-onClickOutside(inputContainer, () => (focus.value = false));
+onClickOutside(inputContainerElement, () => (focus.value = false));
 </script>
 
 <style scoped>

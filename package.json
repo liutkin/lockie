@@ -14,6 +14,7 @@
     "@kyvg/vue3-notification": "^2.4.1",
     "@mdi/js": "^7.0.96",
     "@vueuse/core": "^9.1.1",
+    "countries-and-timezones": "^3.3.0",
     "crypto-js": "^4.1.1",
     "file-saver": "^2.0.5",
     "is-url": "^1.2.4",
@@ -48,7 +49,7 @@
     "unplugin-vue-components": "^0.22.4",
     "vite": "^3.0.7",
     "vite-plugin-html": "^3.2.0",
-    "vite-plugin-pwa": "^0.12.3",
+    "vite-plugin-pwa": "^0.12.7",
     "vite-svg-loader": "^3.4.0"
   },
   "lint-staged": {

@@ -15,10 +15,9 @@
 </template>
 
 <script setup>
-import { onClickOutside } from "@vueuse/core/index";
+import { onClickOutside } from "@vueuse/core";
 import { ref, watchEffect } from "vue";
-
-const bodyElement = document.querySelector("body");
+import { handleBodyOverflow } from "@/utility";
 
 const props = defineProps({
   modelValue: Boolean,
@@ -27,11 +26,6 @@ const emit = defineEmits(["update:modelValue"]);
 
 const modalElement = ref(null);
 
-const handleBodyOverflow = () =>
-  props.modelValue
-    ? bodyElement.classList.add("overflow-hidden")
-    : bodyElement.classList.remove("overflow-hidden");
-
 onClickOutside(modalElement, () => emit("update:modelValue", false));
-watchEffect(handleBodyOverflow);
+watchEffect(() => handleBodyOverflow(props.modelValue));
 </script>

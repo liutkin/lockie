@@ -19,16 +19,12 @@ export default defineConfig(({ command, mode }) => {
       Components({ dirs: ["src/component"], extensions: ["vue"], deep: true }),
       svgLoader(),
       VitePWA({
-        mode: "development",
-        base: "/",
-        includeAssets: ["favicon.svg", "favicon.ico", "robots.txt", "apple-touch-icon.png"],
-        workbox: {
-          maximumFileSizeToCacheInBytes: 5000000,
-        },
+        registerType: "autoUpdate",
         manifest: {
           name: env.VITE_APP_NAME,
           short_name: env.VITE_APP_NAME,
-          description: "Password manager",
+          description:
+            "Simple and secure password manager. Works client-side only with no backend. Uses encrypted file import/export. Helps to keep your passwords to yourself.",
           theme_color: "#ffffff",
           icons: [
             {

@@ -20,6 +20,10 @@ export default defineConfig(({ command, mode }) => {
       svgLoader(),
       VitePWA({
         registerType: "autoUpdate",
+        workbox: {
+          globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+          maximumFileSizeToCacheInBytes: 5000000,
+        },
         manifest: {
           name: env.VITE_APP_NAME,
           short_name: env.VITE_APP_NAME,

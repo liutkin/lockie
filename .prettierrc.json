@@ -1,15 +1,8 @@
 {
-  "printWidth": 100,
-  "tabWidth": 2,
-  "singleQuote": false,
-  "trailingComma": "es5",
-  "bracketSpacing": true,
-  "semi": true,
-  "useTabs": false,
-  "proseWrap": "preserve",
-  "arrowParens": "avoid",
-  "htmlWhitespaceSensitivity": "css",
-  "endOfLine": "auto",
-  "quoteProps": "as-needed",
-  "eslintIntegration": true
+    "$schema": "https://json.schemastore.org/prettierrc",
+    "semi": false,
+    "tabWidth": 4,
+    "singleQuote": true,
+    "printWidth": 100,
+    "trailingComma": "es5"
 }

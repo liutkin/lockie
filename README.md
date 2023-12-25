@@ -1,27 +1,46 @@
 # lockie
 
-Simple and secure password manager.
+This template should help get you started developing with Vue 3 in Vite.
 
-* No backend
-* AES encrypted file import/export
-* Works offline via PWA
+## Recommended IDE Setup
 
-## Development
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-### Clone repo and install dependencies
-```
-npm i
+## Type Support for `.vue` Imports in TS
+
+TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+
+If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+
+1. Disable the built-in TypeScript Extension
+    1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
+    2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
+2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+
+## Customize configuration
+
+See [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## Project Setup
+
+```sh
+npm install
 ```
 
-### Start project with hot-reloads
-```
-npm start
+### Compile and Hot-Reload for Development
+
+```sh
+npm run dev
 ```
 
-### Make minified build for production
-```
+### Type-Check, Compile and Minify for Production
+
+```sh
 npm run build
 ```
 
-### Customize configuration
-See [Configuration Reference](https://vitejs.dev/guide/).
+### Lint with [ESLint](https://eslint.org/)
+
+```sh
+npm run lint
+```

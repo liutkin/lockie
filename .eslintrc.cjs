@@ -7,9 +7,12 @@ module.exports = {
         'plugin:vue/vue3-essential',
         'eslint:recommended',
         '@vue/eslint-config-typescript',
-        '@vue/eslint-config-prettier/skip-formatting',
     ],
     parserOptions: {
         ecmaVersion: 'latest',
+    },
+    rules: {
+        'semi': ['error', 'never'],
+        'template-curly-spacing': ['error', 'always'],
     },
 }

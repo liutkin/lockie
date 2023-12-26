@@ -135,7 +135,7 @@ import { onClickOutside } from '@vueuse/core'
 import { computed, ref, watch, onMounted } from 'vue'
 import { copyToClipboard } from '@/utility'
 
-const randomId = `input_id_${Math.random().toString(16).substring(3)}`
+const randomId = `input_id_${ Math.random().toString(16).substring(3) }`
 
 const props = defineProps({
     type: {

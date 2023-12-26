@@ -132,7 +132,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { notify } from '@kyvg/vue3-notification'
 import { ref, computed, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'

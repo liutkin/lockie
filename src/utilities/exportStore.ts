@@ -12,12 +12,12 @@ const store = useStore(pinia)
 const { STORE } = storeToRefs(store)
 const { SET_EXPORTED_DATE, SET_STORE } = store
 
-const getOptionalLeadingStringZero = (string) => {
-    const str = string.toString()
-    return str.toString().length < 2 ? `0${str}` : str.toString()
+const getOptionalLeadingStringZero = (n: number): string => {
+    const str = n.toString()
+    return str.length < 2 ? `0${ str }` : str
 }
 
-export const exportStore = () => {
+export const exportStore = (): void => {
     const backupStore = cloneDeep(STORE)
     SET_EXPORTED_DATE(Date.now())
 
@@ -27,35 +27,33 @@ export const exportStore = () => {
             const zip = new JSZip()
             const date = new Date()
 
-            const formattedDate = `${date.getFullYear()}-${getOptionalLeadingStringZero(
+            const formattedDate = `${ date.getFullYear() }-${ getOptionalLeadingStringZero(
                 date.getMonth() + 1
-            )}-${getOptionalLeadingStringZero(date.getDate())}`
-            const formattedTime = `${getOptionalLeadingStringZero(
+            ) }-${ getOptionalLeadingStringZero(date.getDate()) }`
+            const formattedTime = `${ getOptionalLeadingStringZero(
                 date.getHours()
-            )}-${getOptionalLeadingStringZero(date.getMinutes())}-${getOptionalLeadingStringZero(
+            ) }-${ getOptionalLeadingStringZero(date.getMinutes()) }-${ getOptionalLeadingStringZero(
                 date.getSeconds()
-            )}`
+            ) }`
 
-            const zipFilename = `store_${formattedDate}@${formattedTime}.${
+            const zipFilename = `store_${ formattedDate }@${ formattedTime }.${
                 import.meta.env.VITE_APP_NAME
             }`
 
-            zip.file('db', encryptedStoreString)
+            zip.file('db', encryptedStoreString as string)
 
             saveAs(
                 await zip.generateAsync({
                     type: 'blob',
                     compression: 'DEFLATE',
-                    compressionOptions: {
-                        level: 9,
-                    },
+                    compressionOptions: { level: 9 },
                 }),
                 zipFilename
             )
             notify({ type: 'success', text: i18n.global.t('exported') })
         } catch (error) {
             SET_STORE(null, backupStore)
-            notify({ type: 'error', text: error })
+            notify({ type: 'error', text: error as string })
         }
     })
 }

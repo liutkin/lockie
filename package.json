@@ -14,8 +14,23 @@
         "format": "prettier --write ./"
     },
     "dependencies": {
+        "@kyvg/vue3-notification": "^3.1.3",
+        "@mdi/js": "^7.3.67",
+        "@vueuse/core": "^10.7.0",
+        "countries-and-timezones": "^3.6.0",
+        "crypto-js": "^4.2.0",
+        "file-saver": "^2.0.5",
+        "generate-password": "^1.7.1",
+        "is-url": "^1.2.4",
+        "jszip": "^3.10.1",
+        "lodash-es": "^4.17.21",
+        "luxon": "^3.4.4",
+        "mdi-vue": "^3.0.13",
         "pinia": "^2.1.7",
-        "vue": "^3.3.11"
+        "uuid": "^9.0.1",
+        "vue": "^3.3.11",
+        "vue-i18n": "^9.8.0",
+        "zxcvbn": "^4.4.2"
     },
     "devDependencies": {
         "@rushstack/eslint-patch": "^1.3.3",

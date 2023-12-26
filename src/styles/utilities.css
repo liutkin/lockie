@@ -1,0 +1,36 @@
+@layer utilities {
+    .bg-gradient-radial-gray {
+        background: radial-gradient(ellipse at center, #f7f7f7 0%, #f1f1f1 100%) fixed;
+        @media (prefers-color-scheme: dark) {
+            background: radial-gradient(ellipse at center, #172e42 0%, #0f1724 100%) fixed;
+        }
+    }
+
+    .bg-gradient-radial-dark {
+        background: radial-gradient(
+            ellipse at center,
+            rgba(0, 0, 0, 0.6) 0%,
+            rgba(0, 0, 0, 0.85) 100%
+        );
+    }
+
+    .bg-gradient-gray {
+        background: linear-gradient(45deg, #f3f3f3 0%, #e8e8e8 100%) fixed;
+        @media (prefers-color-scheme: dark) {
+            background: radial-gradient(ellipse at center, #14283a 0%, rgb(15 23 36) 100%) fixed;
+        }
+    }
+
+    .animate-fade-zoom {
+        animation-name: fade-zoom;
+        animation-duration: 0.25s;
+        animation-fill-mode: forwards;
+    }
+
+    .bg-gray {
+        background-color: #efefef;
+        @media (prefers-color-scheme: dark) {
+            background-color: #132131;
+        }
+    }
+}

@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import IconTerrorist from '@/icon/terrorist.svg'
+
+const { t } = useI18n()
+</script>
+
 <template>
     <div class="grid grid-cols-12 w-full">
         <div
@@ -6,18 +13,11 @@
             <icon-terrorist class="h-24 fill-current" />
             <p class="my-8">{{ t('forbiddenService') }}</p>
             <strong class="glory uppercase tracking-widest text-2xl md:text-3xl">{{
-                t('gloryToUkraine')
-            }}</strong>
+                    t('gloryToUkraine')
+                }}</strong>
         </div>
     </div>
 </template>
-
-<script setup>
-import { useI18n } from 'vue-i18n'
-import IconTerrorist from '@/icon/terrorist.svg'
-
-const { t } = useI18n()
-</script>
 
 <style scoped>
 .glory {

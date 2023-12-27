@@ -1,3 +1,67 @@
+<script lang="ts" setup>
+import zxcvbn from 'zxcvbn'
+import { onClickOutside } from '@vueuse/core'
+import { computed, ref, watch, onMounted } from 'vue'
+import { copyToClipboard } from '@/utility'
+
+const randomId = `input_id_${ Math.random().toString(16).substring(3) }`
+
+const props = defineProps({
+    type: {
+        type: String,
+        default: 'text',
+        validator: (type) => ['text', 'password'].includes(type),
+    },
+    autofocus: Boolean,
+    copyable: Boolean,
+    visibility: Boolean,
+    clearable: Boolean,
+    textarea: Boolean,
+    strengthIndicator: Boolean,
+    modelValue: {
+        type: String,
+        default: '',
+    },
+    placeholder: {
+        type: String,
+        default: '',
+    },
+    autocompleteList: {
+        type: Array,
+        default: () => [],
+    },
+})
+const emit = defineEmits(['update:modelValue', 'clear', 'autocomplete'])
+
+const inputContainerElement = ref(null)
+const focus = ref(false)
+const copied = ref(false)
+const visible = ref(false)
+const input = ref(null)
+
+const strength = computed(() => (props.modelValue ? zxcvbn(props.modelValue).score : 0))
+const activeType = computed(() => (props.type === 'text' || visible.value ? 'text' : 'password'))
+const filteredAutocompleteList = computed(() =>
+    props.autocompleteList
+        .filter(({ name }) =>
+            name.toLowerCase().includes(props.modelValue ? props.modelValue.toLowerCase() : '')
+        )
+        .sort((prev, next) => (prev.count < next.count ? 1 : -1))
+        .map(({ name }) => name)
+        .slice(0, 5)
+)
+
+watch(copied, () => {
+    if (!copied.value) return
+    setTimeout(() => {
+        copied.value = false
+    }, 1000)
+})
+
+onMounted(() => props.autofocus && input.value.focus())
+onClickOutside(inputContainerElement, () => (focus.value = false))
+</script>
+
 <template>
     <div ref="inputContainerElement">
         <div class="w-full flex flex-col relative">
@@ -128,70 +192,6 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import zxcvbn from 'zxcvbn'
-import { onClickOutside } from '@vueuse/core'
-import { computed, ref, watch, onMounted } from 'vue'
-import { copyToClipboard } from '@/utility'
-
-const randomId = `input_id_${ Math.random().toString(16).substring(3) }`
-
-const props = defineProps({
-    type: {
-        type: String,
-        default: 'text',
-        validator: (type) => ['text', 'password'].includes(type),
-    },
-    autofocus: Boolean,
-    copyable: Boolean,
-    visibility: Boolean,
-    clearable: Boolean,
-    textarea: Boolean,
-    strengthIndicator: Boolean,
-    modelValue: {
-        type: String,
-        default: '',
-    },
-    placeholder: {
-        type: String,
-        default: '',
-    },
-    autocompleteList: {
-        type: Array,
-        default: () => [],
-    },
-})
-const emit = defineEmits(['update:modelValue', 'clear', 'autocomplete'])
-
-const inputContainerElement = ref(null)
-const focus = ref(false)
-const copied = ref(false)
-const visible = ref(false)
-const input = ref(null)
-
-const strength = computed(() => (props.modelValue ? zxcvbn(props.modelValue).score : 0))
-const activeType = computed(() => (props.type === 'text' || visible.value ? 'text' : 'password'))
-const filteredAutocompleteList = computed(() =>
-    props.autocompleteList
-        .filter(({ name }) =>
-            name.toLowerCase().includes(props.modelValue ? props.modelValue.toLowerCase() : '')
-        )
-        .sort((prev, next) => (prev.count < next.count ? 1 : -1))
-        .map(({ name }) => name)
-        .slice(0, 5)
-)
-
-watch(copied, () => {
-    if (!copied.value) return
-    setTimeout(() => {
-        copied.value = false
-    }, 1000)
-})
-
-onMounted(() => props.autofocus && input.value.focus())
-onClickOutside(inputContainerElement, () => (focus.value = false))
-</script>
 
 <style scoped>
 .input {

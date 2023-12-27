@@ -1,3 +1,10 @@
+<script lang="ts" setup>
+import { useStore } from '@/store'
+
+const store = useStore()
+const { SET_LABEL } = store
+</script>
+
 <template>
     <div class="flex cursor-pointer" @click="SET_LABEL(null)">
         <svg
@@ -12,10 +19,3 @@
         </svg>
     </div>
 </template>
-
-<script setup>
-import { useStore } from '@/store'
-
-const store = useStore()
-const { SET_LABEL } = store
-</script>

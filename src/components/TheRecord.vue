@@ -1,3 +1,65 @@
+<script lang="ts" setup>
+import isUrl from 'is-url'
+import { useI18n } from 'vue-i18n'
+import { notify } from '@kyvg/vue3-notification'
+import { ref, watch, computed } from 'vue'
+import { useStore } from '@/store'
+import { copyToClipboard } from '@/utility'
+
+const { t } = useI18n()
+const store = useStore()
+const { DELETE_RECORD, EDIT_RECORD, RESTORE_RECORD, PURGE_RECORD } = store
+
+const props = defineProps({
+    record: {
+        type: Object,
+        required: true,
+        default: () => ({}),
+    },
+})
+
+const titleCopied = ref(false)
+const loginCopied = ref(false)
+const passwordCopied = ref(false)
+const passwordVisible = ref(false)
+const detailsShown = ref(false)
+
+const isTitleUrl = computed(() => isUrl(props.record.title))
+const formattedPassword = computed(() =>
+    passwordVisible.value
+        ? props.record.password
+        : props.record.password
+              .split('')
+              .map(() => '٭')
+              .join('')
+)
+
+watch(titleCopied, (copied) => copied && setTimeout(() => (titleCopied.value = false), 1000))
+watch(loginCopied, (copied) => copied && setTimeout(() => (loginCopied.value = false), 1000))
+watch(passwordCopied, (copied) => copied && setTimeout(() => (passwordCopied.value = false), 1000))
+
+const save = (record) => {
+    EDIT_RECORD(record)
+    detailsShown.value = false
+    notify({ type: 'success', text: t('saved') })
+}
+const remove = (id) => {
+    DELETE_RECORD(id)
+    detailsShown.value = false
+    notify({ type: 'success', text: t('deleted') })
+}
+const restore = (id) => {
+    RESTORE_RECORD(id)
+    detailsShown.value = false
+    notify({ type: 'success', text: t('restored') })
+}
+const purge = (id) => {
+    PURGE_RECORD(id)
+    detailsShown.value = false
+    notify({ type: 'success', text: t('purged') })
+}
+</script>
+
 <template>
     <div
         class="record grid grid-cols-12 gap-x-8 border-b border-gray-200 dark:border-white dark:border-opacity-5 py-8 xl:py-0"
@@ -145,68 +207,6 @@
         </transition>
     </div>
 </template>
-
-<script setup>
-import isUrl from 'is-url'
-import { useI18n } from 'vue-i18n'
-import { notify } from '@kyvg/vue3-notification'
-import { ref, watch, computed } from 'vue'
-import { useStore } from '@/store'
-import { copyToClipboard } from '@/utility'
-
-const { t } = useI18n()
-const store = useStore()
-const { DELETE_RECORD, EDIT_RECORD, RESTORE_RECORD, PURGE_RECORD } = store
-
-const props = defineProps({
-    record: {
-        type: Object,
-        required: true,
-        default: () => ({}),
-    },
-})
-
-const titleCopied = ref(false)
-const loginCopied = ref(false)
-const passwordCopied = ref(false)
-const passwordVisible = ref(false)
-const detailsShown = ref(false)
-
-const isTitleUrl = computed(() => isUrl(props.record.title))
-const formattedPassword = computed(() =>
-    passwordVisible.value
-        ? props.record.password
-        : props.record.password
-              .split('')
-              .map(() => '٭')
-              .join('')
-)
-
-watch(titleCopied, (copied) => copied && setTimeout(() => (titleCopied.value = false), 1000))
-watch(loginCopied, (copied) => copied && setTimeout(() => (loginCopied.value = false), 1000))
-watch(passwordCopied, (copied) => copied && setTimeout(() => (passwordCopied.value = false), 1000))
-
-const save = (record) => {
-    EDIT_RECORD(record)
-    detailsShown.value = false
-    notify({ type: 'success', text: t('saved') })
-}
-const remove = (id) => {
-    DELETE_RECORD(id)
-    detailsShown.value = false
-    notify({ type: 'success', text: t('deleted') })
-}
-const restore = (id) => {
-    RESTORE_RECORD(id)
-    detailsShown.value = false
-    notify({ type: 'success', text: t('restored') })
-}
-const purge = (id) => {
-    PURGE_RECORD(id)
-    detailsShown.value = false
-    notify({ type: 'success', text: t('purged') })
-}
-</script>
 
 <style scoped>
 .record {

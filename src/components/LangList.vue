@@ -1,3 +1,12 @@
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { watchEffect } from 'vue'
+
+const { locale, availableLocales } = useI18n()
+
+watchEffect(() => window.localStorage.setItem('locale', locale.value))
+</script>
+
 <template>
     <ul class="my-0 pl-0 list-none flex">
         <li v-for="langOption in availableLocales" :key="langOption">
@@ -12,12 +21,3 @@
         </li>
     </ul>
 </template>
-
-<script setup>
-import { useI18n } from 'vue-i18n'
-import { watchEffect } from 'vue'
-
-const { locale, availableLocales } = useI18n()
-
-watchEffect(() => window.localStorage.setItem('locale', locale.value))
-</script>

@@ -1,3 +1,74 @@
+<script lang="ts" setup>
+import { ref, computed, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+import { useStore } from '@/store'
+
+const { t } = useI18n()
+const store = useStore()
+const { STORE, RECORDS, LABEL, PAGE } = storeToRefs(store)
+const { SET_PAGE } = store
+
+const recordsPerPage = 10
+
+const search = ref(null)
+
+const labeledRecords = computed(() => {
+    const filterAllNonTrashed = ({ trash }) => !trash
+    const filterTrashed = ({ trash }) => trash
+    const filterActiveNonTrashed = ({ labels, trash }) => labels.includes(LABEL.value) && !trash
+
+    const method = LABEL.value
+        ? filterActiveNonTrashed
+        : LABEL.value === null
+          ? filterAllNonTrashed
+          : filterTrashed
+    return RECORDS.value.filter(method)
+})
+const filteredRecords = computed(() =>
+    search.value && search.value.length >= 3
+        ? labeledRecords.value.filter((record) =>
+              ['title', 'login', 'password', 'notes'].some(
+                  (key) => record[key] && record[key].toLowerCase().includes(search.value)
+              )
+          )
+        : labeledRecords.value
+)
+const totalPages = computed(() => Math.ceil(filteredRecords.value.length / recordsPerPage))
+const paginatedRecords = computed(() =>
+    filteredRecords.value.slice(
+        (PAGE.value - 1) * recordsPerPage,
+        (PAGE.value - 1) * recordsPerPage + recordsPerPage
+    )
+)
+
+watch(LABEL, () => SET_PAGE(1))
+
+const getPageNumber = (index) => {
+    switch (index) {
+        case 1: {
+            return PAGE.value === 1 || totalPages.value === 2
+                ? 1
+                : PAGE.value === totalPages.value
+                  ? PAGE.value - 2
+                  : PAGE.value - 1
+        }
+        case 2:
+            return PAGE.value === 1
+                ? PAGE.value + 1
+                : PAGE.value !== totalPages.value || totalPages.value === 2
+                  ? PAGE.value
+                  : PAGE.value - 1
+        default:
+            return PAGE.value === totalPages.value
+                ? totalPages.value
+                : PAGE.value >= 2
+                  ? PAGE.value + 1
+                  : PAGE.value + 2
+    }
+}
+</script>
+
 <template>
     <main class="lg:ml-80 bg-gradient-radial-gray lg:p-8 min-h-screen">
         <menu-bar @search="(str) => (search = str)" />
@@ -108,77 +179,6 @@
         </template>
     </main>
 </template>
-
-<script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useI18n } from 'vue-i18n'
-import { useStore } from '@/store'
-
-const { t } = useI18n()
-const store = useStore()
-const { STORE, RECORDS, LABEL, PAGE } = storeToRefs(store)
-const { SET_PAGE } = store
-
-const recordsPerPage = 10
-
-const search = ref(null)
-
-const labeledRecords = computed(() => {
-    const filterAllNonTrashed = ({ trash }) => !trash
-    const filterTrashed = ({ trash }) => trash
-    const filterActiveNonTrashed = ({ labels, trash }) => labels.includes(LABEL.value) && !trash
-
-    const method = LABEL.value
-        ? filterActiveNonTrashed
-        : LABEL.value === null
-          ? filterAllNonTrashed
-          : filterTrashed
-    return RECORDS.value.filter(method)
-})
-const filteredRecords = computed(() =>
-    search.value && search.value.length >= 3
-        ? labeledRecords.value.filter((record) =>
-              ['title', 'login', 'password', 'notes'].some(
-                  (key) => record[key] && record[key].toLowerCase().includes(search.value)
-              )
-          )
-        : labeledRecords.value
-)
-const totalPages = computed(() => Math.ceil(filteredRecords.value.length / recordsPerPage))
-const paginatedRecords = computed(() =>
-    filteredRecords.value.slice(
-        (PAGE.value - 1) * recordsPerPage,
-        (PAGE.value - 1) * recordsPerPage + recordsPerPage
-    )
-)
-
-watch(LABEL, () => SET_PAGE(1))
-
-const getPageNumber = (index) => {
-    switch (index) {
-        case 1: {
-            return PAGE.value === 1 || totalPages.value === 2
-                ? 1
-                : PAGE.value === totalPages.value
-                  ? PAGE.value - 2
-                  : PAGE.value - 1
-        }
-        case 2:
-            return PAGE.value === 1
-                ? PAGE.value + 1
-                : PAGE.value !== totalPages.value || totalPages.value === 2
-                  ? PAGE.value
-                  : PAGE.value - 1
-        default:
-            return PAGE.value === totalPages.value
-                ? totalPages.value
-                : PAGE.value >= 2
-                  ? PAGE.value + 1
-                  : PAGE.value + 2
-    }
-}
-</script>
 
 <style scoped>
 .pagination-btn {

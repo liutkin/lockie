@@ -1,127 +1,4 @@
-<template>
-    <form class="relative" @submit.prevent="unlocking = true">
-        <div class="absolute opacity-70 bottom-full left-1/2 transform -translate-x-1/2 mb-8">
-            <div
-                class="flex"
-                :class="{ 'animate-bob': unlockingAttemptsLeft === 3 && !decryptedStore }"
-            >
-                <lock-good-icon v-if="decryptedStore" class="w-12 md:w-20 fill-current" />
-                <component v-else :is="lockIcon" class="w-12 md:w-20 fill-current" />
-                <transition name="fade-zoom"
-                    ><b
-                        v-if="unlockingAttemptsLeft === 3 && !decryptedStore"
-                        class="absolute top-0 left-full"
-                        >zZz</b
-                    ></transition
-                >
-            </div>
-        </div>
-        <div
-            :class="{ 'opacity-0': unlockingAttemptsLeft < 1 || decryptedStore }"
-            class="transition-all duration-300"
-        >
-            <div class="flex justify-between items-center">
-                <div>
-                    <div class="text-2xl font-bold mb-1">
-                        {{ t('unlockingStore') }}
-                        <span v-if="existingDates.length" class="opacity-30"
-                            >({{ t('cached') }})</span
-                        >
-                    </div>
-                    <ul
-                        v-if="existingDates.length"
-                        class="my-0 pl-0 list-none flex flex-wrap items-center text-xs"
-                    >
-                        <li v-for="date in existingDates" :key="date.key" :title="date.local">
-                            {{ t(date.key) }}: {{ date.relative }}
-                        </li>
-                    </ul>
-                </div>
-                <div class="flex opacity-70 ml-4">
-                    <lock-mechanism-icon
-                        class="h-14 fill-current"
-                        :class="{ 'animate-rotate': unlocking }"
-                    />
-                </div>
-            </div>
-            <div class="grid gap-y-8 my-8">
-                <div class="col-span-12 relative">
-                    <base-input
-                        ref="passwordUnlockInput"
-                        v-model.trim="passwordUnlock"
-                        visibility
-                        autofocus
-                        type="password"
-                        :disabled="unlocking"
-                        class="col-span-12"
-                        >{{ t('password') }}
-                    </base-input>
-                </div>
-            </div>
-            <div class="grid gap-y-8 lg:flex justify-between">
-                <div
-                    v-if="existingDates.length"
-                    class="hidden lg:flex items-center col-span-12 md:col-span-6"
-                >
-                    <div class="flex relative mr-4">
-                        <button
-                            type="button"
-                            class="btn btn--red"
-                            @mousedown="startCancellation"
-                            @mouseup="cancelCancellation"
-                        >
-                            {{ t('cancel') }}
-                        </button>
-                        <div
-                            :class="{ 'progress--active': cancellationProgress }"
-                            class="progress absolute top-full left-0 h-2"
-                        />
-                    </div>
-                    <div class="text-xs text-gray-400 dark:text-white dark:text-opacity-40">
-                        {{ t('pressAndHoldToCancel') }}
-                    </div>
-                </div>
-                <button
-                    v-else
-                    type="button"
-                    class="btn btn--alt col-span-12 order-1 lg:order-none"
-                    @click="emit('cancel')"
-                >
-                    {{ t('cancel') }}
-                </button>
-                <button
-                    :disabled="!passwordUnlock || unlocking"
-                    class="btn btn--primary col-span-12"
-                >
-                    <span class="flex mr-2">
-                        <mdicon
-                            :name="unlocking ? 'lock-open-variant-outline' : 'lock-open-outline'"
-                            :size="18"
-                        />
-                    </span>
-                    {{ unlocking ? `${t('unlocking')}...` : t('unlock') }}
-                </button>
-                <div v-if="existingDates.length" class="lg:hidden col-span-12">
-                    <div class="mb-2">
-                        {{ t('cancel') }}
-                        <span class="text-sm text-gray-400">({{ t('slideRightToCancel') }})</span>
-                    </div>
-                    <input
-                        ref="cancelRangeInput"
-                        v-model.number="cancel"
-                        type="range"
-                        min="0"
-                        max="100"
-                        step="1"
-                        class="w-full"
-                    />
-                </div>
-            </div>
-        </div>
-    </form>
-</template>
-
-<script setup>
+<script lang="ts" setup>
 import crypto from 'crypto-js'
 import { onClickOutside } from '@vueuse/core'
 import { notify } from '@kyvg/vue3-notification'
@@ -238,6 +115,129 @@ onUnmounted(stopUpdatingDates)
 restoreCachedDates()
 updateDates()
 </script>
+
+<template>
+    <form class="relative" @submit.prevent="unlocking = true">
+        <div class="absolute opacity-70 bottom-full left-1/2 transform -translate-x-1/2 mb-8">
+            <div
+                class="flex"
+                :class="{ 'animate-bob': unlockingAttemptsLeft === 3 && !decryptedStore }"
+            >
+                <lock-good-icon v-if="decryptedStore" class="w-12 md:w-20 fill-current" />
+                <component v-else :is="lockIcon" class="w-12 md:w-20 fill-current" />
+                <transition name="fade-zoom"
+                ><b
+                    v-if="unlockingAttemptsLeft === 3 && !decryptedStore"
+                    class="absolute top-0 left-full"
+                >zZz</b
+                ></transition
+                >
+            </div>
+        </div>
+        <div
+            :class="{ 'opacity-0': unlockingAttemptsLeft < 1 || decryptedStore }"
+            class="transition-all duration-300"
+        >
+            <div class="flex justify-between items-center">
+                <div>
+                    <div class="text-2xl font-bold mb-1">
+                        {{ t('unlockingStore') }}
+                        <span v-if="existingDates.length" class="opacity-30"
+                        >({{ t('cached') }})</span
+                        >
+                    </div>
+                    <ul
+                        v-if="existingDates.length"
+                        class="my-0 pl-0 list-none flex flex-wrap items-center text-xs"
+                    >
+                        <li v-for="date in existingDates" :key="date.key" :title="date.local">
+                            {{ t(date.key) }}: {{ date.relative }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="flex opacity-70 ml-4">
+                    <lock-mechanism-icon
+                        class="h-14 fill-current"
+                        :class="{ 'animate-rotate': unlocking }"
+                    />
+                </div>
+            </div>
+            <div class="grid gap-y-8 my-8">
+                <div class="col-span-12 relative">
+                    <base-input
+                        ref="passwordUnlockInput"
+                        v-model.trim="passwordUnlock"
+                        visibility
+                        autofocus
+                        type="password"
+                        :disabled="unlocking"
+                        class="col-span-12"
+                    >{{ t('password') }}
+                    </base-input>
+                </div>
+            </div>
+            <div class="grid gap-y-8 lg:flex justify-between">
+                <div
+                    v-if="existingDates.length"
+                    class="hidden lg:flex items-center col-span-12 md:col-span-6"
+                >
+                    <div class="flex relative mr-4">
+                        <button
+                            type="button"
+                            class="btn btn--red"
+                            @mousedown="startCancellation"
+                            @mouseup="cancelCancellation"
+                        >
+                            {{ t('cancel') }}
+                        </button>
+                        <div
+                            :class="{ 'progress--active': cancellationProgress }"
+                            class="progress absolute top-full left-0 h-2"
+                        />
+                    </div>
+                    <div class="text-xs text-gray-400 dark:text-white dark:text-opacity-40">
+                        {{ t('pressAndHoldToCancel') }}
+                    </div>
+                </div>
+                <button
+                    v-else
+                    type="button"
+                    class="btn btn--alt col-span-12 order-1 lg:order-none"
+                    @click="emit('cancel')"
+                >
+                    {{ t('cancel') }}
+                </button>
+                <button
+                    :disabled="!passwordUnlock || unlocking"
+                    class="btn btn--primary col-span-12"
+                >
+                    <span class="flex mr-2">
+                        <mdicon
+                            :name="unlocking ? 'lock-open-variant-outline' : 'lock-open-outline'"
+                            :size="18"
+                        />
+                    </span>
+                    {{ unlocking ? `${t('unlocking')}...` : t('unlock') }}
+                </button>
+                <div v-if="existingDates.length" class="lg:hidden col-span-12">
+                    <div class="mb-2">
+                        {{ t('cancel') }}
+                        <span class="text-sm text-gray-400">({{ t('slideRightToCancel') }})</span>
+                    </div>
+                    <input
+                        ref="cancelRangeInput"
+                        v-model.number="cancel"
+                        type="range"
+                        min="0"
+                        max="100"
+                        step="1"
+                        class="w-full"
+                    />
+                </div>
+            </div>
+        </div>
+    </form>
+</template>
 
 <style scoped>
 .animate-bob {

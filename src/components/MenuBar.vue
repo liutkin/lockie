@@ -1,3 +1,29 @@
+<script lang="ts" setup>
+import { debounce } from 'lodash-es'
+import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+import { exportStore } from '@/utility'
+import { useNewPasswordCreation } from '@/mixin'
+import { useStore } from '@/store'
+
+const emit = defineEmits(['search'])
+
+const { t } = useI18n()
+const store = useStore()
+const { STORE, RECORDS } = storeToRefs(store)
+const { END_SESSION } = store
+const { newPasswordShown, create } = useNewPasswordCreation()
+
+const search = ref(null)
+const settingsShown = ref(false)
+
+const emitSearch = () => emit('search', search.value)
+const debouncedEmitSearch = debounce(emitSearch, 500)
+
+watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
+</script>
+
 <template>
     <div>
         <div class="hidden lg:flex justify-between items-center">
@@ -75,7 +101,7 @@
                         <div class="opacity-70 flex">
                             <mdicon name="magnify" :width="32" :height="18" />
                         </div> </template
-                ></base-input>
+                    ></base-input>
                 <button
                     :disabled="!STORE || !RECORDS.length"
                     type="button"
@@ -124,29 +150,3 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { debounce } from 'lodash-es'
-import { ref, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useI18n } from 'vue-i18n'
-import { exportStore } from '@/utility'
-import { useNewPasswordCreation } from '@/mixin'
-import { useStore } from '@/store'
-
-const emit = defineEmits(['search'])
-
-const { t } = useI18n()
-const store = useStore()
-const { STORE, RECORDS } = storeToRefs(store)
-const { END_SESSION } = store
-const { newPasswordShown, create } = useNewPasswordCreation()
-
-const search = ref(null)
-const settingsShown = ref(false)
-
-const emitSearch = () => emit('search', search.value)
-const debouncedEmitSearch = debounce(emitSearch, 500)
-
-watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
-</script>

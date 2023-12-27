@@ -1,3 +1,33 @@
+<script lang="ts" setup>
+import { ref, watch } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useI18n } from 'vue-i18n'
+import { exportStore, handleBodyOverflow } from '@/utility'
+import MenuIcon from '@/icon/menu.svg'
+import SubmenuIcon from '@/icon/submenu.svg'
+import { useNewPasswordCreation } from '@/mixin'
+import { useStore } from '@/store'
+
+const { t } = useI18n()
+const store = useStore()
+const { RECORDS, LABEL } = storeToRefs(store)
+const { END_SESSION } = store
+
+const { newPasswordShown, create } = useNewPasswordCreation()
+
+const settingsShown = ref(false)
+const leftMenuShown = ref(false)
+const rightMenuShown = ref(false)
+
+watch([leftMenuShown, rightMenuShown], () =>
+    handleBodyOverflow(leftMenuShown.value || rightMenuShown.value)
+)
+watch(LABEL, () => {
+    leftMenuShown.value = false
+    rightMenuShown.value = false
+})
+</script>
+
 <template>
     <header class="fixed top-0 left-0 right-0 flex flex-col z-10">
         <div class="mobile-menu flex justify-between relative">
@@ -98,36 +128,6 @@
         </transition>
     </header>
 </template>
-
-<script setup lang="ts">
-import { ref, watch } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useI18n } from 'vue-i18n'
-import { exportStore, handleBodyOverflow } from '@/utility'
-import MenuIcon from '@/icon/menu.svg'
-import SubmenuIcon from '@/icon/submenu.svg'
-import { useNewPasswordCreation } from '@/mixin'
-import { useStore } from '@/store'
-
-const { t } = useI18n()
-const store = useStore()
-const { RECORDS, LABEL } = storeToRefs(store)
-const { END_SESSION } = store
-
-const { newPasswordShown, create } = useNewPasswordCreation()
-
-const settingsShown = ref(false)
-const leftMenuShown = ref(false)
-const rightMenuShown = ref(false)
-
-watch([leftMenuShown, rightMenuShown], () =>
-    handleBodyOverflow(leftMenuShown.value || rightMenuShown.value)
-)
-watch(LABEL, () => {
-    leftMenuShown.value = false
-    rightMenuShown.value = false
-})
-</script>
 
 <style scoped>
 .mobile-menu {

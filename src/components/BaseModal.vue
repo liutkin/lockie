@@ -1,3 +1,19 @@
+<script lang="ts" setup>
+import { onClickOutside } from '@vueuse/core'
+import { ref, watchEffect } from 'vue'
+import { handleBodyOverflow } from '@/utility'
+
+const props = defineProps({
+    modelValue: Boolean,
+})
+const emit = defineEmits(['update:modelValue'])
+
+const modalElement = ref(null)
+
+onClickOutside(modalElement, () => emit('update:modelValue', false))
+watchEffect(() => handleBodyOverflow(props.modelValue))
+</script>
+
 <template>
     <teleport to="body">
         <transition name="fade-zoom" mode="out-in">
@@ -13,19 +29,3 @@
         </transition>
     </teleport>
 </template>
-
-<script setup>
-import { onClickOutside } from '@vueuse/core'
-import { ref, watchEffect } from 'vue'
-import { handleBodyOverflow } from '@/utility'
-
-const props = defineProps({
-    modelValue: Boolean,
-})
-const emit = defineEmits(['update:modelValue'])
-
-const modalElement = ref(null)
-
-onClickOutside(modalElement, () => emit('update:modelValue', false))
-watchEffect(() => handleBodyOverflow(props.modelValue))
-</script>

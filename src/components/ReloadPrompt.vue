@@ -1,3 +1,16 @@
+<script lang="ts" setup>
+import { useI18n } from 'vue-i18n'
+import { useRegisterSW } from 'virtual:pwa-register/vue'
+
+const { t } = useI18n()
+const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW()
+
+const close = async () => {
+    offlineReady.value = false
+    needRefresh.value = false
+}
+</script>
+
 <template>
     <transition name="fade-zoom" mode="out-in">
         <div
@@ -21,16 +34,3 @@
         </div>
     </transition>
 </template>
-
-<script setup lang="ts">
-import { useI18n } from 'vue-i18n'
-import { useRegisterSW } from 'virtual:pwa-register/vue'
-
-const { t } = useI18n()
-const { offlineReady, needRefresh, updateServiceWorker } = useRegisterSW()
-
-const close = async () => {
-    offlineReady.value = false
-    needRefresh.value = false
-}
-</script>

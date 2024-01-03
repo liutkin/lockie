@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import IconTerrorist from '@/icon/terrorist.svg'
+import TerroristIcon from '@/icons/terrorist.svg'
 
 const { t } = useI18n()
 </script>
@@ -10,11 +10,13 @@ const { t } = useI18n()
         <div
             class="col-span-12 md:col-span-6 xl:col-span-4 md:col-start-4 xl:col-start-5 flex flex-col items-center text-center leading-relaxed"
         >
-            <icon-terrorist class="h-24 fill-current" />
+            <TerroristIcon class="h-24 fill-current" />
+
             <p class="my-8">{{ t('forbiddenService') }}</p>
-            <strong class="glory uppercase tracking-widest text-2xl md:text-3xl">{{
-                    t('gloryToUkraine')
-                }}</strong>
+
+            <strong class="glory uppercase tracking-widest text-2xl md:text-3xl">
+                {{ t('gloryToUkraine') }}
+            </strong>
         </div>
     </div>
 </template>

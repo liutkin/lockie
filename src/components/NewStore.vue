@@ -2,8 +2,9 @@
 import { notify } from '@kyvg/vue3-notification'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import { usePassword } from '@/mixin'
+import usePassword from '@/composables/usePassword'
 import { useStore } from '@/store'
+import BaseInput from "@/components/BaseInput.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -38,8 +39,9 @@ const createStore = () => {
         <h1 class="text-2xl font-bold">
             {{ t('newStoreTitle') }}
         </h1>
+
         <div class="grid gap-y-8 my-8">
-            <base-input
+            <BaseInput
                 v-model.trim="password"
                 strength-indicator
                 type="password"
@@ -47,36 +49,44 @@ const createStore = () => {
                 visibility
                 autofocus
                 class="col-span-12"
-            >{{ t('password')
-                }}<template #suffix>
+            >
+                {{ t('password') }}
+
+                <template #suffix>
                     <button
                         type="button"
                         class="hover:text-primary flex cursor-pointer p-0 opacity-70 col-span-12"
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <Mdicon name="dice-5-outline" :width="32" :height="18" />
                     </button>
                 </template>
-            </base-input>
-            <base-input
+            </BaseInput>
+
+            <BaseInput
                 v-model.trim="passwordConfirmation"
                 copyable
                 visibility
                 type="password"
                 class="col-span-12"
-            >{{ t('passwordConfirmation') }}
-            </base-input>
+            >
+                {{ t('passwordConfirmation') }}
+            </BaseInput>
         </div>
+
         <p class="text-red-500 dark:text-red-400 my-8 text-sm">{{ t('storePasswordInfo') }}</p>
+
         <div class="flex justify-between">
             <button type="button" class="btn btn--alt" @click="emit('cancel')">
                 {{ t('cancel') }}
             </button>
+
             <button :disabled="!formValid" class="btn btn--primary">
                 <span class="flex mr-2">
-                    <mdicon name="database-plus-outline" :size="18" />
+                    <Mdicon name="database-plus-outline" :size="18" />
                 </span>
+
                 {{ t('create') }}
             </button>
         </div>

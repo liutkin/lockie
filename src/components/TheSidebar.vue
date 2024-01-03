@@ -4,6 +4,10 @@ import { ref, computed, watchEffect } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/store'
 import { useI18n } from 'vue-i18n'
+import TheLogo from "@/components/TheLogo.vue"
+import LangList from "@/components/LangList.vue"
+import BaseModal from "@/components/BaseModal.vue"
+import BaseInput from "@/components/BaseInput.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -71,9 +75,11 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
     <div class="bg-gradient-gray flex flex-col">
         <template v-if="STORE">
             <div class="flex justify-between items-center px-4 py-8 lg:px-8">
-                <the-logo class="hover:text-primary" />
-                <lang-list />
+                <TheLogo class="hover:text-primary" />
+
+                <LangList />
             </div>
+
             <div class="flex-grow overflow-auto">
                 <button
                     type="button"
@@ -82,13 +88,16 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                     @click="SET_LABEL(null)"
                 >
                     <span class="flex mr-2 opacity-70">
-                        <mdicon name="database-outline" :size="18" />
+                        <Mdicon name="database-outline" :size="18" />
                     </span>
-                    {{ t('allPasswords')
-                    }}<span class="tab__indicator text-xs text-gray-400"
-                >{{ RECORDS.length - trashCount }}
+
+                    {{ t('allPasswords') }}
+
+                    <span class="tab__indicator text-xs text-gray-400">
+                        {{ RECORDS.length - trashCount }}
                     </span>
                 </button>
+
                 <ul class="my-0 pl-0 list-none">
                     <li v-for="label in UNIQUE_LABELS" :key="label" class="label relative">
                         <button
@@ -98,23 +107,27 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                             @click="SET_LABEL(label.name)"
                         >
                             <span class="flex mr-2 opacity-70">
-                                <mdicon name="label-outline" :size="18" />
+                                <Mdicon name="label-outline" :size="18" />
                             </span>
-                            {{ label.name
-                            }}<span class="tab__indicator text-xs text-gray-400"
-                        >{{ label.count }}
+
+                            {{ label.name }}
+
+                            <span class="tab__indicator text-xs text-gray-400">
+                                {{ label.count }}
                             </span>
                         </button>
+
                         <button
                             type="button"
                             class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black dark:hover:bg-white hover:text-default transition-all duration-200"
                             @click="editLabel(label.name)"
                         >
-                            <mdicon name="cog" :size="12" />
+                            <Mdicon name="cog" :size="12" />
                         </button>
                     </li>
                 </ul>
             </div>
+
             <button
                 type="button"
                 class="tab flex items-center px-4 lg:px-8 py-4 w-full"
@@ -122,19 +135,25 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                 @click="SET_LABEL(false)"
             >
                 <span class="flex mr-2 opacity-70">
-                    <mdicon name="trash-can-outline" :size="18" />
+                    <Mdicon name="trash-can-outline" :size="18" />
                 </span>
-                {{ t('deletedLabel')
-                }}<span class="tab__indicator text-xs text-gray-400">{{ trashCount }} </span>
+
+                {{ t('deletedLabel') }}
+
+                <span class="tab__indicator text-xs text-gray-400">
+                    {{ trashCount }}
+                </span>
             </button>
-            <base-modal v-model="labelEditingModalShown">
+
+            <BaseModal v-model="labelEditingModalShown">
                 <template #content>
                     <div class="px-6 pt-6 pb-8 bg-gray">
-                        <base-input v-model.trim="labelForEditing" autofocus class="col-span-12"
-                        >{{ t('label') }}
-                        </base-input>
+                        <BaseInput v-model.trim="labelForEditing" autofocus class="col-span-12">
+                            {{ t('label') }}
+                        </BaseInput>
                     </div>
                 </template>
+                
                 <template #action>
                     <div
                         class="grid gap-y-8 md:gap-x-6 lg:flex justify-between p-6 bg-white dark:bg-slate-800"
@@ -149,15 +168,16 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                                 >
                                     {{ t('delete') }}
                                 </button>
+
                                 <div
                                     :class="{ 'progress--active': deletionProgress }"
                                     class="progress absolute top-full left-0 h-2"
                                 />
                             </div>
-                            <div class="text-xs opacity-70">
-                                {{ t('pressAndHoldToDelete') }}
-                            </div>
+
+                            <div class="text-xs opacity-70">{{ t('pressAndHoldToDelete') }}</div>
                         </div>
+
                         <div class="grid gap-y-8 md:flex col-span-12">
                             <button
                                 type="button"
@@ -166,24 +186,29 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                             >
                                 {{ t('cancel') }}
                             </button>
+
                             <button
                                 :disabled="!newLabelValid"
                                 class="btn btn--primary col-span-12"
                                 @click="saveLabel"
                             >
                                 <span class="flex mr-2">
-                                    <mdicon name="check-circle-outline" :size="18" />
+                                    <Mdicon name="check-circle-outline" :size="18" />
                                 </span>
+
                                 {{ t('save') }}
                             </button>
                         </div>
+
                         <div class="lg:hidden col-span-12">
                             <div class="mb-2">
                                 {{ t('cancel') }}
-                                <span class="text-sm text-gray-400"
-                                >({{ t('slideRightToDelete') }})</span
-                                >
+
+                                <span class="text-sm text-gray-400">
+                                    ({{ t('slideRightToDelete') }})
+                                </span>
                             </div>
+
                             <input
                                 ref="cancelRangeInput"
                                 v-model.number="remove"
@@ -196,7 +221,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                         </div>
                     </div>
                 </template>
-            </base-modal>
+            </BaseModal>
         </template>
     </div>
 </template>

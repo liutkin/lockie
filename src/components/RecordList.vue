@@ -3,6 +3,9 @@ import { ref, computed, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/store'
+import MenuBar from "@/components/MenuBar.vue"
+import TheRecord from "@/components/TheRecord.vue"
+import NoRecords from "@/components/NoRecords.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -11,7 +14,7 @@ const { SET_PAGE } = store
 
 const recordsPerPage = 10
 
-const search = ref(null)
+const search = ref('')
 
 const labeledRecords = computed(() => {
     const filterAllNonTrashed = ({ trash }) => !trash
@@ -71,25 +74,29 @@ const getPageNumber = (index) => {
 
 <template>
     <main class="lg:ml-80 bg-gradient-radial-gray lg:p-8 min-h-screen">
-        <menu-bar @search="(str) => (search = str)" />
+        <MenuBar @search="(str) => (search = str)" />
+
         <div class="hidden xl:grid grid-cols-12 gap-x-8 mt-8 rounded bg-gradient-gray">
             <div class="col-span-3 p-4">{{ t('title') }}</div>
+
             <div class="col-span-3 p-4">{{ t('login') }}</div>
+
             <div class="col-span-3 p-4">{{ t('password') }}</div>
-            <div class="col-span-3 p-4">
-                {{ t('notes') }}
-            </div>
+
+            <div class="col-span-3 p-4">{{ t('notes') }}</div>
         </div>
+
         <template v-if="STORE">
             <div v-if="filteredRecords.length">
-                <the-record
+                <TheRecord
                     v-for="(record, index) in paginatedRecords"
                     :key="`${record.id}_${LABEL}_${search}`"
                     class="animate-fade-zoom opacity-0"
                     :style="{ animationDelay: `${index * 0.05}s` }"
                     :record="record"
                 />
-                <transition name="fade-zoom">
+
+                <Transition name="fade-zoom">
                     <div
                         v-if="filteredRecords.length > recordsPerPage"
                         :key="LABEL"
@@ -98,29 +105,27 @@ const getPageNumber = (index) => {
                         <button
                             type="button"
                             class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-                            :class="
-                                PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'
-                            "
+                            :class=" PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
                             :disabled="PAGE === 1"
                             @click="SET_PAGE(1)"
                         >
                             <span class="opacity-80">
-                                <mdicon name="chevron-double-left" :size="16" />
+                                <Mdicon name="chevron-double-left" :size="16" />
                             </span>
                         </button>
+
                         <button
                             type="button"
                             class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
-                            :class="
-                                PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'
-                            "
+                            :class=" PAGE === 1 ? 'cursor-not-allowed opacity-40' : 'hover:opacity-70'"
                             :disabled="PAGE === 1"
                             @click="SET_PAGE(PAGE - 1)"
                         >
                             <span class="opacity-80">
-                                <mdicon name="chevron-left" :size="16" />
+                                <Mdicon name="chevron-left" :size="16" />
                             </span>
                         </button>
+
                         <ul class="my-0 pl-0 list-none flex rounded">
                             <li
                                 v-for="number in totalPages === 2 ? 2 : 3"
@@ -142,6 +147,7 @@ const getPageNumber = (index) => {
                                 </button>
                             </li>
                         </ul>
+                        
                         <button
                             type="button"
                             class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
@@ -154,9 +160,10 @@ const getPageNumber = (index) => {
                             @click="SET_PAGE(PAGE + 1)"
                         >
                             <span class="opacity-8">
-                                <mdicon name="chevron-right" :size="16" />
+                                <Mdicon name="chevron-right" :size="16" />
                             </span>
                         </button>
+
                         <button
                             type="button"
                             class="pagination-btn flex justify-center items-center w-12 h-12 p-0 rounded"
@@ -169,13 +176,14 @@ const getPageNumber = (index) => {
                             @click="SET_PAGE(totalPages)"
                         >
                             <span class="opacity-8">
-                                <mdicon name="chevron-double-right" :size="16" />
+                                <Mdicon name="chevron-double-right" :size="16" />
                             </span>
                         </button>
                     </div>
                 </transition>
             </div>
-            <no-records v-else class="col-span-12 px-4 py-8" />
+
+            <NoRecords v-else class="col-span-12 px-4 py-8" />
         </template>
     </main>
 </template>

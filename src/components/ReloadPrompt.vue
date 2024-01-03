@@ -12,7 +12,7 @@ const close = async () => {
 </script>
 
 <template>
-    <transition name="fade-zoom" mode="out-in">
+    <Transition name="fade-zoom" mode="out-in">
         <div
             v-if="offlineReady || needRefresh"
             class="fixed right-0 bottom-0 m-4 p-4 rounded z-20 bg-white filter drop-shadow dark:text-default text-sm"
@@ -21,8 +21,10 @@ const close = async () => {
             <div>
                 {{ offlineReady ? t('readyToOffline') : t('newContentAvailable') }}
             </div>
+
             <div class="flex justify-end items-center mt-4">
                 <button class="btn btn--alt btn--sm mr-2" @click="close">{{ t('close') }}</button>
+
                 <button
                     v-if="needRefresh"
                     class="btn btn--primary btn--sm"

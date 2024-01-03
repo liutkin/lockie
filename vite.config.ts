@@ -1,17 +1,66 @@
-import { fileURLToPath, URL } from 'node:url'
+import { defineConfig, loadEnv } from "vite"
+import vue from "@vitejs/plugin-vue"
+import svgLoader from "vite-svg-loader"
+import path from "node:path"
+import { VitePWA } from "vite-plugin-pwa"
+import { createHtmlPlugin } from "vite-plugin-html"
+import { version } from "./package.json"
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+export default defineConfig(({ command, mode }) => {
+    const env = loadEnv(mode, process.cwd())
 
-// https://vitejs.dev/config/
-export default defineConfig({
-    plugins: [vue()],
-    resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url)),
+    return {
+        server: {
+            port: 3000,
         },
-    },
-    server: {
-        port: 3000,
-    },
+        plugins: [
+            vue(),
+            svgLoader(),
+            VitePWA({
+                registerType: "autoUpdate",
+                workbox: {
+                    globPatterns: ["**/*.{js,ts,css,html,ico,png,svg}"],
+                    maximumFileSizeToCacheInBytes: 5000000,
+                },
+                manifest: {
+                    name: env.VITE_APP_NAME,
+                    short_name: env.VITE_APP_NAME,
+                    description:
+                        "Simple and secure password manager. Works client-side only with no backend. Uses encrypted file import/export. Helps to keep your passwords to yourself.",
+                    theme_color: "#ffffff",
+                    icons: [
+                        {
+                            src: "pwa-192x192.png",
+                            sizes: "192x192",
+                            type: "image/png",
+                        },
+                        {
+                            src: "pwa-512x512.png",
+                            sizes: "512x512",
+                            type: "image/png",
+                        },
+                        {
+                            src: "pwa-512x512.png",
+                            sizes: "512x512",
+                            type: "image/png",
+                            purpose: "any maskable",
+                        },
+                    ],
+                },
+            }),
+            createHtmlPlugin({
+                inject: {
+                    data: {
+                        title: `${ env.VITE_APP_NAME } v${ version }`,
+                    },
+                },
+                minify: true,
+            }),
+        ],
+        resolve: {
+            alias: {
+                "@": path.resolve(__dirname, "/src"),
+            },
+        },
+    }
 })

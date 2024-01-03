@@ -4,14 +4,15 @@ import { onClickOutside } from '@vueuse/core'
 import { notify } from '@kyvg/vue3-notification'
 import { ref, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useStore } from '@/store'
-import { useDates } from '@/mixin'
 import { useI18n } from 'vue-i18n'
-import LockGoodIcon from '@/icon/lock-good.svg'
-import LockWaitingIcon from '@/icon/lock-waiting.svg'
-import LockBad1Icon from '@/icon/lock-bad-1.svg'
-import LockBad2Icon from '@/icon/lock-bad-2.svg'
-import LockBad3Icon from '@/icon/lock-bad-3.svg'
-import LockMechanismIcon from '@/icon/lock-mechanism.svg'
+import useDates from '@/composables/useDates'
+import LockGoodIcon from '@/icons/lock-good.svg'
+import LockWaitingIcon from '@/icons/lock-waiting.svg'
+import LockBad1Icon from '@/icons/lock-bad-1.svg'
+import LockBad2Icon from '@/icons/lock-bad-2.svg'
+import LockBad3Icon from '@/icons/lock-bad-3.svg'
+import LockMechanismIcon from '@/icons/lock-mechanism.svg'
+import BaseInput from "@/components/BaseInput.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -123,17 +124,21 @@ updateDates()
                 class="flex"
                 :class="{ 'animate-bob': unlockingAttemptsLeft === 3 && !decryptedStore }"
             >
-                <lock-good-icon v-if="decryptedStore" class="w-12 md:w-20 fill-current" />
-                <component v-else :is="lockIcon" class="w-12 md:w-20 fill-current" />
-                <transition name="fade-zoom"
-                ><b
-                    v-if="unlockingAttemptsLeft === 3 && !decryptedStore"
-                    class="absolute top-0 left-full"
-                >zZz</b
-                ></transition
-                >
+                <LockGoodIcon v-if="decryptedStore" class="w-12 md:w-20 fill-current" />
+
+                <Component v-else :is="lockIcon" class="w-12 md:w-20 fill-current" />
+
+                <Transition name="fade-zoom">
+                    <b
+                        v-if="unlockingAttemptsLeft === 3 && !decryptedStore"
+                        class="absolute top-0 left-full"
+                    >
+                        zZz
+                    </b>
+                </Transition>
             </div>
         </div>
+
         <div
             :class="{ 'opacity-0': unlockingAttemptsLeft < 1 || decryptedStore }"
             class="transition-all duration-300"
@@ -142,10 +147,12 @@ updateDates()
                 <div>
                     <div class="text-2xl font-bold mb-1">
                         {{ t('unlockingStore') }}
-                        <span v-if="existingDates.length" class="opacity-30"
-                        >({{ t('cached') }})</span
-                        >
+
+                        <span v-if="existingDates.length" class="opacity-30">
+                            ({{ t('cached') }})
+                        </span>
                     </div>
+
                     <ul
                         v-if="existingDates.length"
                         class="my-0 pl-0 list-none flex flex-wrap items-center text-xs"
@@ -155,16 +162,18 @@ updateDates()
                         </li>
                     </ul>
                 </div>
+
                 <div class="flex opacity-70 ml-4">
-                    <lock-mechanism-icon
+                    <LockMechanismIcon
                         class="h-14 fill-current"
                         :class="{ 'animate-rotate': unlocking }"
                     />
                 </div>
             </div>
+
             <div class="grid gap-y-8 my-8">
                 <div class="col-span-12 relative">
-                    <base-input
+                    <BaseInput
                         ref="passwordUnlockInput"
                         v-model.trim="passwordUnlock"
                         visibility
@@ -172,10 +181,12 @@ updateDates()
                         type="password"
                         :disabled="unlocking"
                         class="col-span-12"
-                    >{{ t('password') }}
-                    </base-input>
+                    >
+                        {{ t('password') }}
+                    </BaseInput>
                 </div>
             </div>
+            
             <div class="grid gap-y-8 lg:flex justify-between">
                 <div
                     v-if="existingDates.length"
@@ -190,15 +201,18 @@ updateDates()
                         >
                             {{ t('cancel') }}
                         </button>
+
                         <div
                             :class="{ 'progress--active': cancellationProgress }"
                             class="progress absolute top-full left-0 h-2"
                         />
                     </div>
+
                     <div class="text-xs text-gray-400 dark:text-white dark:text-opacity-40">
                         {{ t('pressAndHoldToCancel') }}
                     </div>
                 </div>
+
                 <button
                     v-else
                     type="button"
@@ -207,23 +221,28 @@ updateDates()
                 >
                     {{ t('cancel') }}
                 </button>
+
                 <button
                     :disabled="!passwordUnlock || unlocking"
                     class="btn btn--primary col-span-12"
                 >
                     <span class="flex mr-2">
-                        <mdicon
+                        <Mdicon
                             :name="unlocking ? 'lock-open-variant-outline' : 'lock-open-outline'"
                             :size="18"
                         />
                     </span>
+
                     {{ unlocking ? `${t('unlocking')}...` : t('unlock') }}
                 </button>
+
                 <div v-if="existingDates.length" class="lg:hidden col-span-12">
                     <div class="mb-2">
                         {{ t('cancel') }}
+
                         <span class="text-sm text-gray-400">({{ t('slideRightToCancel') }})</span>
                     </div>
+
                     <input
                         ref="cancelRangeInput"
                         v-model.number="cancel"

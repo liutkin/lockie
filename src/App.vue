@@ -1,24 +1,4 @@
-<template>
-    <div ref="app">
-        <div class="lg:pt-0" :class="{ 'pt-12': STORE }">
-            <MobileMenu v-if="STORE" class="lg:hidden" />
-
-            <TheSidebar class="w-80 hidden lg:flex flex-column fixed top-0 bottom-0 left-0" />
-
-            <record-list />
-
-            <Transition name="slide-from-bottom">
-                <NoStore v-if="!STORE" />
-            </Transition>
-
-            <Notifications position="bottom right" />
-        </div>
-
-        <reload-prompt />
-    </div>
-</template>
-
-<script setup lang="ts">
+<script lang="ts" setup>
 import { ref, watch } from "vue"
 import { storeToRefs } from "pinia"
 import { Notifications } from "@kyvg/vue3-notification"
@@ -47,3 +27,23 @@ watch(
 )
 watch([LABEL, PAGE], () => (app.value as null | HTMLElement)?.scrollIntoView())
 </script>
+
+<template>
+    <div ref="app">
+        <div class="lg:pt-0" :class="{ 'pt-12': STORE }">
+            <MobileMenu v-if="STORE" class="lg:hidden" />
+
+            <TheSidebar class="w-80 hidden lg:flex flex-column fixed top-0 bottom-0 left-0" />
+
+            <RecordList />
+
+            <Transition name="slide-from-bottom">
+                <NoStore v-if="!STORE" />
+            </Transition>
+
+            <Notifications position="bottom right" />
+        </div>
+
+        <ReloadPrompt />
+    </div>
+</template>

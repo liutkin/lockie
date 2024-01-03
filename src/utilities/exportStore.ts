@@ -3,7 +3,7 @@ import JSZip from 'jszip'
 import { cloneDeep } from 'lodash-es'
 import { saveAs } from 'file-saver'
 import { notify } from '@kyvg/vue3-notification'
-import i18n from '@/i18n.js'
+import i18n from '@/i18n'
 import { storeToRefs } from 'pinia'
 import { useStore } from '@/store'
 import pinia from '@/pinia'
@@ -17,7 +17,7 @@ const getOptionalLeadingStringZero = (n: number): string => {
     return str.length < 2 ? `0${ str }` : str
 }
 
-export const exportStore = (): void => {
+export default (): void => {
     const backupStore = cloneDeep(STORE)
     SET_EXPORTED_DATE(Date.now())
 

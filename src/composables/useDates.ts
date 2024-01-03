@@ -9,7 +9,7 @@ const localeFormattingTable = {
     default: 'en',
 }
 
-export const useDates = (initialDates = []) => {
+export default (initialDates = []) => {
     const dates = ref(
         initialDates.map((date) => ({
             milliseconds: null,

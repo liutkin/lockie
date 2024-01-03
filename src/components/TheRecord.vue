@@ -4,7 +4,8 @@ import { useI18n } from 'vue-i18n'
 import { notify } from '@kyvg/vue3-notification'
 import { ref, watch, computed } from 'vue'
 import { useStore } from '@/store'
-import { copyToClipboard } from '@/utility'
+import copyToClipboard from '@/utilities/copyToClipboard'
+import RecordEdit from "@/components/RecordEdit.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -66,10 +67,10 @@ const purge = (id) => {
     >
         <div class="col-span-12 xl:col-span-3 py-4 px-4" :title="record.title">
             <div class="xl:hidden text-sm text-gray-400">{{ t('title') }}</div>
+
             <div class="flex">
-                <div :class="{ 'truncate min-w-0': isTitleUrl }">
-                    {{ record.title }}
-                </div>
+                <div :class="{ 'truncate min-w-0': isTitleUrl }">{{ record.title }}</div>
+
                 <div v-if="isTitleUrl" class="record__action ml-2 mt-0.5">
                     <div class="flex">
                         <button
@@ -79,11 +80,13 @@ const purge = (id) => {
                             tabindex="-1"
                             @click="copyToClipboard(record.title), (titleCopied = true)"
                         >
-                            <transition name="fade-zoom" mode="out-in">
-                                <mdicon v-if="titleCopied" name="check" :width="32" :height="16" />
-                                <mdicon v-else name="content-copy" :width="32" :height="16" />
+                            <Transition name="fade-zoom" mode="out-in">
+                                <Mdicon v-if="titleCopied" name="check" :width="32" :height="16" />
+
+                                <Mdicon v-else name="content-copy" :width="32" :height="16" />
                             </transition>
                         </button>
+
                         <a
                             :href="record.title"
                             target="_blank"
@@ -91,18 +94,19 @@ const purge = (id) => {
                             class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
                             tabindex="-1"
                         >
-                            <mdicon name="open-in-new" :width="32" :height="16" />
+                            <Mdicon name="open-in-new" :width="32" :height="16" />
                         </a>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-span-12 xl:col-span-3 py-4 px-4">
             <div class="xl:hidden text-sm text-gray-400">{{ t('login') }}</div>
+
             <div class="flex">
-                <div class="break-all">
-                    {{ record.login }}
-                </div>
+                <div class="break-all">{{ record.login }}</div>
+
                 <div class="record__action ml-2 mt-0.5">
                     <div class="flex">
                         <button
@@ -112,21 +116,23 @@ const purge = (id) => {
                             tabindex="-1"
                             @click="copyToClipboard(record.login), (loginCopied = true)"
                         >
-                            <transition name="fade-zoom" mode="out-in">
-                                <mdicon v-if="loginCopied" name="check" :width="32" :height="16" />
-                                <mdicon v-else name="content-copy" :width="32" :height="16" />
+                            <Transition name="fade-zoom" mode="out-in">
+                                <Mdicon v-if="loginCopied" name="check" :width="32" :height="16" />
+
+                                <Mdicon v-else name="content-copy" :width="32" :height="16" />
                             </transition>
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-span-12 xl:col-span-3 py-4 px-4">
             <div class="xl:hidden text-sm text-gray-400">{{ t('password') }}</div>
+
             <div class="flex">
-                <div class="break-all">
-                    {{ formattedPassword }}
-                </div>
+                <div class="break-all">{{ formattedPassword }}</div>
+
                 <div class="record__action ml-2 mt-0.5">
                     <div class="flex">
                         <button
@@ -136,40 +142,43 @@ const purge = (id) => {
                             tabindex="-1"
                             @click="copyToClipboard(record.password), (passwordCopied = true)"
                         >
-                            <transition name="fade-zoom" mode="out-in">
-                                <mdicon
+                            <Transition name="fade-zoom" mode="out-in">
+                                <Mdicon
                                     v-if="passwordCopied"
                                     name="check"
                                     :width="32"
                                     :height="16"
                                 />
-                                <mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <Mdicon v-else name="content-copy" :width="32" :height="16" />
                             </transition>
                         </button>
+
                         <button
                             type="button"
                             class="hover:text-primary flex cursor-pointer p-0 opacity-70"
                             tabindex="-1"
                             @click="passwordVisible = !passwordVisible"
                         >
-                            <mdicon
+                            <Mdicon
                                 v-if="passwordVisible"
                                 name="eye-outline"
                                 :width="32"
                                 :height="16"
                             />
-                            <mdicon v-else name="eye-off-outline" :width="32" :height="16" />
+
+                            <Mdicon v-else name="eye-off-outline" :width="32" :height="16" />
                         </button>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="col-span-12 xl:col-span-3 py-4 px-4">
             <div class="xl:hidden text-sm text-gray-400">{{ t('notes') }}</div>
+
             <div class="flex justify-between">
-                <div class="max-h-80 overflow-auto whitespace-pre-wrap">
-                    {{ record.notes || '-' }}
-                </div>
+                <div class="max-h-80 overflow-auto whitespace-pre-wrap">{{ record.notes || '-' }}</div>
+
                 <div class="flex record__action ml-2 mt-0.5">
                     <button
                         type="button"
@@ -177,13 +186,14 @@ const purge = (id) => {
                         tabindex="-1"
                         @click="detailsShown = !detailsShown"
                     >
-                        <mdicon
+                        <Mdicon
                             v-if="detailsShown"
                             name="chevron-up-circle-outline"
                             :width="32"
                             :height="16"
                         />
-                        <mdicon
+
+                        <Mdicon
                             v-else
                             name="chevron-down-circle-outline"
                             :width="32"
@@ -193,8 +203,9 @@ const purge = (id) => {
                 </div>
             </div>
         </div>
-        <transition name="fade-zoom" mode="out-in">
-            <record-edit
+
+        <Transition name="fade-zoom">
+            <RecordEdit
                 v-if="detailsShown"
                 :record="record"
                 class="col-span-12 pt-4 pb-8"

@@ -1,10 +1,16 @@
 <script lang="ts" setup>
+import ct from 'countries-and-timezones'
 import JSZip from 'jszip'
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import { notify } from '@kyvg/vue3-notification'
-import DirectionIcon from '@/icon/direction.svg'
-import ct from 'countries-and-timezones'
+import DirectionIcon from '@/icons/direction.svg'
+import GithubLink from "@/components/GithubLink.vue"
+import TheLogo from "@/components/TheLogo.vue"
+import LangList from "@/components/LangList.vue"
+import ForbiddenService from "@/components/ForbiddenService.vue"
+import NewStore from "@/components/NewStore.vue"
+import UnlockingStore from "@/components/UnlockingStore.vue"
 
 const { t } = useI18n()
 
@@ -42,38 +48,49 @@ restoreCachedStore()
     <div
         class="border-shadow absolute inset-0 bg-gradient-radial-gray flex justify-center items-center z-10 p-8"
     >
-        <github-link class="absolute bottom-8 right-8" />
+        <GithubLink class="absolute bottom-8 right-8" />
+
         <div class="absolute top-0 left-0 right-0 p-8 flex justify-between items-center">
-            <the-logo class="hover:text-primary" />
-            <lang-list />
+            <TheLogo class="hover:text-primary" />
+
+            <LangList />
         </div>
-        <forbidden-service v-if="forbidden" />
+
+        <ForbiddenService v-if="forbidden" />
+
         <div v-else class="grid grid-cols-12 w-full">
             <div class="col-span-12 md:col-span-6 xl:col-span-4 md:col-start-4 xl:col-start-5">
-                <transition name="fade-zoom" mode="out-in">
-                    <new-store v-if="newStoreShown" @cancel="newStoreShown = false" />
-                    <unlocking-store
+                <Transition name="fade-zoom" mode="out-in">
+                    <NewStore v-if="newStoreShown" @cancel="newStoreShown = false" />
+
+                    <UnlockingStore
                         v-else-if="unzippedStore"
                         :unzipped-store="unzippedStore"
                         @clear="clearCachedData"
                         @cancel="unzippedStore = null"
                     />
+
                     <div v-else>
                         <div class="text-center">
                             <div class="flex justify-center">
-                                <direction-icon class="h-32 fill-current" />
+                                <DirectionIcon class="h-32 fill-current" />
                             </div>
+
                             <p class="my-8">{{ t('intro') }}</p>
+
                             <div class="flex justify-center">
                                 <button class="btn btn--alt mr-2" @click="newStoreShown = true">
                                     {{ t('newStore') }}
                                 </button>
-                                <label for="importStoreFileInput" class="btn btn--primary"
-                                ><span class="flex mr-2">
-                                        <mdicon name="database-import-outline" :size="18" />
+
+                                <label for="importStoreFileInput" class="btn btn--primary">
+                                    <span class="flex mr-2">
+                                        <Mdicon name="database-import-outline" :size="18" />
                                     </span>
-                                    {{ t('import') }}</label
-                                >
+                                    
+                                    {{ t('import') }}
+                                </label>
+
                                 <input
                                     id="importStoreFileInput"
                                     hidden

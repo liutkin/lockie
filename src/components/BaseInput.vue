@@ -1,26 +1,20 @@
 <script lang="ts" setup>
+import { computed, ref, watch, onMounted } from 'vue'
 import zxcvbn from 'zxcvbn'
 import { onClickOutside } from '@vueuse/core'
-import { computed, ref, watch, onMounted } from 'vue'
-import { copyToClipboard } from '@/utility'
+import copyToClipboard from '@/utilities/copyToClipboard'
 
 const randomId = `input_id_${ Math.random().toString(16).substring(3) }`
 
 const props = defineProps({
+    modelValue: {
+        type: String,
+        required: true,
+    },
     type: {
         type: String,
         default: 'text',
-        validator: (type) => ['text', 'password'].includes(type),
-    },
-    autofocus: Boolean,
-    copyable: Boolean,
-    visibility: Boolean,
-    clearable: Boolean,
-    textarea: Boolean,
-    strengthIndicator: Boolean,
-    modelValue: {
-        type: String,
-        default: '',
+        validator: (type: string) => ['text', 'password'].includes(type),
     },
     placeholder: {
         type: String,
@@ -30,6 +24,12 @@ const props = defineProps({
         type: Array,
         default: () => [],
     },
+    autofocus: Boolean,
+    copyable: Boolean,
+    visibility: Boolean,
+    clearable: Boolean,
+    textarea: Boolean,
+    strengthIndicator: Boolean,
 })
 const emit = defineEmits(['update:modelValue', 'clear', 'autocomplete'])
 
@@ -65,7 +65,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
 <template>
     <div ref="inputContainerElement">
         <div class="w-full flex flex-col relative">
-            <transition name="fade-zoom">
+            <Transition name="fade-zoom">
                 <ul
                     v-if="strengthIndicator && modelValue && type === 'password'"
                     class="my-0 pl-0 list-none flex absolute top-full left-0"
@@ -81,13 +81,15 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         }"
                         :style="{ animationDelay: `${Math.random()}s` }"
                     >
-                        <mdicon name="fire" :width="18" :height="18" />
+                        <Mdicon name="fire" :width="18" :height="18" />
                     </li>
                 </ul>
-            </transition>
+            </Transition>
+
             <label v-if="$slots.default" :for="randomId" class="block mb-1">
                 <slot />
             </label>
+
             <div
                 class="input"
                 :class="{
@@ -99,6 +101,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                 <div class="flex-shrink-0">
                     <slot name="prefix" />
                 </div>
+
                 <textarea
                     v-if="props.textarea"
                     v-bind="$attrs"
@@ -111,6 +114,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                     @input="emit('update:modelValue', $event.target.value)"
                     @keyup.down="autocompleteList.length && $refs.autocomplete0.focus()"
                 />
+
                 <input
                     v-else
                     v-bind="$attrs"
@@ -123,11 +127,12 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                     @input="emit('update:modelValue', $event.target.value)"
                     @keyup.down="autocompleteList.length && $refs.autocomplete0.focus()"
                 />
+
                 <div
                     v-if="visibility || copyable || clearable || $slots.suffix"
                     class="flex flex-shrink-0"
                 >
-                    <transition name="fade-zoom">
+                    <Transition name="fade-zoom">
                         <button
                             v-if="modelValue && clearable"
                             type="button"
@@ -135,12 +140,13 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                             tabindex="-1"
                             @click="emit('clear')"
                         >
-                            <transition name="fade-zoom" mode="out-in">
-                                <mdicon name="close-circle-outline" :width="32" :height="18" />
+                            <Transition name="fade-zoom" mode="out-in">
+                                <Mdicon name="close-circle-outline" :width="32" :height="18" />
                             </transition>
                         </button>
-                    </transition>
-                    <transition name="fade-zoom">
+                    </Transition>
+
+                    <Transition name="fade-zoom">
                         <button
                             v-if="modelValue && copyable"
                             type="button"
@@ -149,13 +155,16 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                             tabindex="-1"
                             @click="copyToClipboard(modelValue), (copied = true)"
                         >
-                            <transition name="fade-zoom" mode="out-in">
-                                <mdicon v-if="copied" name="check" :width="32" :height="18" />
-                                <mdicon v-else name="content-copy" :width="32" :height="18" />
+                            <Transition name="fade-zoom" mode="out-in">
+                                <Mdicon v-if="copied" name="check" :width="32" :height="18" />
+
+                                <Mdicon v-else name="content-copy" :width="32" :height="18" />
                             </transition>
                         </button>
                     </transition>
+
                     <slot name="suffix" />
+
                     <button
                         v-if="visibility"
                         type="button"
@@ -163,14 +172,15 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         tabindex="-1"
                         @click="visible = !visible"
                     >
-                        <mdicon
+                        <Mdicon
                             :name="visible ? 'eye-outline' : 'eye-off-outline'"
                             :width="32"
                             :height="18"
                         />
                     </button>
                 </div>
-                <transition-group
+
+                <TransitionGroup
                     v-if="autocompleteList.length && focus"
                     tag="ul"
                     class="absolute top-full inset-x-0 my-0 pl-0 list-none rounded overflow-hidden z-10"
@@ -187,7 +197,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                     >
                         {{ label }}
                     </li>
-                </transition-group>
+                </TransitionGroup>
             </div>
         </div>
     </div>

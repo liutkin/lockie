@@ -6,6 +6,6 @@
         class="flex w-8 h-8 justify-center items-center text-gray-500 hover:text-primary dark:text-lite"
         tabindex="-1"
     >
-        <mdicon name="github" :width="18" :height="18" />
+        <Mdicon name="github" :width="18" :height="18" />
     </a>
 </template>

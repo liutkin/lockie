@@ -1,13 +1,14 @@
 import { ref } from 'vue'
-import { randomString } from 'secure-random-password'
+import generator from 'generate-password'
 
-export const usePassword = () => {
-    const password = ref(null)
-    const passwordConfirmation = ref(null)
+export default () => {
+    const password = ref('')
+    const passwordConfirmation = ref('')
 
     const generatePassword = () => {
-        const randomPassword = randomString({
+        const randomPassword = generator.generate({
             length: 16,
+            numbers: true,
         })
         password.value = randomPassword
         passwordConfirmation.value = randomPassword

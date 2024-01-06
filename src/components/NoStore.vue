@@ -78,14 +78,14 @@ restoreCachedStore()
 
                             <p class="my-8">{{ t('intro') }}</p>
 
-                            <div class="flex justify-center">
-                                <button class="btn btn--alt mr-2" @click="newStoreShown = true">
+                            <div class="flex justify-center gap-x-4">
+                                <button class="btn btn--alt" @click="newStoreShown = true">
                                     {{ t('newStore') }}
                                 </button>
 
                                 <label for="importStoreFileInput" class="btn btn--primary">
                                     <span class="flex mr-2">
-                                        <Mdicon name="database-import-outline" :size="18" />
+                                        <mdicon name="database-import-outline" :size="18" />
                                     </span>
                                     
                                     {{ t('import') }}

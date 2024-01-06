@@ -88,7 +88,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                     @click="SET_LABEL(null)"
                 >
                     <span class="flex mr-2 opacity-70">
-                        <Mdicon name="database-outline" :size="18" />
+                        <mdicon name="database-outline" :size="18" />
                     </span>
 
                     {{ t('allPasswords') }}
@@ -107,7 +107,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                             @click="SET_LABEL(label.name)"
                         >
                             <span class="flex mr-2 opacity-70">
-                                <Mdicon name="label-outline" :size="18" />
+                                <mdicon name="label-outline" :size="18" />
                             </span>
 
                             {{ label.name }}
@@ -122,7 +122,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                             class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black dark:hover:bg-white hover:text-default transition-all duration-200"
                             @click="editLabel(label.name)"
                         >
-                            <Mdicon name="cog" :size="12" />
+                            <mdicon name="cog" :size="12" />
                         </button>
                     </li>
                 </ul>
@@ -135,7 +135,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                 @click="SET_LABEL(false)"
             >
                 <span class="flex mr-2 opacity-70">
-                    <Mdicon name="trash-can-outline" :size="18" />
+                    <mdicon name="trash-can-outline" :size="18" />
                 </span>
 
                 {{ t('deletedLabel') }}
@@ -193,7 +193,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                                 @click="saveLabel"
                             >
                                 <span class="flex mr-2">
-                                    <Mdicon name="check-circle-outline" :size="18" />
+                                    <mdicon name="check-circle-outline" :size="18" />
                                 </span>
 
                                 {{ t('save') }}

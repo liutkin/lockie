@@ -41,7 +41,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                     @click="(settingsShown = false), (newPasswordShown = !newPasswordShown)"
                 >
                     <span class="flex mr-2">
-                        <Mdicon name="lock-plus-outline" :size="18" />
+                        <mdicon name="lock-plus-outline" :size="18" />
                     </span>
 
                     {{ t('newPassword') }}
@@ -57,7 +57,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                         class="flex justify-center items-center w-8 h-8 hover:text-primary mr-4"
                         @click="END_SESSION"
                     >
-                        <Mdicon name="power" :size="18" />
+                        <mdicon name="power" :size="18" />
                     </button>
 
                     <div
@@ -69,7 +69,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                             class="flex justify-center items-center w-8 h-8"
                             @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
                         >
-                            <Mdicon name="cog-outline" :size="18" />
+                            <mdicon name="cog-outline" :size="18" />
                         </button>
                     </div>
                 </div>
@@ -77,7 +77,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                 <div class="hidden xl:flex items-center">
                     <button type="button" class="btn btn--alt mr-2" @click="END_SESSION">
                         <span class="flex mr-2">
-                            <Mdicon name="power" :size="18" />
+                            <mdicon name="power" :size="18" />
                         </span>
 
                         {{ t('shutdown') }}
@@ -93,7 +93,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                             @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
                         >
                             <span class="flex mr-2">
-                                <Mdicon name="cog-outline" :size="18" />
+                                <mdicon name="cog-outline" :size="18" />
                             </span>
 
                             {{ t('settings') }}
@@ -112,7 +112,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                 >
                     <template #prefix>
                         <div class="opacity-70 flex">
-                            <Mdicon name="magnify" :width="32" :height="18" />
+                            <mdicon name="magnify" :width="32" :height="18" />
                         </div>
                     </template>
                 </BaseInput>
@@ -124,7 +124,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                     @click="exportStore"
                 >
                     <span class="flex mr-2">
-                        <Mdicon name="database-export-outline" :size="18" />
+                        <mdicon name="database-export-outline" :size="18" />
                     </span>
 
                     {{ t('export') }}
@@ -162,7 +162,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
             >
                 <template #prefix>
                     <div class="opacity-70 flex">
-                        <Mdicon name="magnify" :width="32" :height="18" />
+                        <mdicon name="magnify" :width="32" :height="18" />
                     </div>
                 </template>
             </BaseInput>

@@ -74,7 +74,7 @@ const getPageNumber = (index) => {
 
 <template>
     <main class="lg:ml-80 bg-gradient-radial-gray lg:p-8 min-h-screen">
-        <MenuBar @search="(str) => (search = str)" />
+        <MenuBar @search="search = $event" />
 
         <div class="hidden xl:grid grid-cols-12 gap-x-8 mt-8 rounded bg-gradient-gray">
             <div class="col-span-3 p-4">{{ t('title') }}</div>
@@ -110,7 +110,7 @@ const getPageNumber = (index) => {
                             @click="SET_PAGE(1)"
                         >
                             <span class="opacity-80">
-                                <Mdicon name="chevron-double-left" :size="16" />
+                                <mdicon name="chevron-double-left" :size="16" />
                             </span>
                         </button>
 
@@ -122,7 +122,7 @@ const getPageNumber = (index) => {
                             @click="SET_PAGE(PAGE - 1)"
                         >
                             <span class="opacity-80">
-                                <Mdicon name="chevron-left" :size="16" />
+                                <mdicon name="chevron-left" :size="16" />
                             </span>
                         </button>
 
@@ -160,7 +160,7 @@ const getPageNumber = (index) => {
                             @click="SET_PAGE(PAGE + 1)"
                         >
                             <span class="opacity-8">
-                                <Mdicon name="chevron-right" :size="16" />
+                                <mdicon name="chevron-right" :size="16" />
                             </span>
                         </button>
 
@@ -176,7 +176,7 @@ const getPageNumber = (index) => {
                             @click="SET_PAGE(totalPages)"
                         >
                             <span class="opacity-8">
-                                <Mdicon name="chevron-double-right" :size="16" />
+                                <mdicon name="chevron-double-right" :size="16" />
                             </span>
                         </button>
                     </div>

@@ -2,8 +2,8 @@
 import { notify } from '@kyvg/vue3-notification'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import usePassword from '@/composables/usePassword'
 import { useStore } from '@/store'
+import usePassword from '@/composables/usePassword'
 import BaseInput from "@/components/BaseInput.vue"
 
 const { t } = useI18n()
@@ -59,7 +59,7 @@ const createStore = () => {
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <Mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <mdicon name="dice-5-outline" :width="32" :height="18" />
                     </button>
                 </template>
             </BaseInput>
@@ -84,7 +84,7 @@ const createStore = () => {
 
             <button :disabled="!formValid" class="btn btn--primary">
                 <span class="flex mr-2">
-                    <Mdicon name="database-plus-outline" :size="18" />
+                    <mdicon name="database-plus-outline" :size="18" />
                 </span>
 
                 {{ t('create') }}

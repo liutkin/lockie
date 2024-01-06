@@ -81,9 +81,9 @@ const purge = (id) => {
                             @click="copyToClipboard(record.title), (titleCopied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <Mdicon v-if="titleCopied" name="check" :width="32" :height="16" />
+                                <mdicon v-if="titleCopied" name="check" :width="32" :height="16" />
 
-                                <Mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <mdicon v-else name="content-copy" :width="32" :height="16" />
                             </transition>
                         </button>
 
@@ -94,7 +94,7 @@ const purge = (id) => {
                             class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
                             tabindex="-1"
                         >
-                            <Mdicon name="open-in-new" :width="32" :height="16" />
+                            <mdicon name="open-in-new" :width="32" :height="16" />
                         </a>
                     </div>
                 </div>
@@ -117,9 +117,9 @@ const purge = (id) => {
                             @click="copyToClipboard(record.login), (loginCopied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <Mdicon v-if="loginCopied" name="check" :width="32" :height="16" />
+                                <mdicon v-if="loginCopied" name="check" :width="32" :height="16" />
 
-                                <Mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <mdicon v-else name="content-copy" :width="32" :height="16" />
                             </transition>
                         </button>
                     </div>
@@ -143,13 +143,13 @@ const purge = (id) => {
                             @click="copyToClipboard(record.password), (passwordCopied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <Mdicon
+                                <mdicon
                                     v-if="passwordCopied"
                                     name="check"
                                     :width="32"
                                     :height="16"
                                 />
-                                <Mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <mdicon v-else name="content-copy" :width="32" :height="16" />
                             </transition>
                         </button>
 
@@ -159,14 +159,14 @@ const purge = (id) => {
                             tabindex="-1"
                             @click="passwordVisible = !passwordVisible"
                         >
-                            <Mdicon
+                            <mdicon
                                 v-if="passwordVisible"
                                 name="eye-outline"
                                 :width="32"
                                 :height="16"
                             />
 
-                            <Mdicon v-else name="eye-off-outline" :width="32" :height="16" />
+                            <mdicon v-else name="eye-off-outline" :width="32" :height="16" />
                         </button>
                     </div>
                 </div>
@@ -186,14 +186,14 @@ const purge = (id) => {
                         tabindex="-1"
                         @click="detailsShown = !detailsShown"
                     >
-                        <Mdicon
+                        <mdicon
                             v-if="detailsShown"
                             name="chevron-up-circle-outline"
                             :width="32"
                             :height="16"
                         />
 
-                        <Mdicon
+                        <mdicon
                             v-else
                             name="chevron-down-circle-outline"
                             :width="32"

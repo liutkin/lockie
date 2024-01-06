@@ -82,7 +82,7 @@ watch(LABEL, () => {
                             @click="(settingsShown = false), (newPasswordShown = !newPasswordShown)"
                         >
                             <span class="flex mr-2">
-                                <Mdicon name="lock-plus-outline" :size="18" />
+                                <mdicon name="lock-plus-outline" :size="18" />
                             </span>
 
                             {{ t('newPassword') }}
@@ -105,7 +105,7 @@ watch(LABEL, () => {
                         @click="exportStore"
                     >
                         <span class="flex mr-2">
-                            <Mdicon name="database-export-outline" :size="18" />
+                            <mdicon name="database-export-outline" :size="18" />
                         </span>
 
                         {{ t('export') }}
@@ -121,7 +121,7 @@ watch(LABEL, () => {
                             @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
                         >
                             <span class="flex mr-2">
-                                <Mdicon name="cog-outline" :size="18" />
+                                <mdicon name="cog-outline" :size="18" />
                             </span>
 
                             {{ t('settings') }}
@@ -137,7 +137,7 @@ watch(LABEL, () => {
 
                 <button type="button" class="btn btn--alt mx-4 mt-4" @click="END_SESSION">
                     <span class="flex mr-2">
-                        <Mdicon name="power" :size="18" />
+                        <mdicon name="power" :size="18" />
                     </span>
 
                     {{ t('shutdown') }}

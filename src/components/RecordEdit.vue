@@ -196,7 +196,7 @@ if (editing.value) {
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <Mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <mdicon name="dice-5-outline" :width="32" :height="18" />
                     </button>
                 </template>
             </BaseInput>
@@ -246,7 +246,7 @@ if (editing.value) {
                         @click="addLabel"
                     >
                         <span class="flex mr-1">
-                            <Mdicon name="plus-circle-outline" :size="18" />
+                            <mdicon name="plus-circle-outline" :size="18" />
                         </span>
 
                         {{ t('add') }}
@@ -265,7 +265,7 @@ if (editing.value) {
                             @click="removeLabel(existingLabel)"
                         >
                             <span class="flex mr-1">
-                                <Mdicon name="label-outline" :size="12" />
+                                <mdicon name="label-outline" :size="12" />
                             </span>
 
                             {{ existingLabel }}
@@ -385,7 +385,7 @@ if (editing.value) {
                             @click="save"
                         >
                             <span class="flex mr-2">
-                                <Mdicon name="check-circle-outline" :size="18" />
+                                <mdicon name="check-circle-outline" :size="18" />
                             </span>
 
                             {{ t('save') }}
@@ -398,7 +398,7 @@ if (editing.value) {
                             @click="create"
                         >
                             <span class="flex mr-2">
-                                <Mdicon name="lock-plus-outline" :size="18" />
+                                <mdicon name="lock-plus-outline" :size="18" />
                             </span>
 
                             {{ t('create') }}

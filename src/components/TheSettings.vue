@@ -76,7 +76,7 @@ updateDates()
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <Mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <mdicon name="dice-5-outline" :width="32" :height="18" />
                     </button>
                 </template>
             </BaseInput>
@@ -104,7 +104,7 @@ updateDates()
 
             <button :disabled="!formValid" class="btn btn--primary col-span-12" @click="save">
                 <span class="flex mr-2">
-                    <Mdicon name="check-circle-outline" :size="18" />
+                    <mdicon name="check-circle-outline" :size="18" />
                 </span>
 
                 {{ t('save') }}

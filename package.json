@@ -19,7 +19,6 @@
         "countries-and-timezones": "^3.6.0",
         "crypto-js": "^4.2.0",
         "file-saver": "^2.0.5",
-        "generate-password": "^1.7.1",
         "is-url": "^1.2.4",
         "jszip": "^3.10.1",
         "lodash-es": "^4.17.21",

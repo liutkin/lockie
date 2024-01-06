@@ -48,7 +48,7 @@ const cancellationInterval = ref(null)
 const cancel = ref(0)
 const cancelRangeInput = ref(null)
 const passwordUnlockInput = ref(null)
-const passwordUnlock = ref(null)
+const passwordUnlock = ref('')
 const unlockingAttemptsLeft = ref(3)
 const decryptedStore = ref(null)
 
@@ -227,7 +227,7 @@ updateDates()
                     class="btn btn--primary col-span-12"
                 >
                     <span class="flex mr-2">
-                        <Mdicon
+                        <mdicon
                             :name="unlocking ? 'lock-open-variant-outline' : 'lock-open-outline'"
                             :size="18"
                         />

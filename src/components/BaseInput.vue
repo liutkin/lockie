@@ -81,7 +81,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         }"
                         :style="{ animationDelay: `${Math.random()}s` }"
                     >
-                        <Mdicon name="fire" :width="18" :height="18" />
+                        <mdicon name="fire" :width="18" :height="18" />
                     </li>
                 </ul>
             </Transition>
@@ -130,7 +130,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
 
                 <div
                     v-if="visibility || copyable || clearable || $slots.suffix"
-                    class="flex flex-shrink-0"
+                    class="flex flex-shrink-0 pr-2"
                 >
                     <Transition name="fade-zoom">
                         <button
@@ -141,7 +141,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                             @click="emit('clear')"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <Mdicon name="close-circle-outline" :width="32" :height="18" />
+                                <mdicon name="close-circle-outline" :width="32" :height="18" />
                             </transition>
                         </button>
                     </Transition>
@@ -156,9 +156,9 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                             @click="copyToClipboard(modelValue), (copied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <Mdicon v-if="copied" name="check" :width="32" :height="18" />
+                                <mdicon v-if="copied" name="check" :width="32" :height="18" />
 
-                                <Mdicon v-else name="content-copy" :width="32" :height="18" />
+                                <mdicon v-else name="content-copy" :width="32" :height="18" />
                             </transition>
                         </button>
                     </transition>
@@ -172,7 +172,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         tabindex="-1"
                         @click="visible = !visible"
                     >
-                        <Mdicon
+                        <mdicon
                             :name="visible ? 'eye-outline' : 'eye-off-outline'"
                             :width="32"
                             :height="18"

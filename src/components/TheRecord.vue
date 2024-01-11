@@ -1,11 +1,11 @@
 <script lang="ts" setup>
-import isUrl from 'is-url'
 import { useI18n } from 'vue-i18n'
 import { notify } from '@kyvg/vue3-notification'
 import { ref, watch, computed } from 'vue'
 import { useStore } from '@/store'
 import copyToClipboard from '@/utilities/copyToClipboard'
 import RecordEdit from "@/components/RecordEdit.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -25,7 +25,7 @@ const passwordCopied = ref(false)
 const passwordVisible = ref(false)
 const detailsShown = ref(false)
 
-const isTitleUrl = computed(() => isUrl(props.record.title))
+const isTitleUrl = computed(() => URL.canParse(props.record.title))
 const formattedPassword = computed(() =>
     passwordVisible.value
         ? props.record.password
@@ -71,8 +71,8 @@ const purge = (id) => {
             <div class="flex">
                 <div :class="{ 'truncate min-w-0': isTitleUrl }">{{ record.title }}</div>
 
-                <div v-if="isTitleUrl" class="record__action ml-2 mt-0.5">
-                    <div class="flex">
+                <div v-if="isTitleUrl" class="record__action ml-2 mt-1">
+                    <div class="flex gap-x-3">
                         <button
                             type="button"
                             class="flex cursor-pointer p-0 opacity-70"
@@ -81,9 +81,9 @@ const purge = (id) => {
                             @click="copyToClipboard(record.title), (titleCopied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <mdicon v-if="titleCopied" name="check" :width="32" :height="16" />
+                                <BaseIcon v-if="titleCopied" class="w-4" name="check" />
 
-                                <mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <BaseIcon v-else class="w-4" name="copy" />
                             </transition>
                         </button>
 
@@ -94,7 +94,7 @@ const purge = (id) => {
                             class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
                             tabindex="-1"
                         >
-                            <mdicon name="open-in-new" :width="32" :height="16" />
+                            <BaseIcon class="w-4" name="external-link" />
                         </a>
                     </div>
                 </div>
@@ -107,7 +107,7 @@ const purge = (id) => {
             <div class="flex">
                 <div class="break-all">{{ record.login }}</div>
 
-                <div class="record__action ml-2 mt-0.5">
+                <div class="record__action ml-2 mt-1">
                     <div class="flex">
                         <button
                             type="button"
@@ -117,9 +117,9 @@ const purge = (id) => {
                             @click="copyToClipboard(record.login), (loginCopied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <mdicon v-if="loginCopied" name="check" :width="32" :height="16" />
+                                <BaseIcon v-if="loginCopied" class="w-4" name="check" />
 
-                                <mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <BaseIcon v-else class="w-4" name="copy" />
                             </transition>
                         </button>
                     </div>
@@ -133,7 +133,7 @@ const purge = (id) => {
             <div class="flex">
                 <div class="break-all">{{ formattedPassword }}</div>
 
-                <div class="record__action ml-2 mt-0.5">
+                <div class="record__action ml-2 mt-1">
                     <div class="flex">
                         <button
                             type="button"
@@ -143,13 +143,9 @@ const purge = (id) => {
                             @click="copyToClipboard(record.password), (passwordCopied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <mdicon
-                                    v-if="passwordCopied"
-                                    name="check"
-                                    :width="32"
-                                    :height="16"
-                                />
-                                <mdicon v-else name="content-copy" :width="32" :height="16" />
+                                <BaseIcon v-if="passwordCopied" class="w-4" name="check" />
+
+                                <BaseIcon v-else class="w-4" name="copy" />
                             </transition>
                         </button>
 
@@ -179,7 +175,7 @@ const purge = (id) => {
             <div class="flex justify-between">
                 <div class="max-h-80 overflow-auto whitespace-pre-wrap">{{ record.notes || '-' }}</div>
 
-                <div class="flex record__action ml-2 mt-0.5">
+                <div class="flex record__action ml-2 mt-1">
                     <button
                         type="button"
                         class="hover:text-primary flex cursor-pointer p-0 opacity-70"

@@ -1,0 +1,15 @@
+/**
+ * floating-vue
+ */
+
+.v-popper--theme-tooltip {
+    font-size: 0.875rem;
+
+    .v-popper__inner {
+        background: linear-gradient(45deg, #151515 0%,#272727 100%);
+    }
+}
+
+.v-popper--has-tooltip {
+    outline: none;
+}

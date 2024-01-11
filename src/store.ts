@@ -8,7 +8,7 @@ export const useStore = defineStore('store', () => {
     const password = ref(null)
     const store = ref(null)
 
-    const SET_PAGE = (n) => (page.value = n)
+    const SET_PAGE = (n: number): number => (page.value = n)
     const SET_STORE = (newPassword, newStore) => {
         password.value = newPassword
         store.value = newStore

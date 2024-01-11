@@ -183,16 +183,19 @@ const getPageNumber = (index) => {
                 </transition>
             </div>
 
-            <NoRecords v-else class="col-span-12 px-4 py-8" />
+            <NoRecords v-else class="col-span-12 px-4 py-10" />
         </template>
     </main>
 </template>
 
 <style scoped>
 .pagination-btn {
+
     &:not(.pagination-btn--active):not([disabled]) {
+
         &:hover {
             background-color: rgba(0, 0, 0, 0.05);
+
             @media (prefers-color-scheme: dark) {
                 background-color: rgba(255, 255, 255, 0.05);
             }

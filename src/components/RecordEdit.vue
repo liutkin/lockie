@@ -9,6 +9,7 @@ import { useStore } from '@/store'
 import useDates from '@/composables/useDates'
 import usePassword from '@/composables/usePassword'
 import BaseInput from "@/components/BaseInput.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -167,7 +168,7 @@ if (editing.value) {
 <template>
     <div>
         <div
-            class="grid grid-cols-12 gap-y-8 sm:gap-8 px-4 py-8 lg:px-8 bg-gray rounded content-start"
+            class="grid grid-cols-12 gap-y-8 sm:gap-8 px-4 py-8 lg:px-8 bg-gray dark:bg-slate-50/[.02] rounded content-start"
         >
             <BaseInput
                 v-model.trim="form.login"
@@ -196,7 +197,7 @@ if (editing.value) {
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <BaseIcon class="w-4" name="bulb" />
                     </button>
                 </template>
             </BaseInput>
@@ -245,10 +246,6 @@ if (editing.value) {
                         class="btn btn--primary ml-2"
                         @click="addLabel"
                     >
-                        <span class="flex mr-1">
-                            <mdicon name="plus-circle-outline" :size="18" />
-                        </span>
-
                         {{ t('add') }}
                     </button>
                 </div>
@@ -264,9 +261,7 @@ if (editing.value) {
                             class="btn btn--alt btn--sm"
                             @click="removeLabel(existingLabel)"
                         >
-                            <span class="flex mr-1">
-                                <mdicon name="label-outline" :size="12" />
-                            </span>
+                            <BaseIcon class="w-4" name="tag" />
 
                             {{ existingLabel }}
                         </button>
@@ -397,10 +392,6 @@ if (editing.value) {
                             class="btn btn--primary col-span-12"
                             @click="create"
                         >
-                            <span class="flex mr-2">
-                                <mdicon name="lock-plus-outline" :size="18" />
-                            </span>
-
                             {{ t('create') }}
                         </button>
                     </div>

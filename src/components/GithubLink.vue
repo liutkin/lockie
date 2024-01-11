@@ -6,6 +6,9 @@
         class="flex w-8 h-8 justify-center items-center text-gray-500 hover:text-primary dark:text-lite"
         tabindex="-1"
     >
-        <mdicon name="github" :width="18" :height="18" />
+        <BaseIcon class="w-6" name="github" />
     </a>
 </template>
+<script setup lang="ts">
+import BaseIcon from "@/components/BaseIcon.vue"
+</script>

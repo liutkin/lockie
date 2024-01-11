@@ -18,7 +18,10 @@
     a,
     label {
         transition: all 0.15s;
-        outline: none;
+
+        &, &:active {
+            outline: none;
+        }
     }
 
     img {
@@ -34,6 +37,7 @@
         width: 100%;
         overflow: hidden;
         border-radius: var(--border-radius-default);
+
         &:focus {
             outline: none;
         }

@@ -10,6 +10,7 @@ import GithubLink from "@/components/GithubLink.vue"
 import BaseInput from "@/components/BaseInput.vue"
 import TheSettings from "@/components/TheSettings.vue"
 import RecordEdit from "@/components/RecordEdit.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const emit = defineEmits(['search'])
 
@@ -40,9 +41,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                     class="btn btn--primary z-10"
                     @click="(settingsShown = false), (newPasswordShown = !newPasswordShown)"
                 >
-                    <span class="flex mr-2">
-                        <mdicon name="lock-plus-outline" :size="18" />
-                    </span>
+                    <BaseIcon class="w-4" name="file-plus" />
 
                     {{ t('newPassword') }}
                 </button>
@@ -57,7 +56,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                         class="flex justify-center items-center w-8 h-8 hover:text-primary mr-4"
                         @click="END_SESSION"
                     >
-                        <mdicon name="power" :size="18" />
+                        <BaseIcon class="w-4" name="power" />
                     </button>
 
                     <div
@@ -69,16 +68,14 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                             class="flex justify-center items-center w-8 h-8"
                             @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
                         >
-                            <mdicon name="cog-outline" :size="18" />
+                            <BaseIcon class="w-4" name="gear" />
                         </button>
                     </div>
                 </div>
 
                 <div class="hidden xl:flex items-center">
                     <button type="button" class="btn btn--alt mr-2" @click="END_SESSION">
-                        <span class="flex mr-2">
-                            <mdicon name="power" :size="18" />
-                        </span>
+                        <BaseIcon class="w-4" name="power" />
 
                         {{ t('shutdown') }}
                     </button>
@@ -92,9 +89,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                             class="btn btn--alt z-10"
                             @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
                         >
-                            <span class="flex mr-2">
-                                <mdicon name="cog-outline" :size="18" />
-                            </span>
+                            <BaseIcon class="w-4" name="gear" />
 
                             {{ t('settings') }}
                         </button>
@@ -112,7 +107,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                 >
                     <template #prefix>
                         <div class="opacity-70 flex">
-                            <mdicon name="magnify" :width="32" :height="18" />
+                            <BaseIcon class="w-4 mx-3" name="search" />
                         </div>
                     </template>
                 </BaseInput>
@@ -123,9 +118,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                     class="btn btn--primary ml-4"
                     @click="exportStore"
                 >
-                    <span class="flex mr-2">
-                        <mdicon name="database-export-outline" :size="18" />
-                    </span>
+                    <BaseIcon class="w-4" name="export" />
 
                     {{ t('export') }}
                 </button>
@@ -162,7 +155,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
             >
                 <template #prefix>
                     <div class="opacity-70 flex">
-                        <mdicon name="magnify" :width="32" :height="18" />
+                        <BaseIcon class="w-4 mx-3" name="search" />
                     </div>
                 </template>
             </BaseInput>

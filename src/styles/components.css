@@ -1,6 +1,8 @@
 @layer components {
+
     .btn {
         display: flex;
+        column-gap: 0.5rem;
         justify-content: center;
         align-items: center;
         text-transform: uppercase;
@@ -8,22 +10,27 @@
         letter-spacing: 0.05rem;
         font-weight: 600;
         line-height: var(--line-height-default);
+
         &:not(.btn--sm) {
-            padding: 0.75rem 1.25rem;
+            padding: 0.5rem 1.25rem;
             font-size: 0.75rem;
-            min-height: 2.8rem;
+            min-height: 2.5rem;
         }
+
         &:not([disbaled]) {
             cursor: pointer;
+
             &:hover,
             &:focus {
                 filter: brightness(1.03);
             }
         }
+
         &[disabled] {
             cursor: not-allowed;
             opacity: 0.5;
         }
+
         &.btn--primary {
             background: linear-gradient(
                 45deg,
@@ -31,31 +38,39 @@
                 rgba(73, 154, 212, 1) 100%
             );
             color: theme('colors.lite');
+
             &:not([disabled]) {
+
                 &:hover,
                 &:focus {
                     box-shadow: 0 0 0 0.25rem rgba(74, 140, 211, 0.16);
                 }
             }
+
             @media (prefers-color-scheme: dark) {
                 background: linear-gradient(45deg, #2e4774 0%, rgb(58 111 149) 100%);
             }
         }
+
         &.btn--alt {
             background: linear-gradient(45deg, #e4eeff 0%, #c6e7ff 100%);
             color: theme('colors.primary');
+
             @media (prefers-color-scheme: dark) {
                 background: linear-gradient(45deg, #dcdddf 0%, #c5d1e1 100%);
                 color: #37678e;
             }
         }
+
         &.btn--red {
             background: linear-gradient(45deg, #ffe4e4 0%, #ffc6c6 100%);
             color: theme('colors.red.700 / 70%');
+
             @media (prefers-color-scheme: dark) {
                 background: linear-gradient(45deg, #d3b3b3 0%, #ebaeae 100%);
             }
         }
+
         &.btn--sm {
             padding: 0.5rem 0.75rem;
             font-size: 0.65rem;
@@ -64,10 +79,11 @@
     }
 
     .btn-indicator {
+
         &:after {
             content: '';
             width: 0;
-            height: 5rem;
+            height: 4rem;
             position: absolute;
             top: 100%;
             left: 0;
@@ -77,11 +93,14 @@
             transform: translateY(-1rem);
             transition: all 0.25s;
             opacity: 0;
+
             @media (prefers-color-scheme: dark) {
                 border-color: rgba(220, 221, 223, 0.1);
             }
         }
+
         &.btn-indicator--active {
+
             &:after {
                 transform: none;
                 opacity: 1;
@@ -91,14 +110,17 @@
 
     .progress {
         border-bottom-left-radius: var(--border-radius-default);
+
         &.progress--blue {
             background: linear-gradient(45deg, #bae2fb 0%, #39a6ff 100%);
+
             &:after {
                 background: #45aafe;
             }
         }
         &.progress--active {
             animation: progress 1.25s linear forwards;
+
             &:after {
                 content: '';
                 position: absolute;
@@ -109,13 +131,16 @@
                 transform: translateY(-50%);
                 border-radius: var(--border-radius-default);
                 box-shadow: 0 0 0.5rem 0.1rem rgba(255, 255, 255, 0.5);
+
                 @media (prefers-color-scheme: dark) {
                     box-shadow: 0 0 0.5rem 0.1rem white;
                 }
             }
         }
+
         &:not(.progress--blue) {
             background: linear-gradient(45deg, #ffabab 0%, #f55 100%);
+
             &:after {
                 background-color: #ff5c5b;
             }
@@ -123,19 +148,23 @@
     }
 
     @keyframes progress {
+
         from {
             width: 0;
         }
+
         to {
             width: 100%;
         }
     }
 
     @keyframes fade-zoom {
+
         from {
             transform: translateY(-0.25rem) scale(0.98);
             opacity: 0;
         }
+
         to {
             transform: none;
             opacity: 1;

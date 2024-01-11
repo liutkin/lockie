@@ -11,6 +11,7 @@ import LangList from "@/components/LangList.vue"
 import ForbiddenService from "@/components/ForbiddenService.vue"
 import NewStore from "@/components/NewStore.vue"
 import UnlockingStore from "@/components/UnlockingStore.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 
@@ -77,18 +78,18 @@ restoreCachedStore()
                             </div>
 
                             <p class="my-8">{{ t('intro') }}</p>
-
+                            
                             <div class="flex justify-center gap-x-4">
                                 <button class="btn btn--alt" @click="newStoreShown = true">
+                                    <BaseIcon class="w-4" name="book-plus" />
+
                                     {{ t('newStore') }}
                                 </button>
 
                                 <label for="importStoreFileInput" class="btn btn--primary">
-                                    <span class="flex mr-2">
-                                        <mdicon name="database-import-outline" :size="18" />
-                                    </span>
-                                    
-                                    {{ t('import') }}
+                                    <BaseIcon class="w-4" name="cloud-upload" />
+
+                                    {{ t('choose') }}...
                                 </label>
 
                                 <input

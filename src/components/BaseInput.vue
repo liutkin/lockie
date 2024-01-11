@@ -1,8 +1,13 @@
 <script lang="ts" setup>
 import { computed, ref, watch, onMounted } from 'vue'
-import zxcvbn from 'zxcvbn'
 import { onClickOutside } from '@vueuse/core'
+import { vTooltip } from 'floating-vue'
+import { useI18n } from "vue-i18n"
+import zxcvbn from 'zxcvbn'
 import copyToClipboard from '@/utilities/copyToClipboard'
+import BaseIcon from "@/components/BaseIcon.vue"
+
+const { t } = useI18n()
 
 const randomId = `input_id_${ Math.random().toString(16).substring(3) }`
 
@@ -50,12 +55,19 @@ const filteredAutocompleteList = computed(() =>
         .map(({ name }) => name)
         .slice(0, 5)
 )
+const passwordStrengthDescription = computed(() => ({
+    0: t('bubbleWrap'),
+    1: t('gardenFence'),
+    2: t('bankVault'),
+    3: t('dragonsLair'),
+    4: t('quantumShield'),
+}))
 
 watch(copied, () => {
     if (!copied.value) return
     setTimeout(() => {
         copied.value = false
-    }, 1000)
+    }, 2000)
 })
 
 onMounted(() => props.autofocus && input.value.focus())
@@ -68,7 +80,8 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
             <Transition name="fade-zoom">
                 <ul
                     v-if="strengthIndicator && modelValue && type === 'password'"
-                    class="my-0 pl-0 list-none flex absolute top-full left-0"
+                    class="mt-1 list-none flex absolute top-full left-0 cursor-help"
+                    v-tooltip="passwordStrengthDescription[strength]"
                 >
                     <li
                         v-for="index in 5"
@@ -81,7 +94,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         }"
                         :style="{ animationDelay: `${Math.random()}s` }"
                     >
-                        <mdicon name="fire" :width="18" :height="18" />
+                        <BaseIcon class="w-5" name="fire" />
                     </li>
                 </ul>
             </Transition>
@@ -130,7 +143,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
 
                 <div
                     v-if="visibility || copyable || clearable || $slots.suffix"
-                    class="flex flex-shrink-0 pr-2"
+                    class="flex flex-shrink-0 gap-x-2.5 pr-3"
                 >
                     <Transition name="fade-zoom">
                         <button
@@ -141,7 +154,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                             @click="emit('clear')"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <mdicon name="close-circle-outline" :width="32" :height="18" />
+                                <BaseIcon class="w-4" name="cross" v-tooltip="t('clear')" />
                             </transition>
                         </button>
                     </Transition>
@@ -156,9 +169,19 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                             @click="copyToClipboard(modelValue), (copied = true)"
                         >
                             <Transition name="fade-zoom" mode="out-in">
-                                <mdicon v-if="copied" name="check" :width="32" :height="18" />
+                                <BaseIcon
+                                    v-if="copied"
+                                    class="w-4"
+                                    name="check"
+                                    v-tooltip="t('copied')"
+                                />
 
-                                <mdicon v-else name="content-copy" :width="32" :height="18" />
+                                <BaseIcon
+                                    v-else
+                                    class="w-4"
+                                    name="copy"
+                                    v-tooltip="t('copy')"
+                                />
                             </transition>
                         </button>
                     </transition>
@@ -172,10 +195,18 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         tabindex="-1"
                         @click="visible = !visible"
                     >
-                        <mdicon
-                            :name="visible ? 'eye-outline' : 'eye-off-outline'"
-                            :width="32"
-                            :height="18"
+                        <BaseIcon
+                            v-if="visible"
+                            class="w-4"
+                            name="eye-slash"
+                            v-tooltip="t('hidePassword')"
+                        />
+
+                        <BaseIcon
+                            v-else
+                            class="w-4"
+                            name="eye"
+                            v-tooltip="t('showPassword')"
                         />
                     </button>
                 </div>
@@ -258,8 +289,8 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
         width: 100%;
         display: block;
         flex-grow: 1;
-        padding-top: 0.6rem;
-        padding-bottom: 0.6rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
         outline: none;
         font-size: 1rem;
         line-height: var(--line-height-default);

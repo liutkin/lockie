@@ -148,7 +148,7 @@ updateDates()
                     <div class="text-2xl font-bold mb-1">
                         {{ t('unlockingStore') }}
 
-                        <span v-if="existingDates.length" class="opacity-30">
+                        <span v-if="existingDates.length" class="opacity-30 lowercase">
                             ({{ t('cached') }})
                         </span>
                     </div>
@@ -222,17 +222,7 @@ updateDates()
                     {{ t('cancel') }}
                 </button>
 
-                <button
-                    :disabled="!passwordUnlock || unlocking"
-                    class="btn btn--primary col-span-12"
-                >
-                    <span class="flex mr-2">
-                        <mdicon
-                            :name="unlocking ? 'lock-open-variant-outline' : 'lock-open-outline'"
-                            :size="18"
-                        />
-                    </span>
-
+                <button :disabled="!passwordUnlock || unlocking" class="btn btn--primary col-span-12">
                     {{ unlocking ? `${t('unlocking')}...` : t('unlock') }}
                 </button>
 

@@ -8,6 +8,7 @@ import TheLogo from "@/components/TheLogo.vue"
 import LangList from "@/components/LangList.vue"
 import BaseModal from "@/components/BaseModal.vue"
 import BaseInput from "@/components/BaseInput.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -87,9 +88,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                     :class="{ 'tab--active': LABEL === null }"
                     @click="SET_LABEL(null)"
                 >
-                    <span class="flex mr-2 opacity-70">
-                        <mdicon name="database-outline" :size="18" />
-                    </span>
+                    <BaseIcon class="w-4 mr-2" name="tags" />
 
                     {{ t('allPasswords') }}
 
@@ -106,9 +105,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                             :class="{ 'tab--active': LABEL === label.name }"
                             @click="SET_LABEL(label.name)"
                         >
-                            <span class="flex mr-2 opacity-70">
-                                <mdicon name="label-outline" :size="18" />
-                            </span>
+                            <BaseIcon class="w-4 mr-2" name="tag" />
 
                             {{ label.name }}
 
@@ -134,9 +131,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                 :class="{ 'tab--active': LABEL === false }"
                 @click="SET_LABEL(false)"
             >
-                <span class="flex mr-2 opacity-70">
-                    <mdicon name="trash-can-outline" :size="18" />
-                </span>
+                <BaseIcon class="w-4 mr-2" name="trash" />
 
                 {{ t('deletedLabel') }}
 
@@ -228,19 +223,25 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
 
 <style scoped>
 .tab {
+
     &__indicator {
         transform: translate(0.25rem, -0.5rem);
     }
+
     &.tab--active {
         background: linear-gradient(45deg, #fdfdfd 0%, #f3f3f3 100%);
+
         @media (prefers-color-scheme: dark) {
             background: linear-gradient(45deg, #122230 0%, #111f2e 100%);
         }
     }
+
     &:not(.tab--active) {
+
         &:hover,
         &:focus {
             background: #e8e8e8;
+
             @media (prefers-color-scheme: dark) {
                 background: rgba(0, 0, 0, 0.07);
             }
@@ -249,8 +250,10 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
 }
 
 .label {
+
     &:hover,
     &:focus {
+
         .label-settings-btn {
             display: flex;
         }

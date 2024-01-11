@@ -3,8 +3,10 @@ import { notify } from '@kyvg/vue3-notification'
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useStore } from '@/store'
+import { vTooltip } from 'floating-vue'
 import usePassword from '@/composables/usePassword'
 import BaseInput from "@/components/BaseInput.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -35,12 +37,12 @@ const createStore = () => {
 </script>
 
 <template>
-    <form @submit.prevent="createStore">
+    <form @submit.prevent="createStore" class="flex flex-col gap-y-8">
         <h1 class="text-2xl font-bold">
             {{ t('newStoreTitle') }}
         </h1>
 
-        <div class="grid gap-y-8 my-8">
+        <div class="flex flex-col gap-y-8">
             <BaseInput
                 v-model.trim="password"
                 strength-indicator
@@ -48,7 +50,6 @@ const createStore = () => {
                 copyable
                 visibility
                 autofocus
-                class="col-span-12"
             >
                 {{ t('password') }}
 
@@ -59,7 +60,7 @@ const createStore = () => {
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <BaseIcon class="w-4" name="bulb" v-tooltip="t('suggestStrongPassword')" />
                     </button>
                 </template>
             </BaseInput>
@@ -69,26 +70,21 @@ const createStore = () => {
                 copyable
                 visibility
                 type="password"
-                class="col-span-12"
             >
                 {{ t('passwordConfirmation') }}
             </BaseInput>
+
+            <p class="flex items-center text-amber-500 dark:text-amber-400 text-sm">
+                <BaseIcon class="w-7 mr-4 shrink-0" name="alert-triangle" />
+
+                {{ t('storePasswordInfo') }}
+            </p>
         </div>
 
-        <p class="text-red-500 dark:text-red-400 my-8 text-sm">{{ t('storePasswordInfo') }}</p>
+        <div class="flex justify-between mt-6">
+            <button type="button" class="btn btn--alt" @click="emit('cancel')">{{ t('cancel') }}</button>
 
-        <div class="flex justify-between">
-            <button type="button" class="btn btn--alt" @click="emit('cancel')">
-                {{ t('cancel') }}
-            </button>
-
-            <button :disabled="!formValid" class="btn btn--primary">
-                <span class="flex mr-2">
-                    <mdicon name="database-plus-outline" :size="18" />
-                </span>
-
-                {{ t('create') }}
-            </button>
+            <button :disabled="!formValid" class="btn btn--primary">{{ t('create') }}</button>
         </div>
     </form>
 </template>

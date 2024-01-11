@@ -8,6 +8,7 @@ import { useStore } from '@/store'
 import useDates from '@/composables/useDates'
 import usePassword from '@/composables/usePassword'
 import BaseInput from "@/components/BaseInput.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -46,14 +47,14 @@ updateDates()
 </script>
 
 <template>
-    <div class="grid grid-cols-12 gap-y-8 md:gap-8 px-4 py-8 lg:px-8 bg-gray rounded relative">
+    <div class="grid grid-cols-12 gap-y-8 md:gap-8 px-4 py-8 lg:px-8 bg-gray dark:bg-slate-50/[.02] rounded relative">
         <div class="col-span-12 xl:col-span-4">
             <div class="flex items-center">{{ appName }} v{{ appVersion }}</div>
         </div>
 
         <ul class="my-0 pl-0 list-none col-span-12 xl:col-span-4 leading-relaxed">
             <li v-for="date in dates" :key="date.getter" :title="date.local">
-                {{ t(date.key) }}: {{ date.relative }}
+                {{ t(date.key) }}: <span class="lowercase">{{ date.relative }}</span>
             </li>
         </ul>
 
@@ -76,7 +77,7 @@ updateDates()
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <mdicon name="dice-5-outline" :width="32" :height="18" />
+                        <BaseIcon class="w-4" name="bulb" />
                     </button>
                 </template>
             </BaseInput>
@@ -103,10 +104,6 @@ updateDates()
             </button>
 
             <button :disabled="!formValid" class="btn btn--primary col-span-12" @click="save">
-                <span class="flex mr-2">
-                    <mdicon name="check-circle-outline" :size="18" />
-                </span>
-
                 {{ t('save') }}
             </button>
         </div>

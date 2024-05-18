@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import BaseIcon from "@/components/BaseIcon.vue"
+</script>
+
 <template>
     <a
         href="https://github.com/liutkin/lockie"
@@ -9,6 +13,3 @@
         <BaseIcon class="w-6" name="github" />
     </a>
 </template>
-<script setup lang="ts">
-import BaseIcon from "@/components/BaseIcon.vue"
-</script>

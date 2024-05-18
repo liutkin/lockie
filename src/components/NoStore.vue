@@ -46,15 +46,13 @@ restoreCachedStore()
 </script>
 
 <template>
-    <div
-        class="border-shadow absolute inset-0 bg-gradient-radial-gray flex justify-center items-center z-10 p-8"
-    >
-        <GithubLink class="absolute bottom-8 right-8" />
+    <div class="border-shadow absolute inset-0 bg-gradient-radial-gray flex justify-center items-center z-10 p-8">
+        <TheLogo class="absolute top-0 left-0 m-8 hover:text-primary" />
 
-        <div class="absolute top-0 left-0 right-0 p-8 flex justify-between items-center">
-            <TheLogo class="hover:text-primary" />
-
+        <div class="absolute top-0 right-0 m-8 flex items-center gap-x-2.5">
             <LangList />
+
+            <GithubLink />
         </div>
 
         <ForbiddenService v-if="forbidden" />

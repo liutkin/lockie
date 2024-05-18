@@ -6,7 +6,6 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from '@/store'
 import exportStore from '@/utilities/exportStore'
 import useNewPasswordCreation from '@/composables/useNewPasswordCreation'
-import GithubLink from "@/components/GithubLink.vue"
 import BaseInput from "@/components/BaseInput.vue"
 import TheSettings from "@/components/TheSettings.vue"
 import RecordEdit from "@/components/RecordEdit.vue"
@@ -48,8 +47,6 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
             </div>
 
             <div class="flex items-center">
-                <GithubLink class="mr-12 xl:mr-6" />
-
                 <div class="xl:hidden flex items-center">
                     <button
                         type="button"

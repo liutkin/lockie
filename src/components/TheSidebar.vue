@@ -6,6 +6,7 @@ import { useStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 import TheLogo from "@/components/TheLogo.vue"
 import LangList from "@/components/LangList.vue"
+import GithubLink from "@/components/GithubLink.vue"
 import BaseModal from "@/components/BaseModal.vue"
 import BaseInput from "@/components/BaseInput.vue"
 import BaseIcon from "@/components/BaseIcon.vue"
@@ -78,7 +79,11 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
             <div class="flex justify-between items-center px-4 py-8 lg:px-8">
                 <TheLogo class="hover:text-primary" />
 
-                <LangList />
+                <div class="flex items-center gap-x-2.5">
+                    <LangList />
+
+                    <GithubLink />
+                </div>
             </div>
 
             <div class="flex-grow overflow-auto">

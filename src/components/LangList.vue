@@ -1,23 +1,23 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
-import { watchEffect } from 'vue'
 
 const { locale, availableLocales } = useI18n()
 
-watchEffect(() => window.localStorage.setItem('locale', locale.value))
+const selectNextLocale = () => {
+    const currentIndex = availableLocales.indexOf(locale.value)
+    const nextLocale = availableLocales[currentIndex + 1] || availableLocales[0]
+
+    locale.value = nextLocale
+    window.localStorage.setItem('locale', nextLocale)
+}
 </script>
 
 <template>
-    <ul class="my-0 pl-0 list-none flex">
-        <li v-for="langOption in availableLocales" :key="langOption">
-            <button
-                type="button"
-                class="border-none bg-none uppercase text-xs px-2 py-1"
-                :class="langOption === locale ? 'text-primary' : 'text-gray-400 hover:opacity-70'"
-                @click="locale = langOption"
-            >
-                {{ langOption }}
-            </button>
-        </li>
-    </ul>
+    <button
+        type="button"
+        class="border-none bg-none uppercase text-gray-400 hover:text-primary text-xs px-2 py-1"
+        @click="selectNextLocale"
+    >
+        {{ locale }}
+    </button>
 </template>

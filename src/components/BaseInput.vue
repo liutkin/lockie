@@ -76,7 +76,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
 
 <template>
     <div ref="inputContainerElement">
-        <div class="w-full flex flex-col relative">
+        <div class="w-full flex flex-col gap-y-1 relative">
             <Transition name="fade-zoom">
                 <ul
                     v-if="strengthIndicator && modelValue && type === 'password'"
@@ -122,7 +122,6 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                     ref="input"
                     :value="modelValue"
                     class="input__field"
-                    rows="8"
                     @focus="focus = true"
                     @input="emit('update:modelValue', $event.target.value)"
                     @keyup.down="autocompleteList.length && $refs.autocomplete0.focus()"
@@ -244,28 +243,34 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
     background-color: white;
     color: theme('colors.default');
     transition: all 0.1s;
+
     @media (prefers-color-scheme: dark) {
         background-color: rgba(255, 255, 255, 0.85);
     }
+
     &:not(.input--focus) {
         &:hover,
         &:focus {
             box-shadow: 0 0.75rem 2rem -1.1rem rgba(74, 140, 211, 0.65);
+
             @media (prefers-color-scheme: dark) {
                 box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
             }
         }
     }
+
     &:not(.input--prefix) {
         .input__field {
             padding-left: 0.8rem;
         }
     }
+
     &:not(.input--suffix) {
         .input__field {
             padding-right: 0.8rem;
         }
     }
+
     &.input--focus {
         box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
         @media (prefers-color-scheme: dark) {
@@ -275,16 +280,19 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
             color: theme('colors.primary');
         }
     }
+
     &.input--prefix {
         .input__field {
             padding-left: 0;
         }
     }
+
     &.input--prefix {
         .input__field {
             padding-right: 0;
         }
     }
+
     &__field {
         width: 100%;
         display: block;
@@ -298,11 +306,13 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
         border: none;
         background-color: transparent;
     }
+
     &__autocomplete {
         color: theme('colors.default');
         padding: 0.6rem 0.8rem;
         background-color: white;
         cursor: pointer;
+
         &:hover,
         &:focus {
             background-color: #ebf6ff;
@@ -316,15 +326,19 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
     &__0 {
         color: #2af0a4;
     }
+
     &__1 {
         color: #75e20f;
     }
+
     &__2 {
         color: #ffb200;
     }
+
     &__3 {
         color: #f98349;
     }
+
     &__4 {
         color: #ff5b5b;
     }
@@ -342,6 +356,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
     100% {
         transform: none;
     }
+
     50% {
         transform: scale(1.15);
     }

@@ -74,7 +74,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                 </div>
 
                 <div class="hidden xl:flex items-center">
-                    <button type="button" class="btn btn--alt mr-2" @click="END_SESSION">
+                    <button type="button" class="btn btn--alt mr-4" @click="END_SESSION">
                         <BaseIcon class="w-4" name="power" />
 
                         {{ t('shutdown') }}

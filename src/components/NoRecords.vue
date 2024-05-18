@@ -6,9 +6,9 @@ const { t } = useI18n()
 </script>
 
 <template>
-    <div class="flex flex-col justify-center items-center">
-        <BaseIcon class="w-20 opacity-70" name="planet" />
+    <div class="flex flex-col justify-center items-center gap-4">
+        <BaseIcon class="w-20 opacity-70" name="no-data" />
 
-        <div class="mt-2">{{ t('noRecords') }}</div>
+        <div>{{ t('noRecords') }}</div>
     </div>
 </template>

@@ -6,7 +6,7 @@ const { SET_LABEL } = store
 </script>
 
 <template>
-    <div class="flex cursor-pointer" @click="SET_LABEL(null)">
+    <div class="flex cursor-pointer" @click="SET_LABEL('')">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 160 46"

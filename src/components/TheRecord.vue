@@ -62,140 +62,131 @@ const purge = (id) => {
 </script>
 
 <template>
-    <div
-        class="record grid grid-cols-12 gap-x-8 border-b border-gray-200 dark:border-white dark:border-opacity-5 py-8 xl:py-0"
-    >
-        <div class="col-span-12 xl:col-span-3 py-4 px-4" :title="record.title">
-            <div class="xl:hidden text-sm text-gray-400">{{ t('title') }}</div>
+    <div class="record border-b border-gray-200 dark:border-white dark:border-opacity-5">
+        <div class="record-row record grid grid-cols-12 gap-x-8 py-8 xl:py-0">
+            <div class="col-span-12 xl:col-span-3 py-4 px-4" :title="record.title">
+                <div class="xl:hidden text-sm text-gray-400">{{ t('title') }}</div>
 
-            <div class="flex">
-                <div :class="{ 'truncate min-w-0': isTitleUrl }">{{ record.title }}</div>
+                <div class="flex">
+                    <div :class="{ 'truncate min-w-0': isTitleUrl }">{{ record.title }}</div>
 
-                <div v-if="isTitleUrl" class="record__action ml-2 mt-1">
-                    <div class="flex gap-x-3">
-                        <button
-                            type="button"
-                            class="flex cursor-pointer p-0 opacity-70"
-                            :class="titleCopied ? 'text-green-600' : 'hover:text-primary'"
-                            tabindex="-1"
-                            @click="copyToClipboard(record.title), (titleCopied = true)"
-                        >
-                            <Transition name="fade-zoom" mode="out-in">
-                                <BaseIcon v-if="titleCopied" class="w-4" name="check" />
+                    <div v-if="isTitleUrl" class="record-action ml-2 mt-1">
+                        <div class="flex gap-x-2.5">
+                            <button
+                                type="button"
+                                class="flex cursor-pointer p-0 opacity-70"
+                                :class="titleCopied ? 'text-green-600' : 'hover:text-primary'"
+                                tabindex="-1"
+                                @click="copyToClipboard(record.title), (titleCopied = true)"
+                            >
+                                <Transition name="fade-zoom" mode="out-in">
+                                    <BaseIcon v-if="titleCopied" class="w-4" name="check" />
 
-                                <BaseIcon v-else class="w-4" name="copy" />
-                            </transition>
-                        </button>
+                                    <BaseIcon v-else class="w-4" name="copy" />
+                                </transition>
+                            </button>
 
-                        <a
-                            :href="record.title"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
-                            tabindex="-1"
-                        >
-                            <BaseIcon class="w-4" name="external-link" />
-                        </a>
+                            <a
+                                :href="record.title"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
+                                tabindex="-1"
+                            >
+                                <BaseIcon class="w-4" name="external-link" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-span-12 xl:col-span-3 py-4 px-4">
-            <div class="xl:hidden text-sm text-gray-400">{{ t('login') }}</div>
+            <div class="col-span-12 xl:col-span-3 py-4 px-4">
+                <div class="xl:hidden text-sm text-gray-400">{{ t('login') }}</div>
 
-            <div class="flex">
-                <div class="break-all">{{ record.login }}</div>
+                <div class="flex">
+                    <div class="break-all">{{ record.login }}</div>
 
-                <div class="record__action ml-2 mt-1">
-                    <div class="flex">
-                        <button
-                            type="button"
-                            class="flex cursor-pointer p-0 opacity-70"
-                            :class="loginCopied ? 'text-green-600' : 'hover:text-primary'"
-                            tabindex="-1"
-                            @click="copyToClipboard(record.login), (loginCopied = true)"
-                        >
-                            <Transition name="fade-zoom" mode="out-in">
-                                <BaseIcon v-if="loginCopied" class="w-4" name="check" />
+                    <div class="record-action ml-2 mt-1">
+                        <div class="flex">
+                            <button
+                                type="button"
+                                class="flex cursor-pointer p-0 opacity-70"
+                                :class="loginCopied ? 'text-green-600' : 'hover:text-primary'"
+                                tabindex="-1"
+                                @click="copyToClipboard(record.login), (loginCopied = true)"
+                            >
+                                <Transition name="fade-zoom" mode="out-in">
+                                    <BaseIcon v-if="loginCopied" class="w-4" name="check" />
 
-                                <BaseIcon v-else class="w-4" name="copy" />
-                            </transition>
-                        </button>
+                                    <BaseIcon v-else class="w-4" name="copy" />
+                                </transition>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="col-span-12 xl:col-span-3 py-4 px-4">
-            <div class="xl:hidden text-sm text-gray-400">{{ t('password') }}</div>
+            <div class="col-span-12 xl:col-span-3 py-4 px-4">
+                <div class="xl:hidden text-sm text-gray-400">{{ t('password') }}</div>
 
-            <div class="flex">
-                <div class="break-all">{{ formattedPassword }}</div>
+                <div class="flex">
+                    <div class="break-all">{{ formattedPassword }}</div>
 
-                <div class="record__action ml-2 mt-1">
-                    <div class="flex">
-                        <button
-                            type="button"
-                            class="flex cursor-pointer p-0 opacity-70"
-                            :class="passwordCopied ? 'text-green-600' : 'hover:text-primary'"
-                            tabindex="-1"
-                            @click="copyToClipboard(record.password), (passwordCopied = true)"
-                        >
-                            <Transition name="fade-zoom" mode="out-in">
-                                <BaseIcon v-if="passwordCopied" class="w-4" name="check" />
+                    <div class="record-action ml-2 mt-1">
+                        <div class="flex gap-x-2.5">
+                            <button
+                                type="button"
+                                class="flex cursor-pointer p-0 opacity-70"
+                                :class="passwordCopied ? 'text-green-600' : 'hover:text-primary'"
+                                tabindex="-1"
+                                @click="copyToClipboard(record.password), (passwordCopied = true)"
+                            >
+                                <Transition name="fade-zoom" mode="out-in">
+                                    <BaseIcon v-if="passwordCopied" class="w-4" name="check" />
 
-                                <BaseIcon v-else class="w-4" name="copy" />
-                            </transition>
-                        </button>
+                                    <BaseIcon v-else class="w-4" name="copy" />
+                                </transition>
+                            </button>
 
+                            <button
+                                type="button"
+                                class="hover:text-primary flex cursor-pointer p-0 opacity-70"
+                                tabindex="-1"
+                                @click="passwordVisible = !passwordVisible"
+                            >
+                                <BaseIcon
+                                    v-if="passwordVisible"
+                                    class="w-4"
+                                    name="eye-slash"
+                                />
+
+                                <BaseIcon
+                                    v-else
+                                    class="w-4"
+                                    name="eye"
+                                />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-span-12 xl:col-span-3 py-4 px-4">
+                <div class="xl:hidden text-sm text-gray-400">{{ t('notes') }}</div>
+
+                <div class="flex justify-between">
+                    <div class="max-h-80 overflow-auto whitespace-pre-wrap">{{ record.notes || '-' }}</div>
+
+                    <div class="record-action flex ml-2 mt-1">
                         <button
                             type="button"
                             class="hover:text-primary flex cursor-pointer p-0 opacity-70"
                             tabindex="-1"
-                            @click="passwordVisible = !passwordVisible"
+                            @click="detailsShown = !detailsShown"
                         >
-                            <mdicon
-                                v-if="passwordVisible"
-                                name="eye-outline"
-                                :width="32"
-                                :height="16"
-                            />
-
-                            <mdicon v-else name="eye-off-outline" :width="32" :height="16" />
+                            <BaseIcon class="w-4" name="edit" />
                         </button>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-span-12 xl:col-span-3 py-4 px-4">
-            <div class="xl:hidden text-sm text-gray-400">{{ t('notes') }}</div>
-
-            <div class="flex justify-between">
-                <div class="max-h-80 overflow-auto whitespace-pre-wrap">{{ record.notes || '-' }}</div>
-
-                <div class="flex record__action ml-2 mt-1">
-                    <button
-                        type="button"
-                        class="hover:text-primary flex cursor-pointer p-0 opacity-70"
-                        tabindex="-1"
-                        @click="detailsShown = !detailsShown"
-                    >
-                        <mdicon
-                            v-if="detailsShown"
-                            name="chevron-up-circle-outline"
-                            :width="32"
-                            :height="16"
-                        />
-
-                        <mdicon
-                            v-else
-                            name="chevron-down-circle-outline"
-                            :width="32"
-                            :height="16"
-                        />
-                    </button>
                 </div>
             </div>
         </div>
@@ -204,7 +195,7 @@ const purge = (id) => {
             <RecordEdit
                 v-if="detailsShown"
                 :record="record"
-                class="col-span-12 pt-4 pb-8"
+                class="col-span-12"
                 @cancel="detailsShown = false"
                 @save="save"
                 @remove="remove"
@@ -217,15 +208,22 @@ const purge = (id) => {
 
 <style scoped>
 .record {
-    &__action {
-        @media screen(xl) {
-            opacity: 0;
-        }
-    }
     &:hover {
-        .record__action {
+        .record-action {
             opacity: 1;
         }
+
+        .record-row {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
     }
+}
+
+.record-action {
+    opacity: 0;
+}
+
+.record-row {
+    transition: background-color 0.15s;
 }
 </style>

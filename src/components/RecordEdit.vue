@@ -220,14 +220,6 @@ if (editing.value) {
                 {{ t('title') }}
             </BaseInput>
 
-            <BaseInput
-                v-model.trim="form.notes"
-                textarea
-                class="col-span-12 sm:col-span-6 xl:col-span-4"
-            >
-                {{ t('notes') }} <span class="text-xs">({{ t('optional') }})</span>
-            </BaseInput>
-
             <div class="col-span-12 sm:col-span-6 xl:col-span-4">
                 <div class="flex items-end">
                     <BaseInput
@@ -269,7 +261,15 @@ if (editing.value) {
                 </TransitionGroup>
             </div>
 
-            <div class="grid grid-cols-12 gap-8 col-span-12 leading-tight">
+            <BaseInput
+                v-model.trim="form.notes"
+                textarea
+                class="col-span-12 sm:col-span-6 xl:col-span-4"
+            >
+                {{ t('notes') }} <span class="text-xs">({{ t('optional') }})</span>
+            </BaseInput>
+
+            <div class="grid grid-cols-12 gap-8 col-span-12 leading-tight md:mt-8">
                 <template v-if="form.trash">
                     <div class="md:hidden col-span-12 order-1 md:order-none">
                         <div class="mb-2">
@@ -379,10 +379,6 @@ if (editing.value) {
                             class="btn btn--primary col-span-12"
                             @click="save"
                         >
-                            <span class="flex mr-2">
-                                <mdicon name="check-circle-outline" :size="18" />
-                            </span>
-
                             {{ t('save') }}
                         </button>
 

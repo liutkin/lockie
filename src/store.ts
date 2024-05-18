@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 
 export const useStore = defineStore('store', () => {
     const page = ref(1)
-    const label = ref(null)
-    const password = ref(null)
+    const label = ref('')
+    const password = ref('')
     const store = ref(null)
 
     const SET_PAGE = (n: number): number => (page.value = n)
@@ -34,8 +34,8 @@ export const useStore = defineStore('store', () => {
     const SET_LABEL = (newLabel) => (label.value = newLabel)
     const SET_PASSWORD = (newPassword) => (password.value = newPassword)
     const END_SESSION = () => {
-        password.value = null
-        label.value = null
+        password.value = ''
+        label.value = ''
         store.value = null
     }
     const CREATE_RECORD = (record) => store.value.records.unshift(record)

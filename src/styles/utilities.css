@@ -11,8 +11,8 @@
     .bg-gradient-radial-dark {
         background: radial-gradient(
             ellipse at center,
-            rgba(0, 0, 0, 0.6) 0%,
-            rgba(0, 0, 0, 0.85) 100%
+            rgba(0, 0, 0, 0.25) 0%,
+            rgba(0, 0, 0, 0.5) 100%
         );
     }
 

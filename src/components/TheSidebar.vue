@@ -37,7 +37,7 @@ const removeLabel = () => {
     REMOVE_RECORD_LABEL(labelForEditing.value)
     labelForEditing.value = null
     notify({ type: 'success', text: t('deleted') })
-    SET_LABEL(null)
+    SET_LABEL('')
 }
 const saveLabel = () => {
     EDIT_RECORD_LABEL(labelForEditingOriginal.value.trim().toLowerCase(), labelForEditing.value)
@@ -85,8 +85,8 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                 <button
                     type="button"
                     class="tab text-left flex items-center px-4 lg:px-8 py-4 w-full"
-                    :class="{ 'tab--active': LABEL === null }"
-                    @click="SET_LABEL(null)"
+                    :class="{ 'tab--active': LABEL === '' }"
+                    @click="SET_LABEL('')"
                 >
                     <BaseIcon class="w-4 mr-2" name="tags" />
 
@@ -116,10 +116,10 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
 
                         <button
                             type="button"
-                            class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded-full hover:bg-opacity-10 hover:bg-black dark:hover:bg-white hover:text-default transition-all duration-200"
+                            class="label-settings-btn hidden w-6 h-6 justify-center items-center absolute inset-y-0 right-2 opacity-60 my-auto rounded hover:bg-opacity-10 hover:bg-black dark:hover:bg-white hover:text-default transition-all duration-200"
                             @click="editLabel(label.name)"
                         >
-                            <mdicon name="cog" :size="12" />
+                            <BaseIcon class="w-4" name="edit" />
                         </button>
                     </li>
                 </ul>
@@ -142,7 +142,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
 
             <BaseModal v-model="labelEditingModalShown">
                 <template #content>
-                    <div class="px-6 pt-6 pb-8 bg-gray">
+                    <div class="px-6 pt-6 pb-12 bg-gray">
                         <BaseInput v-model.trim="labelForEditing" autofocus class="col-span-12">
                             {{ t('label') }}
                         </BaseInput>
@@ -187,10 +187,6 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
                                 class="btn btn--primary col-span-12"
                                 @click="saveLabel"
                             >
-                                <span class="flex mr-2">
-                                    <mdicon name="check-circle-outline" :size="18" />
-                                </span>
-
                                 {{ t('save') }}
                             </button>
                         </div>

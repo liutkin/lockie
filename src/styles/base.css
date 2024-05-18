@@ -29,7 +29,7 @@
     }
 
     textarea {
-        resize: vertical;
+        min-height: 7.5rem;
     }
 
     input[type='range'] {

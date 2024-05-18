@@ -12,6 +12,7 @@ import RecordEdit from "@/components/RecordEdit.vue"
 import TheSettings from "@/components/TheSettings.vue"
 import MenuIcon from '@/icons/menu.svg'
 import SubmenuIcon from '@/icons/submenu.svg'
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -81,9 +82,7 @@ watch(LABEL, () => {
                             class="btn btn--primary w-full relative z-10"
                             @click="(settingsShown = false), (newPasswordShown = !newPasswordShown)"
                         >
-                            <span class="flex mr-2">
-                                <mdicon name="lock-plus-outline" :size="18" />
-                            </span>
+                            <BaseIcon class="w-4" name="file-plus" />
 
                             {{ t('newPassword') }}
                         </button>
@@ -104,9 +103,7 @@ watch(LABEL, () => {
                         class="btn btn--primary col-span-12 mx-4"
                         @click="exportStore"
                     >
-                        <span class="flex mr-2">
-                            <mdicon name="database-export-outline" :size="18" />
-                        </span>
+                        <BaseIcon class="w-4" name="export" />
 
                         {{ t('export') }}
                     </button>
@@ -120,9 +117,7 @@ watch(LABEL, () => {
                             class="btn btn--alt w-full"
                             @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
                         >
-                            <span class="flex mr-2">
-                                <mdicon name="cog-outline" :size="18" />
-                            </span>
+                            <BaseIcon class="w-4" name="gear" />
 
                             {{ t('settings') }}
                         </button>
@@ -136,9 +131,7 @@ watch(LABEL, () => {
                 </div>
 
                 <button type="button" class="btn btn--alt mx-4 mt-4" @click="END_SESSION">
-                    <span class="flex mr-2">
-                        <mdicon name="power" :size="18" />
-                    </span>
+                    <BaseIcon class="w-4" name="power" />
 
                     {{ t('shutdown') }}
                 </button>

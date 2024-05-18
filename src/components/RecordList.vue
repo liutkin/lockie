@@ -6,13 +6,14 @@ import { useStore } from '@/store'
 import MenuBar from "@/components/MenuBar.vue"
 import TheRecord from "@/components/TheRecord.vue"
 import NoRecords from "@/components/NoRecords.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
 const { STORE, RECORDS, LABEL, PAGE } = storeToRefs(store)
 const { SET_PAGE } = store
 
-const recordsPerPage = 10
+const recordsPerPage = 12
 
 const search = ref('')
 
@@ -23,7 +24,7 @@ const labeledRecords = computed(() => {
 
     const method = LABEL.value
         ? filterActiveNonTrashed
-        : LABEL.value === null
+        : LABEL.value === ''
           ? filterAllNonTrashed
           : filterTrashed
     return RECORDS.value.filter(method)
@@ -109,9 +110,7 @@ const getPageNumber = (index) => {
                             :disabled="PAGE === 1"
                             @click="SET_PAGE(1)"
                         >
-                            <span class="opacity-80">
-                                <mdicon name="chevron-double-left" :size="16" />
-                            </span>
+                            <BaseIcon class="w-4" name="chevrons-left" />
                         </button>
 
                         <button
@@ -121,9 +120,7 @@ const getPageNumber = (index) => {
                             :disabled="PAGE === 1"
                             @click="SET_PAGE(PAGE - 1)"
                         >
-                            <span class="opacity-80">
-                                <mdicon name="chevron-left" :size="16" />
-                            </span>
+                            <BaseIcon class="w-4" name="chevron-left" />
                         </button>
 
                         <ul class="my-0 pl-0 list-none flex rounded">
@@ -159,9 +156,7 @@ const getPageNumber = (index) => {
                             :disabled="PAGE === totalPages"
                             @click="SET_PAGE(PAGE + 1)"
                         >
-                            <span class="opacity-8">
-                                <mdicon name="chevron-right" :size="16" />
-                            </span>
+                            <BaseIcon class="w-4" name="chevron-right" />
                         </button>
 
                         <button
@@ -175,9 +170,7 @@ const getPageNumber = (index) => {
                             :disabled="PAGE === totalPages"
                             @click="SET_PAGE(totalPages)"
                         >
-                            <span class="opacity-8">
-                                <mdicon name="chevron-double-right" :size="16" />
-                            </span>
+                            <BaseIcon class="w-4" name="chevrons-right" />
                         </button>
                     </div>
                 </transition>

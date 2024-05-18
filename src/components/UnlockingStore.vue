@@ -13,6 +13,7 @@ import LockBad2Icon from '@/icons/lock-bad-2.svg'
 import LockBad3Icon from '@/icons/lock-bad-3.svg'
 import LockMechanismIcon from '@/icons/lock-mechanism.svg'
 import BaseInput from "@/components/BaseInput.vue"
+import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
 const store = useStore()
@@ -165,13 +166,13 @@ updateDates()
 
                 <div class="flex opacity-70 ml-4">
                     <LockMechanismIcon
-                        class="h-14 fill-current"
+                        class="h-14"
                         :class="{ 'animate-rotate': unlocking }"
                     />
                 </div>
             </div>
 
-            <div class="grid gap-y-8 my-8">
+            <div class="grid gap-y-8 my-12">
                 <div class="col-span-12 relative">
                     <BaseInput
                         ref="passwordUnlockInput"

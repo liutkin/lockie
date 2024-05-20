@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { ref, computed, watch, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { onClickOutside } from '@vueuse/core'
+import { vTooltip } from 'floating-vue'
 import { useStore } from '@/store'
 import useDates from '@/composables/useDates'
 import usePassword from '@/composables/usePassword'
@@ -197,7 +198,11 @@ if (editing.value) {
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <BaseIcon class="w-4" name="bulb" />
+                        <BaseIcon
+                            class="w-4"
+                            name="bulb"
+                            v-tooltip="t('generateSecurePassword')"
+                        />
                     </button>
                 </template>
             </BaseInput>

@@ -2,6 +2,7 @@
 import { useI18n } from 'vue-i18n'
 import { notify } from '@kyvg/vue3-notification'
 import { ref, watch, computed } from 'vue'
+import { vTooltip } from 'floating-vue'
 import { useStore } from '@/store'
 import copyToClipboard from '@/utilities/copyToClipboard'
 import RecordEdit from "@/components/RecordEdit.vue"
@@ -80,9 +81,19 @@ const purge = (id) => {
                                 @click="copyToClipboard(record.title), (titleCopied = true)"
                             >
                                 <Transition name="fade-zoom" mode="out-in">
-                                    <BaseIcon v-if="titleCopied" class="w-4" name="check" />
+                                    <BaseIcon
+                                        v-if="titleCopied"
+                                        class="w-4"
+                                        name="check"
+                                        v-tooltip="t('copied')"
+                                    />
 
-                                    <BaseIcon v-else class="w-4" name="copy" />
+                                    <BaseIcon
+                                        v-else
+                                        class="w-4"
+                                        name="copy"
+                                        v-tooltip="t('copy')"
+                                    />
                                 </transition>
                             </button>
 
@@ -93,7 +104,11 @@ const purge = (id) => {
                                 class="flex-shrink-0 text-default dark:text-lite hover:text-primary opacity-70"
                                 tabindex="-1"
                             >
-                                <BaseIcon class="w-4" name="external-link" />
+                                <BaseIcon
+                                    class="w-4"
+                                    name="external-link"
+                                    v-tooltip="t('openInNewTab')"
+                                />
                             </a>
                         </div>
                     </div>
@@ -116,9 +131,19 @@ const purge = (id) => {
                                 @click="copyToClipboard(record.login), (loginCopied = true)"
                             >
                                 <Transition name="fade-zoom" mode="out-in">
-                                    <BaseIcon v-if="loginCopied" class="w-4" name="check" />
+                                    <BaseIcon
+                                        v-if="loginCopied"
+                                        class="w-4"
+                                        name="check"
+                                        v-tooltip="t('copied')"
+                                    />
 
-                                    <BaseIcon v-else class="w-4" name="copy" />
+                                    <BaseIcon
+                                        v-else
+                                        class="w-4"
+                                        name="copy"
+                                        v-tooltip="t('copy')"
+                                    />
                                 </transition>
                             </button>
                         </div>
@@ -142,9 +167,19 @@ const purge = (id) => {
                                 @click="copyToClipboard(record.password), (passwordCopied = true)"
                             >
                                 <Transition name="fade-zoom" mode="out-in">
-                                    <BaseIcon v-if="passwordCopied" class="w-4" name="check" />
+                                    <BaseIcon
+                                        v-if="passwordCopied"
+                                        class="w-4"
+                                        name="check"
+                                        v-tooltip="t('copied')"
+                                    />
 
-                                    <BaseIcon v-else class="w-4" name="copy" />
+                                    <BaseIcon
+                                        v-else
+                                        class="w-4"
+                                        name="copy"
+                                        v-tooltip="t('copy')"
+                                    />
                                 </transition>
                             </button>
 
@@ -158,12 +193,14 @@ const purge = (id) => {
                                     v-if="passwordVisible"
                                     class="w-4"
                                     name="eye-slash"
+                                    v-tooltip="t('hidePassword')"
                                 />
 
                                 <BaseIcon
                                     v-else
                                     class="w-4"
                                     name="eye"
+                                    v-tooltip="t('showPassword')"
                                 />
                             </button>
                         </div>
@@ -184,7 +221,11 @@ const purge = (id) => {
                             tabindex="-1"
                             @click="detailsShown = !detailsShown"
                         >
-                            <BaseIcon class="w-4" name="edit" />
+                            <BaseIcon
+                                class="w-4"
+                                name="edit"
+                                v-tooltip="t('edit')"
+                            />
                         </button>
                     </div>
                 </div>
@@ -202,7 +243,7 @@ const purge = (id) => {
                 @restore="restore"
                 @purge="purge"
             />
-        </transition>
+        </Transition>
     </div>
 </template>
 
@@ -214,7 +255,11 @@ const purge = (id) => {
         }
 
         .record-row {
-            background-color: rgba(0, 0, 0, 0.1);
+            background-color: rgba(0, 0, 0, 0.025);
+
+            @media (prefers-color-scheme: dark) {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
         }
     }
 }

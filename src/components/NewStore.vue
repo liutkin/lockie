@@ -60,7 +60,7 @@ const createStore = () => {
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <BaseIcon class="w-4" name="bulb" v-tooltip="t('suggestStrongPassword')" />
+                        <BaseIcon class="w-4" name="bulb" v-tooltip="t('generateSecurePassword')" />
                     </button>
                 </template>
             </BaseInput>

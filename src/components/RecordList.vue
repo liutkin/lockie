@@ -4,8 +4,8 @@ import { storeToRefs } from 'pinia'
 import { useI18n } from 'vue-i18n'
 import { useStore } from '@/store'
 import MenuBar from "@/components/MenuBar.vue"
-import TheRecord from "@/components/TheRecord.vue"
-import NoRecords from "@/components/NoRecords.vue"
+import RecordRow from "@/components/RecordRow.vue"
+import RecordPlaceholder from "@/components/RecordPlaceholder.vue"
 import BaseIcon from "@/components/BaseIcon.vue"
 
 const { t } = useI18n()
@@ -89,7 +89,7 @@ const getPageNumber = (index) => {
 
         <template v-if="STORE">
             <div v-if="filteredRecords.length">
-                <TheRecord
+                <RecordRow
                     v-for="(record, index) in paginatedRecords"
                     :key="`${record.id}_${LABEL}_${search}`"
                     class="animate-fade-zoom opacity-0"
@@ -176,7 +176,7 @@ const getPageNumber = (index) => {
                 </transition>
             </div>
 
-            <NoRecords v-else class="col-span-12 px-4 py-10" />
+            <RecordPlaceholder v-else class="col-span-12 px-4 py-10" />
         </template>
     </main>
 </template>

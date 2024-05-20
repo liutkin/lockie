@@ -9,7 +9,7 @@ import useNewPasswordCreation from '@/composables/useNewPasswordCreation'
 import TheLogo from '@/components/TheLogo.vue'
 import TheSidebar from '@/components/TheSidebar.vue'
 import RecordEdit from "@/components/RecordEdit.vue"
-import TheSettings from "@/components/TheSettings.vue"
+import StoreSettings from "@/components/StoreSettings.vue"
 import MenuIcon from '@/icons/menu.svg'
 import SubmenuIcon from '@/icons/submenu.svg'
 import BaseIcon from "@/components/BaseIcon.vue"
@@ -125,7 +125,7 @@ watch(LABEL, () => {
 
                     <Transition name="fade-zoom" mode="out-in">
                         <div v-if="settingsShown" class="py-4 col-span-12">
-                            <TheSettings @close="settingsShown = false" />
+                            <StoreSettings @close="settingsShown = false" />
                         </div>
                     </Transition>
                 </div>

@@ -4,6 +4,7 @@ import { notify } from '@kyvg/vue3-notification'
 import { useI18n } from 'vue-i18n'
 import { computed, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
+import { vTooltip } from 'floating-vue'
 import { useStore } from '@/store'
 import useDates from '@/composables/useDates'
 import usePassword from '@/composables/usePassword'
@@ -77,7 +78,11 @@ updateDates()
                         tabindex="-1"
                         @click="generatePassword"
                     >
-                        <BaseIcon class="w-4" name="bulb" />
+                        <BaseIcon
+                            class="w-4"
+                            name="bulb"
+                            v-tooltip="t('generateSecurePassword')"
+                        />
                     </button>
                 </template>
             </BaseInput>

@@ -7,7 +7,7 @@ import { useStore } from '@/store'
 import exportStore from '@/utilities/exportStore'
 import useNewPasswordCreation from '@/composables/useNewPasswordCreation'
 import BaseInput from "@/components/BaseInput.vue"
-import TheSettings from "@/components/TheSettings.vue"
+import StoreSettings from "@/components/StoreSettings.vue"
 import RecordEdit from "@/components/RecordEdit.vue"
 import BaseIcon from "@/components/BaseIcon.vue"
 
@@ -136,7 +136,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
         <div class="overflow-hidden">
             <Transition name="fade-zoom">
                 <div v-if="settingsShown" class="py-16">
-                    <TheSettings @close="settingsShown = false" />
+                    <StoreSettings @close="settingsShown = false" />
                 </div>
             </transition>
         </div>

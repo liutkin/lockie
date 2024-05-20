@@ -7,7 +7,7 @@ import { notify } from '@kyvg/vue3-notification'
 import DirectionIcon from '@/icons/direction.svg'
 import GithubLink from "@/components/GithubLink.vue"
 import TheLogo from "@/components/TheLogo.vue"
-import LangList from "@/components/LangList.vue"
+import LangSelect from "@/components/LangSelect.vue"
 import ForbiddenService from "@/components/ForbiddenService.vue"
 import NewStore from "@/components/NewStore.vue"
 import UnlockingStore from "@/components/UnlockingStore.vue"
@@ -50,7 +50,7 @@ restoreCachedStore()
         <TheLogo class="absolute top-0 left-0 m-8 hover:text-primary" />
 
         <div class="absolute top-0 right-0 m-8 flex items-center gap-x-2.5">
-            <LangList />
+            <LangSelect />
 
             <GithubLink />
         </div>

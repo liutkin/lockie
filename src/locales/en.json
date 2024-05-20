@@ -59,12 +59,14 @@
     "clear": "Clear",
     "hidePassword": "Hide password",
     "showPassword": "Show password",
-    "suggestStrongPassword": "Suggest strong password",
     "bubbleWrap": "Bubble Wrap - Pops under the slightest pressure",
     "gardenFence": "Garden Fence - A bit of a barrier, but mostly just for show",
     "bankVault": "Bank Vault - Solid, reliable, but not impenetrable",
     "dragonsLair": "Dragon's Lair - Fierce and formidable",
     "quantumShield": "Quantum Shield - Next-gen, virtually unbreakable",
     "copy": "Copy",
-    "copied": "Copied"
+    "copied": "Copied",
+    "generateSecurePassword": "Generate strong password",
+    "openInNewTab": "Open in a new tab",
+    "edit": "Edit"
 }

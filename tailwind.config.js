@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
     content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-    darkMode: "media",
+    darkMode: "selector",
     theme: {
         fontFamily: {
             sans: ['Manrope', 'Helvetica', 'sans-serif'],

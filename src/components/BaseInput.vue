@@ -244,7 +244,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
     color: theme('colors.default');
     transition: all 0.1s;
 
-    @media (prefers-color-scheme: dark) {
+    :root.dark & {
         background-color: rgba(255, 255, 255, 0.85);
     }
 
@@ -253,7 +253,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
         &:focus {
             box-shadow: 0 0.75rem 2rem -1.1rem rgba(74, 140, 211, 0.65);
 
-            @media (prefers-color-scheme: dark) {
+            :root.dark & {
                 box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
             }
         }
@@ -273,7 +273,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
 
     &.input--focus {
         box-shadow: 0 1rem 2rem -1.1rem rgba(74, 140, 211, 0.75);
-        @media (prefers-color-scheme: dark) {
+        :root.dark & {
             box-shadow: 0 1rem 2rem -1.1rem rgba(58, 145, 239, 0.85);
         }
         .input__field {

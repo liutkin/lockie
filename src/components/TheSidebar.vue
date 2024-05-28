@@ -6,6 +6,7 @@ import { useStore } from '@/store'
 import { useI18n } from 'vue-i18n'
 import TheLogo from "@/components/TheLogo.vue"
 import LangSelect from "@/components/LangSelect.vue"
+import ThemeSelect from "@/components/ThemeSelect.vue"
 import GithubLink from "@/components/GithubLink.vue"
 import BaseModal from "@/components/BaseModal.vue"
 import BaseInput from "@/components/BaseInput.vue"
@@ -81,6 +82,8 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
 
                 <div class="flex items-center gap-x-2.5">
                     <LangSelect />
+
+                    <ThemeSelect />
 
                     <GithubLink />
                 </div>
@@ -232,7 +235,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
     &.tab--active {
         background: linear-gradient(45deg, #fdfdfd 0%, #f3f3f3 100%);
 
-        @media (prefers-color-scheme: dark) {
+        :root.dark & {
             background: linear-gradient(45deg, #122230 0%, #111f2e 100%);
         }
     }
@@ -243,7 +246,7 @@ watchEffect(() => deletionProgress.value >= 100 && removeLabel())
         &:focus {
             background: #e8e8e8;
 
-            @media (prefers-color-scheme: dark) {
+            :root.dark & {
                 background: rgba(0, 0, 0, 0.07);
             }
         }

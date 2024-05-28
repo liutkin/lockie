@@ -14,8 +14,9 @@ const selectNextLocale = () => {
 
 <template>
     <button
+        :key="locale"
         type="button"
-        class="border-none bg-none uppercase text-gray-400 hover:text-primary text-xs px-2 py-1"
+        class="animate-shaking border-none bg-none uppercase text-gray-400 hover:text-primary text-xs px-2 py-1"
         @click="selectNextLocale"
     >
         {{ locale }}

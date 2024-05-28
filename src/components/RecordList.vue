@@ -189,7 +189,7 @@ const getPageNumber = (index) => {
         &:hover {
             background-color: rgba(0, 0, 0, 0.05);
 
-            @media (prefers-color-scheme: dark) {
+            :root.dark & {
                 background-color: rgba(255, 255, 255, 0.05);
             }
         }

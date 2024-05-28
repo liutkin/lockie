@@ -68,5 +68,8 @@
     "copied": "Copied",
     "generateSecurePassword": "Generate strong password",
     "openInNewTab": "Open in a new tab",
-    "edit": "Edit"
+    "edit": "Edit",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark"
 }

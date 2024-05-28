@@ -68,5 +68,8 @@
     "copied": "Скопійовано",
     "generateSecurePassword": "Згенерувати надійний пароль",
     "openInNewTab": "Відкрити в новій вкладці",
-    "edit": "Редагувати"
+    "edit": "Редагувати",
+    "themeSystem": "Системна",
+    "themeLight": "Світла",
+    "themeDark": "Темна"
 }

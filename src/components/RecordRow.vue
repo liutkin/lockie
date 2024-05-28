@@ -257,7 +257,7 @@ const purge = (id) => {
         .record-row {
             background-color: rgba(0, 0, 0, 0.025);
 
-            @media (prefers-color-scheme: dark) {
+            :root.dark & {
                 background-color: rgba(0, 0, 0, 0.1);
             }
         }

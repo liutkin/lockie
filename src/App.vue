@@ -1,37 +1,49 @@
-<template>
-  <div ref="appElement" class="lg:pt-0" :class="{ 'pt-12': STORE }">
-    <mobile-menu v-if="STORE" class="lg:hidden" />
-    <the-sidebar class="w-80 hidden lg:flex flex-column fixed top-0 bottom-0 left-0" />
-    <record-list />
-    <transition name="slide-from-bottom" mode="out-in">
-      <no-store v-if="!STORE" />
-    </transition>
-    <notifications position="bottom right" />
-  </div>
-  <reload-prompt />
-</template>
+<script lang="ts" setup>
+import { ref, watch } from "vue"
+import { storeToRefs } from "pinia"
+import { Notifications } from "@kyvg/vue3-notification"
+import { useStore } from "@/store"
+import MobileMenu from "@/components/MobileMenu.vue"
+import TheSidebar from "@/components/TheSidebar.vue"
+import RecordList from "@/components/RecordList.vue"
+import NoStore from "@/components/NoStore.vue"
+import ReloadPrompt from "@/components/ReloadPrompt.vue"
 
-<script setup>
-import scrollIntoView from "scroll-into-view";
-import { ref, watch } from "vue";
-import { storeToRefs } from "pinia";
-import { useStore } from "@/store";
+const store = useStore()
+const { STORE, LABEL, PAGE, PASSWORD } = storeToRefs(store)
+const { SET_EDITED_DATE, CACHE_STORE } = store
 
-const store = useStore();
-const { STORE, LABEL, PAGE, PASSWORD } = storeToRefs(store);
-const { SET_EDITED_DATE, CACHE_STORE } = store;
-
-const appElement = ref(null);
+const app = ref(null)
 
 watch(
-  [STORE, PASSWORD],
-  () => {
-    if (!STORE.value) return;
+    [STORE, PASSWORD],
+    () => {
+        if (!STORE.value) return
 
-    SET_EDITED_DATE();
-    CACHE_STORE();
-  },
-  { deep: true }
-);
-watch([LABEL, PAGE], () => scrollIntoView(appElement.value, { align: { top: 0 } }));
+        SET_EDITED_DATE()
+        CACHE_STORE()
+    },
+    { deep: true }
+)
+watch([LABEL, PAGE], () => (app.value as null | HTMLElement)?.scrollIntoView())
 </script>
+
+<template>
+    <div ref="app">
+        <div class="lg:pt-0" :class="{ 'pt-12': STORE }">
+            <MobileMenu v-if="STORE" class="lg:hidden" />
+
+            <TheSidebar class="w-80 hidden lg:flex flex-column fixed top-0 bottom-0 left-0" />
+
+            <RecordList />
+
+            <Transition name="slide-from-bottom">
+                <NoStore v-if="!STORE" />
+            </Transition>
+
+            <Notifications position="bottom right" />
+        </div>
+
+        <ReloadPrompt />
+    </div>
+</template>

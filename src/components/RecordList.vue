@@ -173,7 +173,7 @@ const getPageNumber = (index) => {
                             <BaseIcon class="w-4" name="chevrons-right" />
                         </button>
                     </div>
-                </transition>
+                </Transition>
             </div>
 
             <RecordPlaceholder v-else class="col-span-12 px-4 py-10" />

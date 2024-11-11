@@ -17,7 +17,7 @@ import BaseIcon from "@/components/BaseIcon.vue"
 const { t } = useI18n()
 
 const newStoreShown = ref(false)
-const unzippedStore = ref(null)
+const unzippedStore = ref('')
 
 const restoreCachedStore = () => {
     const cachedStore = window.localStorage.getItem('store')
@@ -26,7 +26,7 @@ const restoreCachedStore = () => {
 }
 
 const clearCachedData = () => {
-    unzippedStore.value = null
+    unzippedStore.value = ''
     window.localStorage.removeItem('store')
 }
 
@@ -69,7 +69,7 @@ restoreCachedStore()
                         v-else-if="unzippedStore"
                         :unzipped-store="unzippedStore"
                         @clear="clearCachedData"
-                        @cancel="unzippedStore = null"
+                        @cancel="unzippedStore = ''"
                     />
 
                     <div v-else>
@@ -102,7 +102,7 @@ restoreCachedStore()
                             </div>
                         </div>
                     </div>
-                </transition>
+                </Transition>
             </div>
         </div>
     </div>

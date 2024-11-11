@@ -1,15 +1,16 @@
 import crypto from 'crypto-js'
-import { ref, computed } from 'vue'
+import { ref, computed, type Ref } from 'vue'
 import { defineStore } from 'pinia'
+import type { Record, Store } from '@/types.ts'
 
 export const useStore = defineStore('store', () => {
     const page = ref(1)
     const label = ref('')
     const password = ref('')
-    const store = ref(null)
+    const store: Ref<Store | null> = ref(null)
 
     const SET_PAGE = (n: number): number => (page.value = n)
-    const SET_STORE = (newPassword, newStore) => {
+    const SET_STORE = (newPassword: string, newStore: Store) => {
         password.value = newPassword
         store.value = newStore
     }

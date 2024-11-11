@@ -45,7 +45,7 @@ watch(LABEL, () => {
                 type="button"
                 :class="{ 'bg-black/10': leftMenuShown }"
                 class="p-0 w-12 h-12 flex justify-center items-center text-lite"
-                @click="(leftMenuShown = !leftMenuShown), (rightMenuShown = false)"
+                @click="(leftMenuShown = !leftMenuShown); (rightMenuShown = false)"
             >
                 <MenuIcon class="h-4 fill-current" />
             </button>
@@ -54,7 +54,7 @@ watch(LABEL, () => {
                 type="button"
                 :class="{ 'bg-black/10': rightMenuShown }"
                 class="p-0 w-12 h-12 flex justify-center items-center text-lite"
-                @click="(rightMenuShown = !rightMenuShown), (leftMenuShown = false)"
+                @click="(rightMenuShown = !rightMenuShown); (leftMenuShown = false)"
             >
                 <SubmenuIcon class="h-5 fill-current" />
             </button>
@@ -80,7 +80,7 @@ watch(LABEL, () => {
                         <button
                             type="button"
                             class="btn btn--primary w-full relative z-10"
-                            @click="(settingsShown = false), (newPasswordShown = !newPasswordShown)"
+                            @click="(settingsShown = false); (newPasswordShown = !newPasswordShown)"
                         >
                             <BaseIcon class="w-4" name="file-plus" />
 
@@ -115,7 +115,7 @@ watch(LABEL, () => {
                         <button
                             type="button"
                             class="btn btn--alt w-full"
-                            @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
+                            @click="(newPasswordShown = false); (settingsShown = !settingsShown)"
                         >
                             <BaseIcon class="w-4" name="gear" />
 

@@ -4,6 +4,14 @@
         --border-radius-default: 0.25rem;
     }
 
+    body {
+        background-color: #f2f2f2;
+
+        :root.dark & {
+            background-color: #111d2c;
+        }
+    }
+
     a {
         color: theme('colors.primary');
         text-decoration: none;

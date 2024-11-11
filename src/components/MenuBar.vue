@@ -38,7 +38,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                 <button
                     type="button"
                     class="btn btn--primary z-10"
-                    @click="(settingsShown = false), (newPasswordShown = !newPasswordShown)"
+                    @click="(settingsShown = false); (newPasswordShown = !newPasswordShown)"
                 >
                     <BaseIcon class="w-4" name="file-plus" />
 
@@ -63,7 +63,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                         <button
                             type="button"
                             class="flex justify-center items-center w-8 h-8"
-                            @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
+                            @click="(newPasswordShown = false); (settingsShown = !settingsShown)"
                         >
                             <BaseIcon class="w-4" name="gear" />
                         </button>
@@ -84,7 +84,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                         <button
                             type="button"
                             class="btn btn--alt z-10"
-                            @click="(newPasswordShown = false), (settingsShown = !settingsShown)"
+                            @click="(newPasswordShown = false); (settingsShown = !settingsShown)"
                         >
                             <BaseIcon class="w-4" name="gear" />
 
@@ -130,7 +130,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                     @cancel="newPasswordShown = false"
                     @create="create"
                 />
-            </transition>
+            </Transition>
         </div>
 
         <div class="overflow-hidden">
@@ -138,7 +138,7 @@ watch(search, () => (search.value ? debouncedEmitSearch() : emitSearch()))
                 <div v-if="settingsShown" class="py-16">
                     <StoreSettings @close="settingsShown = false" />
                 </div>
-            </transition>
+            </Transition>
         </div>
 
         <div class="lg:hidden px-4 pt-10 pb-6">

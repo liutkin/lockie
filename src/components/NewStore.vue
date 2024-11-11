@@ -82,7 +82,13 @@ const createStore = () => {
         </div>
 
         <div class="flex justify-between mt-6">
-            <button type="button" class="btn btn--alt" @click="emit('cancel')">{{ t('cancel') }}</button>
+            <button
+                type="button"
+                class="btn btn--alt"
+                @click="emit('cancel')"
+            >
+                {{ t('cancel') }}
+            </button>
 
             <button :disabled="!formValid" class="btn btn--primary">{{ t('create') }}</button>
         </div>

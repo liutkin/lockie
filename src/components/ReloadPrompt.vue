@@ -34,5 +34,5 @@ const close = async () => {
                 </button>
             </div>
         </div>
-    </transition>
+    </Transition>
 </template>

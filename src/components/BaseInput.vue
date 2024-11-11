@@ -154,7 +154,7 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                         >
                             <Transition name="fade-zoom" mode="out-in">
                                 <BaseIcon class="w-4" name="cross" v-tooltip="t('clear')" />
-                            </transition>
+                            </Transition>
                         </button>
                     </Transition>
 
@@ -181,9 +181,9 @@ onClickOutside(inputContainerElement, () => (focus.value = false))
                                     name="copy"
                                     v-tooltip="t('copy')"
                                 />
-                            </transition>
+                            </Transition>
                         </button>
-                    </transition>
+                    </Transition>
 
                     <slot name="suffix" />
 

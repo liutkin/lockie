@@ -94,7 +94,7 @@ const purge = (id) => {
                                         name="copy"
                                         v-tooltip="t('copy')"
                                     />
-                                </transition>
+                                </Transition>
                             </button>
 
                             <a
@@ -144,7 +144,7 @@ const purge = (id) => {
                                         name="copy"
                                         v-tooltip="t('copy')"
                                     />
-                                </transition>
+                                </Transition>
                             </button>
                         </div>
                     </div>
@@ -180,7 +180,7 @@ const purge = (id) => {
                                         name="copy"
                                         v-tooltip="t('copy')"
                                     />
-                                </transition>
+                                </Transition>
                             </button>
 
                             <button

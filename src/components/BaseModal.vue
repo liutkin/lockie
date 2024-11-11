@@ -27,6 +27,6 @@ watchEffect(() => toggleBodyOverflow(props.modelValue))
                     <slot name="action" />
                 </div>
             </div>
-        </transition>
+        </Transition>
     </Teleport>
 </template>
